@@ -7,9 +7,56 @@ Arcus
 Afiatou
 Ange
 
+Not attended: 25/09/2025
 
 
+Mare Zalka
+Abdoul Nassa
+NArcisse Poda
+Arcus Zoungrana
+Afiatou Ouedraogo
+
+work not received:10/02/2025
+
+Mare Zalka
+Abdoul Nassa
+Yannick Yameogo
+Cedric Adouabou
+NArcisse Poda
+Afiatou  Ouedraogo
+
+not attended:10/02/2025
+
+Mare Zalka
+Abdoul Nassa
+NArcisse Poda
+Afiatou  Ouedraogo
+
+work received:10/10/2025
+Nikiema Ange
+Yameogo Yannick
+Arcus Zoungrana
 
 
+Show numbers in 6,7 instead of 6,666667;
+Farm size is 2 ha, please make sure to do calculations accordingly;
+Use full names instead of abbreviations;
+Use one color in the excel spreadsheets to make every sheet uniform;
 
+Ball Mill Grinder:Prices should be in €, just to be consistent; Why two lines with ----; 
+I suggest that you go for average per month and then calculate the break even;  
+Solar traking : Wy do you need 37kWh?
+No reesa: What are  see the benefit ?
+Face recognition; separate the numbers from the unit not 
+Check excel sheet for feedbacks
+
+
+A) On irrigation system I suggest to show figure instead of 6,666667 better do 6,7 - just easier to read
+B) do you have a legend ze.g. MPPT 
+C) Mall Mill Grinder:Prices should be in €, just to be consitent; for process mangoes 2,8 better that 2,800; 
+In general I think we said you go th the 2 ha - you may do all the same; 7,5 better than 7,47474747447 
+teh same fo rnumber of panles; ehy two lines with ----; I suggest that you go for average per month and then
+ calcualte the break even; abbreviation for psh;  
+E) trackink you need 37kWh - I do nozt believe; For no reesa see the benefit
+Face recognition; seperate the numbers from teh unit not 
 
