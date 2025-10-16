@@ -27,15 +27,25 @@ Afiatou  Ouedraogo
 
 not attended:10/02/2025
 
-Mare Zalka
+Mare Zalka (sent on 10/03/2025)
 Abdoul Nassa
 NArcisse Poda
 Afiatou  Ouedraogo
 
 work received:10/10/2025
 Nikiema Ange
-Yameogo Yannick
+Yameogo Yannick (Not UPdated)
 Arcus Zoungrana
+Cedric Adouabou
+
+Attended:13/10/2025
+Nikiema Ange
+Yameogo Yannick 
+Arcus Zoungrana
+Cedric Adouabou
+Zalka Mare
+Afiatou Ouedraogo
+
 
 
 Show numbers in 6,7 instead of 6,666667;
@@ -60,3 +70,4 @@ teh same fo rnumber of panles; ehy two lines with ----; I suggest that you go fo
 E) trackink you need 37kWh - I do nozt believe; For no reesa see the benefit
 Face recognition; seperate the numbers from teh unit not 
 
+JF At 12 PM , Present 
