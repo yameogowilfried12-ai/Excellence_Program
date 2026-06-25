@@ -6,6 +6,15 @@ body {
   background-color: #f0f0f0;
 }
 
+.fa {
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+}
+
 /* Login Form Styles */
 .login-container {
   display: flex;
