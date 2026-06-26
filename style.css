@@ -6,13 +6,18 @@ body {
   background-color: #f0f0f0;
 }
 
-.fa {
-  font-family: FontAwesome;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
+.linkedin-link svg,
+.homepage-link svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+.linkedin-link,
+.homepage-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Login Form Styles */
