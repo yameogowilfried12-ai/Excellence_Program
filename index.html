@@ -156,7 +156,7 @@
           <h3>Students Board</h3>
         </div>
         <div class="accordion-content leader-grid">
-          <div class="leader-card">
+          <div class="leader-card" data-rotation-index="0">
             <img src="images/Abdoul%20Ben%20Fatao%20SANON.jpg" alt="Abdoul Ben Fatao SANON" />
             <div class="student-info">
               <h3>Abdoul Ben Fatao SANON</h3>
@@ -169,7 +169,7 @@
               <a href="mailto:sabfsanon@gmail.com?cc=Abdelgafar.Ismail@infineon.com,yameogowilfried12@gmail.com,&subject=You%20have%20a%20received%20a%20Feedback" class="linkedin-link" target="_blank" rel="noopener" aria-label="Email Abdoul Ben Fatao SANON"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M4 6h16c1.1 0 2 .9 2 2v8c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V8c0-1.1.9-2 2-2zm0 2v.01L12 13 20 8.01V8H4zm16 8H4V10.2l8 4.8 8-4.8V16z"></path></svg></a>
             </div>
           </div>
-          <div class="leader-card">
+          <div class="leader-card" data-rotation-index="1">
             <img src="images/BICABA%20P.%20Jean-Louis%20Rayane.jpg" alt="BICABA P. Jean-Louis Rayane" />
             <div class="student-info">
               <h3>P. Jean-Louis Rayane BICABA</h3>
@@ -180,7 +180,7 @@
               <a href="mailto:rayanebicaba.dev@gmail.com?cc=Abdelgafar.Ismail@infineon.com,yameogowilfried12@gmail.com,&subject=You%20have%20a%20received%20a%20Feedback" class="linkedin-link" target="_blank" rel="noopener" aria-label="Email P. Jean-Louis Rayane BICABA"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M4 6h16c1.1 0 2 .9 2 2v8c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V8c0-1.1.9-2 2-2zm0 2v.01L12 13 20 8.01V8H4zm16 8H4V10.2l8 4.8 8-4.8V16z"></path></svg></a>
             </div>
           </div>
-          <div class="leader-card">
+          <div class="leader-card" data-rotation-index="2">
             <img src="images/Christelle%20DEHOUMON.jpg" alt="Christelle DEHOUMON" />
             <div class="student-info">
               <h3>Christelle DEHOUMON</h3>
@@ -278,6 +278,25 @@
         });
       });
     </script> -->
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const rotationCards = document.querySelectorAll('.students-board .leader-card[data-rotation-index]');
+        const startDate = new Date('2026-07-06T00:00:00');
+        const now = new Date();
+        const millisPerWeek = 7 * 24 * 60 * 60 * 1000;
+        const weeksElapsed = Math.floor((now - startDate) / millisPerWeek);
+        const rotationIndex = ((weeksElapsed % 3) + 3) % 3;
+
+        rotationCards.forEach((card) => {
+          if (Number(card.dataset.rotationIndex) === rotationIndex) {
+            card.classList.add('current-student');
+          } else {
+            card.classList.remove('current-student');
+          }
+        });
+      });
+    </script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
   </body>
