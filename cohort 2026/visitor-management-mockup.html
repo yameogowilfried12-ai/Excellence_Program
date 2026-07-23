@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Visitor Management App — Mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --primary:#0A8276;
+    --primary-dark:#065E55;
+    --accent:#0FA396;
+    --ink:#0F2A26;
+    --grey:#5A6B7A;
+    --bg:#ECFDFA;
+    --line:#CDEFE9;
+    --white:#FFFFFF;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    font-family:'IBM Plex Sans', sans-serif;
+    color:var(--ink);
+  }
+  .app-shell{
+    max-width:1180px;
+    margin:0 auto;
+    padding:24px 24px 60px;
+  }
+  .topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:20px;
+  }
+  .topbar .title-block h1{
+    font-family:'Barlow Condensed', sans-serif;
+    font-weight:700;
+    font-size:30px;
+    margin:0;
+    color:var(--primary-dark);
+  }
+  .topbar .title-block p{
+    margin:2px 0 0;
+    font-size:13px;
+    color:var(--grey);
+  }
+  .hamburger{
+    display:none;
+    flex-direction:column;
+    gap:5px;
+    background:var(--primary);
+    border:none;
+    border-radius:4px;
+    cursor:pointer;
+    padding:10px;
+  }
+  .hamburger span{width:22px;height:2px;background:var(--white);border-radius:2px;}
+
+  .layout{
+    display:grid;
+    grid-template-columns:170px 1fr;
+    gap:24px;
+  }
+  .side-nav{
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+    align-self:start;
+  }
+  .nav-item{
+    background:none;
+    border:none;
+    text-align:left;
+    padding:10px 12px;
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:14px;
+    color:var(--grey);
+    cursor:pointer;
+    border-radius:6px;
+  }
+  .nav-item.active{
+    background:#DCF3EF;
+    color:var(--primary-dark);
+    font-weight:600;
+  }
+  .nav-item:not(.active):hover{background:#F2FBF9;}
+
+  .main-col{display:flex;flex-direction:column;gap:20px;}
+
+  .screen{display:none;}
+  .screen.active{display:block;}
+
+  /* Dashboard (overview) */
+  .app-heading{margin-bottom:4px;}
+  .app-heading h2{
+    font-family:'Barlow Condensed', sans-serif;
+    font-weight:700;
+    font-size:26px;
+    margin:0;
+    color:var(--ink);
+  }
+  .app-heading p{
+    margin:2px 0 0;
+    font-size:13px;
+    color:var(--grey);
+  }
+
+  .counters{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:14px;
+  }
+  .counter-card{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:16px 18px;
+  }
+  .counter-card .c-label{
+    font-size:12px;
+    color:var(--grey);
+    margin-bottom:6px;
+  }
+  .counter-card .c-value{
+    font-family:'Barlow Condensed', sans-serif;
+    font-weight:700;
+    font-size:28px;
+    color:var(--primary-dark);
+  }
+
+  .dash-body{
+    display:grid;
+    grid-template-columns:1fr 280px;
+    gap:20px;
+  }
+  .card-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:14px;
+  }
+  .feature-card{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:18px;
+    min-height:110px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    cursor:pointer;
+    transition:box-shadow .15s ease, transform .15s ease;
+  }
+  .feature-card:hover{
+    box-shadow:0 4px 14px rgba(10,130,118,0.15);
+    transform:translateY(-1px);
+  }
+  .feature-card .f-title{
+    font-family:'Barlow Condensed', sans-serif;
+    font-weight:700;
+    font-size:17px;
+    color:var(--ink);
+    line-height:1.2;
+  }
+  .feature-card .f-open{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:var(--primary);
+    margin-top:10px;
+  }
+
+  .side-panel{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:18px;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+  .side-panel h3{
+    font-family:'Barlow Condensed', sans-serif;
+    font-weight:700;
+    font-size:17px;
+    margin:0;
+    color:var(--ink);
+  }
+  .task-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;}
+  .task-list li{
+    font-size:13px;
+    color:var(--ink);
+    padding:8px 10px;
+    background:#F2FBF9;
+    border-radius:6px;
+    border-left:3px solid var(--primary);
+  }
+  .growth-circle{
+    align-self:center;
+    width:110px;height:110px;
+    border-radius:50%;
+    border:3px solid var(--primary);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    font-family:'Barlow Condensed', sans-serif;
+    font-weight:700;
+    font-size:14px;
+    color:var(--primary-dark);
+    line-height:1.2;
+  }
+
+  /* Detail screens */
+  .detail-panel{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:28px;
+  }
+  .back-link{
+    display:inline-block;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:var(--primary);
+    cursor:pointer;
+    margin-bottom:14px;
+  }
+  .detail-panel h2{
+    font-family:'Barlow Condensed', sans-serif;
+    font-weight:700;
+    font-size:26px;
+    margin:0 0 20px;
+    color:var(--primary-dark);
+    border-bottom:3px solid var(--accent);
+    padding-bottom:8px;
+    display:inline-block;
+  }
+
+  .week-grid{
+    display:grid;
+    grid-template-columns:80px repeat(6,1fr);
+    border-top:1px solid var(--line);
+    border-left:1px solid var(--line);
+  }
+  .week-grid .cell{
+    border-right:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    padding:9px 6px;
+    font-size:12px;
+  }
+  .week-grid .head{
+    background:var(--primary-dark);
+    color:var(--white);
+    font-family:'IBM Plex Mono', monospace;
+    font-weight:500;
+    text-align:center;
+    font-size:11px;
+  }
+  .slot{
+    background:#DCF3EF;
+    color:var(--primary-dark);
+    border:1px solid var(--primary);
+    border-radius:3px;
+    padding:2px 5px;
+    font-size:11px;
+    display:inline-block;
+  }
+  .slot.full{background:#EBEDEC;color:var(--grey);border-color:#C7CFCC;}
+
+  .form-row{margin-bottom:16px;}
+  .form-row label{
+    display:block;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    color:var(--primary);
+    margin-bottom:5px;
+  }
+  .form-row input, .form-row select{
+    width:100%;
+    padding:9px 11px;
+    border:1px solid var(--line);
+    background:#F7FDFB;
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:13px;
+    border-radius:5px;
+  }
+  .form-cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .btn{
+    background:var(--primary);
+    color:var(--white);
+    border:none;
+    padding:11px 20px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    cursor:pointer;
+    border-radius:5px;
+  }
+  .btn:hover{background:var(--primary-dark);}
+
+  .stops{display:flex;flex-direction:column;border-left:3px solid var(--primary);padding-left:18px;gap:18px;}
+  .stop{position:relative;}
+  .stop::before{
+    content:"";position:absolute;left:-25px;top:4px;
+    width:9px;height:9px;background:var(--accent);
+    border:2px solid var(--primary-dark);border-radius:50%;
+  }
+  .stop .stop-title{font-family:'Barlow Condensed', sans-serif;font-weight:700;font-size:16px;color:var(--primary-dark);}
+  .stop .stop-meta{font-family:'IBM Plex Mono', monospace;font-size:11px;color:var(--grey);margin-top:2px;}
+
+  table{width:100%;border-collapse:collapse;font-size:13px;}
+  th, td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);}
+  th{
+    background:var(--primary-dark);color:var(--white);
+    font-family:'IBM Plex Mono', monospace;font-size:11px;
+    text-transform:uppercase;letter-spacing:0.03em;
+  }
+  .tag{display:inline-block;padding:3px 9px;border-radius:11px;font-size:11px;font-family:'IBM Plex Mono', monospace;}
+  .tag.done{background:#DCF3EF;color:var(--primary-dark);}
+  .tag.pending{background:#EBEDEC;color:var(--grey);}
+
+  .flow{display:flex;align-items:stretch;gap:0;flex-wrap:wrap;}
+  .flow-step{
+    background:#F7FDFB;border:1px solid var(--line);border-top:3px solid var(--primary);
+    padding:14px 16px;min-width:140px;font-size:13px;
+  }
+  .flow-step .step-label{font-family:'IBM Plex Mono', monospace;font-size:11px;color:var(--primary);margin-bottom:4px;}
+  .flow-arrow{padding:0 10px;color:var(--accent);font-size:18px;align-self:center;}
+
+  .stars{color:var(--accent);font-size:20px;letter-spacing:2px;}
+  .q-block{margin-bottom:18px;}
+  .q-block .q{font-family:'Barlow Condensed', sans-serif;font-weight:600;font-size:16px;margin-bottom:6px;}
+
+  .footer-note{margin-top:24px;font-family:'IBM Plex Mono', monospace;font-size:11px;color:var(--grey);}
+
+  @media (max-width: 760px){
+    .layout{grid-template-columns:1fr;}
+    .hamburger{display:flex;}
+    .side-nav{display:none;flex-direction:column;position:sticky;top:0;z-index:5;background:var(--bg);padding-bottom:8px;}
+    .side-nav.open{display:flex;}
+    .counters{grid-template-columns:1fr 1fr;}
+    .dash-body{grid-template-columns:1fr;}
+    .card-grid{grid-template-columns:1fr;}
+    .form-cols{grid-template-columns:1fr;}
+    .week-grid{grid-template-columns:60px repeat(6,1fr);font-size:9px;}
+    .flow{flex-direction:column;}
+    .flow-arrow{transform:rotate(90deg);padding:6px 0;align-self:flex-start;margin-left:16px;}
+  }
+</style>
+</head>
+<body>
+<div class="app-shell">
+
+  <div class="topbar">
+    <div class="title-block">
+      <h1>Visitor Management App</h1>
+      <p>Manage every visitor touchpoint from booking to feedback — Banfora Sustainable Farm</p>
+    </div>
+    <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <div class="layout">
+    <div class="side-nav" id="sideNav">
+      <button class="nav-item active" data-screen="dashboard">Dashboard</button>
+      <button class="nav-item" data-screen="scheduling">Scheduling</button>
+      <button class="nav-item" data-screen="registration">Registration</button>
+      <button class="nav-item" data-screen="education">Education</button>
+      <button class="nav-item" data-screen="safety">Safety</button>
+      <button class="nav-item" data-screen="booking">Booking</button>
+      <button class="nav-item" data-screen="feedback">Feedback</button>
+    </div>
+
+    <div class="main-col">
+
+      <!-- DASHBOARD -->
+      <div class="screen active" id="dashboard">
+        <div class="counters">
+          <div class="counter-card"><div class="c-label">Visitors this week</div><div class="c-value">27</div></div>
+          <div class="counter-card"><div class="c-label">Slots booked</div><div class="c-value">6/12</div></div>
+          <div class="counter-card"><div class="c-label">Safety briefings pending</div><div class="c-value">2</div></div>
+          <div class="counter-card"><div class="c-label">Avg. satisfaction</div><div class="c-value">4.2/5</div></div>
+        </div>
+
+        <div class="dash-body" style="margin-top:18px;">
+          <div class="card-grid">
+            <div class="feature-card" data-goto="scheduling">
+              <div class="f-title">Farm tour scheduling</div>
+              <div class="f-open">Open →</div>
+            </div>
+            <div class="feature-card" data-goto="registration">
+              <div class="f-title">Visitor registration</div>
+              <div class="f-open">Open →</div>
+            </div>
+            <div class="feature-card" data-goto="education">
+              <div class="f-title">Educational program</div>
+              <div class="f-open">Open →</div>
+            </div>
+            <div class="feature-card" data-goto="safety">
+              <div class="f-title">Safety briefings tracking</div>
+              <div class="f-open">Open →</div>
+            </div>
+            <div class="feature-card" data-goto="booking">
+              <div class="f-title">Agritourism booking system</div>
+              <div class="f-open">Open →</div>
+            </div>
+            <div class="feature-card" data-goto="feedback">
+              <div class="f-title">Visitor feedback collection</div>
+              <div class="f-open">Open →</div>
+            </div>
+          </div>
+
+          <div class="side-panel">
+            <h3>Upcoming tasks</h3>
+            <ul class="task-list">
+              <li>Confirm Thu 9am school group (8)</li>
+              <li>Send reminder — Wed 2pm booking</li>
+              <li>Brief Jean Petit's group</li>
+              <li>Compile last week's feedback</li>
+            </ul>
+            <div class="growth-circle">Week 30<br>Overview</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCHEDULING -->
+      <div class="screen" id="scheduling">
+        <div class="detail-panel">
+          <div class="back-link" data-goto="dashboard">← Back to dashboard</div>
+          <h2>Farm tour scheduling</h2>
+          <div class="week-grid">
+            <div class="cell head"></div>
+            <div class="cell head">Mon</div>
+            <div class="cell head">Tue</div>
+            <div class="cell head">Wed</div>
+            <div class="cell head">Thu</div>
+            <div class="cell head">Fri</div>
+            <div class="cell head">Sat</div>
+
+            <div class="cell head">9–11am</div>
+            <div class="cell"><span class="slot">6/10</span></div>
+            <div class="cell"><span class="slot full">Full</span></div>
+            <div class="cell"><span class="slot">4/10</span></div>
+            <div class="cell"><span class="slot">8/10</span></div>
+            <div class="cell"><span class="slot">6/10</span></div>
+            <div class="cell"><span class="slot full">Full</span></div>
+
+            <div class="cell head">2–4pm</div>
+            <div class="cell"><span class="slot">1/10</span></div>
+            <div class="cell"><span class="slot">3/10</span></div>
+            <div class="cell"><span class="slot">6/10</span></div>
+            <div class="cell"><span class="slot">5/10</span></div>
+            <div class="cell"><span class="slot full">Full</span></div>
+            <div class="cell"><span class="slot">2/10</span></div>
+          </div>
+          <div class="footer-note">Max capacity: 10 visitors / slot · 2 slots per day · closed on Sundays. Mon 9–11am: Marie Dubois (4) + Jean Petit (2) · Wed 2–4pm: Sophie Laurent (6) · Thu 9–11am: School group (8)</div>
+        </div>
+      </div>
+
+      <!-- REGISTRATION -->
+      <div class="screen" id="registration">
+        <div class="detail-panel">
+          <div class="back-link" data-goto="dashboard">← Back to dashboard</div>
+          <h2>Visitor registration</h2>
+          <div class="form-cols">
+            <div class="form-row"><label>Full name</label><input placeholder="e.g. Marie Dubois"></div>
+            <div class="form-row"><label>Group size</label><input placeholder="e.g. 4"></div>
+            <div class="form-row"><label>Email</label><input placeholder="email@example.com"></div>
+            <div class="form-row"><label>Phone</label><input placeholder="+226 ..."></div>
+            <div class="form-row"><label>Visit date</label><input placeholder="e.g. 22/07/2026 (Wed)"></div>
+            <div class="form-row"><label>Time slot</label><select><option>9–11am</option><option>2–4pm</option></select></div>
+            <div class="form-row"><label>Preferred language</label><select><option>French</option><option>Moore</option><option>German</option><option>English</option></select></div>
+            <div class="form-row"><label>Visitor type</label><select><option>General public</option><option>Export buyer / partner</option><option>School group</option></select></div>
+          </div>
+          <div class="form-row"><label>Special requirements</label><input placeholder="Allergies, mobility needs, etc."></div>
+          <button class="btn">Register visitor</button>
+        </div>
+      </div>
+
+      <!-- EDUCATION -->
+      <div class="screen" id="education">
+        <div class="detail-panel">
+          <div class="back-link" data-goto="dashboard">← Back to dashboard</div>
+          <h2>Educational program</h2>
+          <div class="stops">
+            <div class="stop">
+              <div class="stop-title">Welcome & safety briefing</div>
+              <div class="stop-meta">10 min · meeting point · access control notice (face recognition)</div>
+            </div>
+            <div class="stop">
+              <div class="stop-title">Solar plant & tracking system</div>
+              <div class="stop-meta">20 min · PV panels with solar tracker, Infineon sensors</div>
+            </div>
+            <div class="stop">
+              <div class="stop-title">Mango orchard (Kent, Keitt, Amélie)</div>
+              <div class="stop-meta">20 min · smart drip irrigation, 200 trees over 2 ha</div>
+            </div>
+            <div class="stop">
+              <div class="stop-title">Dryer & processing unit</div>
+              <div class="stop-meta">20 min · slicing, drying, packaging for export to Germany</div>
+            </div>
+            <div class="stop">
+              <div class="stop-title">Wrap-up & questions</div>
+              <div class="stop-meta">15 min · closing, hot feedback, translation support if needed</div>
+            </div>
+          </div>
+          <div class="footer-note">Tour built around the farm's real modules: solar energy, irrigation, security, processing.</div>
+        </div>
+      </div>
+
+      <!-- SAFETY -->
+      <div class="screen" id="safety">
+        <div class="detail-panel">
+          <div class="back-link" data-goto="dashboard">← Back to dashboard</div>
+          <h2>Safety briefing tracker</h2>
+          <table>
+            <tr><th>Visitor</th><th>Group</th><th>Briefing time</th><th>Status</th></tr>
+            <tr><td>Marie Dubois</td><td>4 pers.</td><td>09:02</td><td><span class="tag done">Done</span></td></tr>
+            <tr><td>Jean Petit</td><td>2 pers.</td><td>—</td><td><span class="tag pending">Pending</span></td></tr>
+            <tr><td>Sophie Laurent</td><td>6 pers.</td><td>14:05</td><td><span class="tag done">Done</span></td></tr>
+            <tr><td>School group</td><td>8 pers.</td><td>—</td><td><span class="tag pending">Pending</span></td></tr>
+          </table>
+          <div class="footer-note">Every briefing is timestamped and linked to the group leader.</div>
+        </div>
+      </div>
+
+      <!-- BOOKING -->
+      <div class="screen" id="booking">
+        <div class="detail-panel">
+          <div class="back-link" data-goto="dashboard">← Back to dashboard</div>
+          <h2>Agritourism booking system</h2>
+          <div class="flow">
+            <div class="flow-step"><div class="step-label">Step 1</div>Choose time slot & tour type</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step"><div class="step-label">Step 2</div>Registration form</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step"><div class="step-label">Step 3</div>Email confirmation</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step"><div class="step-label">Step 4</div>Reminder 24h before</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FEEDBACK -->
+      <div class="screen" id="feedback">
+        <div class="detail-panel">
+          <div class="back-link" data-goto="dashboard">← Back to dashboard</div>
+          <h2>Satisfaction survey</h2>
+          <div class="q-block">
+            <div class="q">How would you rate your overall visit?</div>
+            <div class="stars">★★★★☆</div>
+          </div>
+          <div class="q-block">
+            <div class="q">Was the safety briefing clear?</div>
+            <div class="form-row"><select><option>Yes, very clear</option><option>Somewhat</option><option>Not really</option></select></div>
+          </div>
+          <div class="q-block">
+            <div class="q">Did the educational program teach you something new?</div>
+            <div class="form-row"><select><option>Yes, a lot</option><option>A little</option><option>No</option></select></div>
+          </div>
+          <div class="q-block">
+            <div class="q">Would you recommend this visit?</div>
+            <div class="form-row"><select><option>Definitely</option><option>Maybe</option><option>No</option></select></div>
+          </div>
+          <button class="btn">Submit feedback</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  const navItems = document.querySelectorAll('.nav-item');
+  const screens = document.querySelectorAll('.screen');
+  const sideNav = document.getElementById('sideNav');
+  const hamburgerBtn = document.getElementById('hamburgerBtn');
+
+  function goToScreen(name){
+    navItems.forEach(n => n.classList.toggle('active', n.dataset.screen === name));
+    screens.forEach(s => s.classList.toggle('active', s.id === name));
+    if (window.innerWidth <= 760) sideNav.classList.remove('open');
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  navItems.forEach(item => item.addEventListener('click', () => goToScreen(item.dataset.screen)));
+  document.querySelectorAll('[data-goto]').forEach(el => {
+    if (!el.classList.contains('nav-item')) {
+      el.addEventListener('click', () => goToScreen(el.dataset.goto));
+    }
+  });
+  hamburgerBtn.addEventListener('click', () => sideNav.classList.toggle('open'));
+</script>
+</body>
+</html>
