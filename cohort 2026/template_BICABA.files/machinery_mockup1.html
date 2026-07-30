@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 08 - Machinery Management System</title>
+    <style>
+        :root {
+            --primary-green: #0a8276;
+            --dark-green: #04574f;
+            --light-green: #E8F5E9;
+            --accent-green: #4CAF50;
+            --text-dark: #263238;
+            --text-grey: #546E7A;
+            --bg-light: #F5F7FA;
+            --white: #FFFFFF;
+            --border-color: #E0E0E0;
+            --sidebar-width: 260px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--dark-green);
+            color: var(--white);
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+
+        .sidebar-header {
+            padding: 24px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidebar-header h2 {
+            font-size: 18px;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .sidebar-header span {
+            font-size: 12px;
+            color: #A5D6A7;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .nav-menu {
+            list-style: none;
+            padding: 20px 0;
+            flex-grow: 1;
+        }
+
+        .nav-item {
+            padding: 14px 24px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .nav-item:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .nav-item.active {
+            background-color: var(--primary-green);
+            border-left-color: var(--white);
+        }
+
+        .nav-item svg {
+            width: 20px;
+            height: 20px;
+            margin-right: 14px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .nav-item span {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* Main Content Area */
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .top-bar {
+            background-color: var(--white);
+            padding: 20px 40px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .top-bar h1 {
+            font-size: 24px;
+            color: var(--dark-green);
+            font-weight: 700;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: var(--text-grey);
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            background-color: var(--light-green);
+            color: var(--primary-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin-left: 12px;
+        }
+
+        .content-area {
+            padding: 30px 40px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        /* Page Views */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Dashboard Cards */
+        .grid-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background-color: var(--white);
+            padding: 24px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border-top: 4px solid var(--accent-green);
+        }
+
+        .card h3 {
+            font-size: 14px;
+            color: var(--text-grey);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+        }
+
+        .card .value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        /* Tables */
+        .table-container {
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+
+        .table-header {
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border-color);
+            font-weight: 600;
+            color: var(--dark-green);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 14px 24px;
+            font-size: 14px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: var(--bg-light);
+            color: var(--text-grey);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Status Badges */
+        .badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .badge-operational {
+            background-color: #E8F5E9;
+            color: #2E7D32;
+        }
+
+        .badge-maintenance {
+            background-color: #FFF3E0;
+            color: #EF6C00;
+        }
+
+        .badge-out {
+            background-color: #FFEBEE;
+            color: #C62828;
+        }
+
+        .badge-overdue {
+            background-color: #FFEBEE;
+            color: #C62828;
+        }
+
+        .badge-due-soon {
+            background-color: #FFF3E0;
+            color: #EF6C00;
+        }
+
+        .badge-scheduled {
+            background-color: #E8F5E9;
+            color: #2E7D32;
+        }
+
+        /* Utilization bars */
+        .util-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .util-track {
+            flex: 1;
+            background-color: var(--bg-light);
+            border-radius: 6px;
+            height: 10px;
+            overflow: hidden;
+        }
+
+        .util-fill {
+            height: 100%;
+            background-color: var(--primary-green);
+            border-radius: 6px;
+        }
+
+        .util-value {
+            width: 40px;
+            text-align: right;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 70px;
+            }
+            .sidebar-header h2, .nav-item span {
+                display: none;
+            }
+            .nav-item {
+                justify-content: center;
+                padding: 14px 0;
+            }
+            .nav-item svg {
+                margin-right: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <span>Module 08</span>
+            <h2>Machinery Management</h2>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item active" data-page="dashboard">
+                <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                <span>Dashboard</span>
+            </li>
+            <li class="nav-item" data-page="equipment">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                <span>Equipment Registry</span>
+            </li>
+            <li class="nav-item" data-page="maintenance">
+                <svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+                <span>Maintenance Schedule</span>
+            </li>
+            <li class="nav-item" data-page="usage">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                <span>Usage & Fuel Log</span>
+            </li>
+            <li class="nav-item" data-page="repairs">
+                <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                <span>Repair Log</span>
+            </li>
+            <li class="nav-item" data-page="operators">
+                <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                <span>Operators</span>
+            </li>
+            <li class="nav-item" data-page="spares">
+                <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                <span>Spare Parts</span>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="top-bar">
+            <h1 id="page-title">Dashboard Overview</h1>
+            <div class="user-info">
+                Rayane BICABA
+                <div class="user-avatar">RB</div>
+            </div>
+        </header>
+
+        <div class="content-area">
+            
+            <!-- PAGE: DASHBOARD -->
+            <section id="dashboard" class="page active">
+                <div class="grid-cards">
+                    <div class="card">
+                        <h3>Total Assets</h3>
+                        <div class="value">10</div>
+                    </div>
+                    <div class="card">
+                        <h3>Operational</h3>
+                        <div class="value" style="color: var(--primary-green);">7</div>
+                    </div>
+                    <div class="card">
+                        <h3>Under Maintenance</h3>
+                        <div class="value" style="color: #EF6C00;">2</div>
+                    </div>
+                    <div class="card">
+                        <h3>Out of Service</h3>
+                        <div class="value" style="color: #C62828;">1</div>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-header">Active Equipment Status Summary</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Asset ID</th>
+                                <th>Equipment Name</th>
+                                <th>Category</th>
+                                <th>Stage</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>MCH-001</strong></td>
+                                <td>Tractor / power tiller</td>
+                                <td>Agricultural machinery</td>
+                                <td>Cultivation</td>
+                                <td><span class="badge badge-operational">Operational</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>MCH-002</strong></td>
+                                <td>Motor pump (irrigation asset)</td>
+                                <td>Agricultural machinery</td>
+                                <td>Cultivation</td>
+                                <td><span class="badge badge-operational">Operational</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>MCH-009</strong></td>
+                                <td>Dryer</td>
+                                <td>Processing machinery</td>
+                                <td>Drying</td>
+                                <td><span class="badge badge-maintenance">Under maintenance</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>MCH-010</strong></td>
+                                <td>Peeler</td>
+                                <td>Processing machinery</td>
+                                <td>Processing</td>
+                                <td><span class="badge badge-out">Out of service</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="table-container" style="margin-top: 30px;">
+                    <div class="table-header">Equipment Utilization (last 7 days)</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Asset ID</th>
+                                <th>Equipment</th>
+                                <th>Hours Used</th>
+                                <th>Available Hours</th>
+                                <th style="width: 220px;">Utilization</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>MCH-001</strong></td>
+                                <td>Tractor / power tiller</td>
+                                <td>32.0</td>
+                                <td>40.0</td>
+                                <td>
+                                    <div class="util-row">
+                                        <div class="util-track"><div class="util-fill" style="width: 80%;"></div></div>
+                                        <div class="util-value">80%</div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>MCH-002</strong></td>
+                                <td>Motor pump (irrigation asset)</td>
+                                <td>18.0</td>
+                                <td>40.0</td>
+                                <td>
+                                    <div class="util-row">
+                                        <div class="util-track"><div class="util-fill" style="width: 45%;"></div></div>
+                                        <div class="util-value">45%</div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>MCH-007</strong></td>
+                                <td>Sorter</td>
+                                <td>25.0</td>
+                                <td>40.0</td>
+                                <td>
+                                    <div class="util-row">
+                                        <div class="util-track"><div class="util-fill" style="width: 63%;"></div></div>
+                                        <div class="util-value">63%</div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>MCH-009</strong></td>
+                                <td>Dryer</td>
+                                <td>35.0</td>
+                                <td>40.0</td>
+                                <td>
+                                    <div class="util-row">
+                                        <div class="util-track"><div class="util-fill" style="width: 88%;"></div></div>
+                                        <div class="util-value">88%</div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- PAGE: EQUIPMENT REGISTRY -->
+            <section id="equipment" class="page">
+                <div class="table-container">
+                    <div class="table-header">Consolidated Equipment List</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Asset ID</th>
+                                <th>Equipment Name</th>
+                                <th>Category</th>
+                                <th>Production Stage</th>
+                                <th>Source</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong>MCH-001</strong></td><td>Tractor / power tiller</td><td>Agricultural machinery</td><td>Cultivation</td><td>Zalka</td><td><span class="badge badge-operational">Operational</span></td></tr>
+                            <tr><td><strong>MCH-002</strong></td><td>Motor pump (irrigation asset)</td><td>Agricultural machinery</td><td>Cultivation</td><td>Zalka</td><td><span class="badge badge-operational">Operational</span></td></tr>
+                            <tr><td><strong>MCH-003</strong></td><td>Planting & harvesting tool set</td><td>Agricultural equipment</td><td>Cultivation</td><td>Zalka</td><td><span class="badge badge-operational">Operational</span></td></tr>
+                            <tr><td><strong>MCH-004</strong></td><td>Post-harvest handling equipment</td><td>Agricultural equipment</td><td>Harvest</td><td>Zalka</td><td><span class="badge badge-operational">Operational</span></td></tr>
+                            <tr><td><strong>MCH-005</strong></td><td>Elevators</td><td>Processing machinery</td><td>Processing</td><td>Cedric</td><td><span class="badge badge-operational">Operational</span></td></tr>
+                            <tr><td><strong>MCH-006</strong></td><td>Bubble washer</td><td>Processing machinery</td><td>Processing</td><td>Cedric</td><td><span class="badge badge-maintenance">Under maintenance</span></td></tr>
+                            <tr><td><strong>MCH-007</strong></td><td>Sorter</td><td>Processing machinery</td><td>Processing</td><td>Cedric</td><td><span class="badge badge-operational">Operational</span></td></tr>
+                            <tr><td><strong>MCH-008</strong></td><td>Cleaner</td><td>Processing machinery</td><td>Processing</td><td>Cedric</td><td><span class="badge badge-operational">Operational</span></td></tr>
+                            <tr><td><strong>MCH-009</strong></td><td>Dryer</td><td>Processing machinery</td><td>Drying</td><td>Cedric</td><td><span class="badge badge-maintenance">Under maintenance</span></td></tr>
+                            <tr><td><strong>MCH-010</strong></td><td>Peeler</td><td>Processing machinery</td><td>Processing</td><td>Cedric</td><td><span class="badge badge-out">Out of service</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- PAGE: MAINTENANCE SCHEDULE -->
+            <section id="maintenance" class="page">
+                <div class="table-container">
+                    <div class="table-header">Maintenance Schedule Table</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Schedule ID</th>
+                                <th>Asset ID</th>
+                                <th>Type</th>
+                                <th>Frequency</th>
+                                <th>Last Completed</th>
+                                <th>Next Due Date</th>
+                                <th>Days Until Due</th>
+                                <th>Operator</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong>MT-001</strong></td><td>MCH-001</td><td>Preventive</td><td>Every 250 hours</td><td>2026-07-10</td><td>2026-08-05</td><td class="due-cell" data-due="2026-08-05"></td><td>Wilfried Y.</td></tr>
+                            <tr><td><strong>MT-002</strong></td><td>MCH-009</td><td>Corrective</td><td>N/A</td><td>2026-07-22</td><td>2026-07-25</td><td class="due-cell" data-due="2026-07-25"></td><td>Abdoul S.</td></tr>
+                            <tr><td><strong>MT-003</strong></td><td>MCH-006</td><td>Preventive</td><td>Every 3 months</td><td>2026-05-15</td><td>2026-08-15</td><td class="due-cell" data-due="2026-08-15"></td><td>Jean-Louis R.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- PAGE: USAGE & FUEL LOG -->
+            <section id="usage" class="page">
+                <div class="table-container" style="margin-bottom: 30px;">
+                    <div class="table-header">Usage Log</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Log ID</th>
+                                <th>Asset ID</th>
+                                <th>Date</th>
+                                <th>Hours Used</th>
+                                <th>Operator ID</th>
+                                <th>Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong>LOG-01</strong></td><td>MCH-001</td><td>2026-07-23</td><td>6.5</td><td>Wilfried Y.</td><td>Plowing field section B</td></tr>
+                            <tr><td><strong>LOG-02</strong></td><td>MCH-002</td><td>2026-07-23</td><td>4.0</td><td>Yienouyaba P.</td><td>Morning irrigation cycle</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-header">Fuel Log</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Fuel Log ID</th>
+                                <th>Asset ID</th>
+                                <th>Date</th>
+                                <th>Liters</th>
+                                <th>Cost (EUR)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong>F-01</strong></td><td>MCH-001</td><td>2026-07-22</td><td>25.0</td><td>37.50</td></tr>
+                            <tr><td><strong>F-02</strong></td><td>MCH-002</td><td>2026-07-21</td><td>10.5</td><td>15.75</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- PAGE: REPAIR LOG -->
+            <section id="repairs" class="page">
+                <div class="table-container">
+                    <div class="table-header">Repair Log</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Repair ID</th>
+                                <th>Asset ID</th>
+                                <th>Date</th>
+                                <th>Issue Description</th>
+                                <th>Downtime (Hours)</th>
+                                <th>Cost (EUR)</th>
+                                <th>Technician</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong>REP-01</strong></td><td>MCH-009</td><td>2026-07-22</td><td>Heating element malfunction</td><td>14.0</td><td>150.00</td><td>Maintenance Team A</td></tr>
+                            <tr><td><strong>REP-02</strong></td><td>MCH-010</td><td>2026-07-18</td><td>Blade drive belt snapped</td><td>48.0</td><td>85.00</td><td>Maintenance Team B</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- PAGE: OPERATORS -->
+            <section id="operators" class="page">
+                <div class="table-container">
+                    <div class="table-header">Operator Assignment</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Assignment ID</th>
+                                <th>Operator Name</th>
+                                <th>Asset ID</th>
+                                <th>Role</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong>AS-01</strong></td><td>Wilfried Yameogo</td><td>MCH-001</td><td>Driver</td><td>2026-05-01</td><td>-</td></tr>
+                            <tr><td><strong>AS-02</strong></td><td>Yienouyaba Phares</td><td>MCH-002</td><td>Technician</td><td>2026-05-01</td><td>-</td></tr>
+                            <tr><td><strong>AS-03</strong></td><td>Abdoul Ben Fatao Sanon</td><td>MCH-009</td><td>Supervisor</td><td>2026-07-01</td><td>-</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- PAGE: SPARE PARTS -->
+            <section id="spares" class="page">
+                <div class="table-container">
+                    <div class="table-header">Spare Parts Inventory</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Part ID</th>
+                                <th>Part Name</th>
+                                <th>Compatible Asset</th>
+                                <th>Qty in Stock</th>
+                                <th>Reorder Threshold</th>
+                                <th>Unit Cost (EUR)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong>SP-01</strong></td><td>Engine Oil Filter</td><td>MCH-001</td><td>5</td><td>2</td><td>15.00</td></tr>
+                            <tr><td><strong>SP-02</strong></td><td>Heating Element</td><td>MCH-009</td><td>1</td><td>2</td><td>45.00</td></tr>
+                            <tr><td><strong>SP-03</strong></td><td>Drive Belt</td><td>MCH-010</td><td>0</td><td>1</td><td>25.00</td></tr>
+                            <tr><td><strong>SP-04</strong></td><td>Water Seal Gasket</td><td>MCH-002</td><td>4</td><td>2</td><td>8.50</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- JavaScript for Navigation -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Compute "days until due" badges for the maintenance schedule
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            document.querySelectorAll('.due-cell').forEach(cell => {
+                const dueDate = new Date(cell.dataset.due);
+                const diffDays = Math.round((dueDate - today) / (1000 * 60 * 60 * 24));
+
+                let label, badgeClass;
+                if (diffDays < 0) {
+                    label = `Overdue by ${Math.abs(diffDays)}d`;
+                    badgeClass = 'badge-overdue';
+                } else if (diffDays <= 7) {
+                    label = `Due in ${diffDays}d`;
+                    badgeClass = 'badge-due-soon';
+                } else {
+                    label = `In ${diffDays}d`;
+                    badgeClass = 'badge-scheduled';
+                }
+
+                cell.innerHTML = `<span class="badge ${badgeClass}">${label}</span>`;
+            });
+
+            const navItems = document.querySelectorAll('.nav-item');
+            const pages = document.querySelectorAll('.page');
+            const pageTitle = document.getElementById('page-title');
+
+            // Map page IDs to their titles
+            const titles = {
+                'dashboard': 'Dashboard Overview',
+                'equipment': 'Equipment Registry',
+                'maintenance': 'Maintenance Schedule',
+                'usage': 'Usage & Fuel Log',
+                'repairs': 'Repair Log',
+                'operators': 'Operator Assignment',
+                'spares': 'Spare Parts Inventory'
+            };
+
+            navItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const targetPage = item.getAttribute('data-page');
+                    
+                    // Remove active class from all nav items and pages
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    pages.forEach(page => page.classList.remove('active'));
+                    
+                    // Add active class to clicked nav item and corresponding page
+                    item.classList.add('active');
+                    document.getElementById(targetPage).classList.add('active');
+                    
+                    // Update top bar title
+                    pageTitle.textContent = titles[targetPage];
+                });
+            });
+        });
+    </script>
+</body>
+</html>

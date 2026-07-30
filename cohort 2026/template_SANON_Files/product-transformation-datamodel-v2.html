@@ -1,0 +1,607 @@
+<title>Product Transformation — Manager Monitoring Dashboard</title>
+<style>
+  :root {
+    --bg: #F5F7F6;
+    --bg-grad: #E8EDEB;
+    --surface: #FFFFFF;
+    --surface-2: #F0F4F2;
+    --ink: #1A1A1A;
+    --ink-soft: #4A4A4A;
+    --muted: #6B7B74;
+    --hair: #D9E0DD;
+    --hair-strong: #C4D0CC;
+    --accent: #009688;
+    --accent-soft: #26A69A;
+    --accent-tint: #E0F2F1;
+    --slate: #37474F;
+    --slate-soft: #546E7A;
+    --slate-tint: #ECEFF1;
+    --pass: #009688;
+    --fail: #D32F2F;
+    --rework: #F57C00;
+    --warning: #FFA000;
+    --info: #0288D1;
+    --panel: #FAFCFB;
+    --panel-ink: #1A1A1A;
+    --panel-hair: #D4DBD8;
+    --shadow: 0 1px 2px rgba(0,0,0,.04), 0 8px 24px -12px rgba(0,0,0,.08);
+    --font-body: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --font-display: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+    --maxw: 68rem;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1A1F1E;
+      --bg-grad: #242B2A;
+      --surface: #263230;
+      --surface-2: #2D3A38;
+      --ink: #E8EDEB;
+      --ink-soft: #B8C4C0;
+      --muted: #8FA39C;
+      --hair: #3D4A47;
+      --hair-strong: #4D5C58;
+      --accent: #4DB6AC;
+      --accent-soft: #80CBC4;
+      --accent-tint: #1A3A36;
+      --slate: #90A4AE;
+      --slate-soft: #B0BEC5;
+      --slate-tint: #263238;
+      --pass: #69F0AE;
+      --fail: #EF5350;
+      --rework: #FFB74D;
+      --warning: #FFCA28;
+      --info: #42A5F5;
+      --shadow: 0 1px 2px rgba(0,0,0,.25), 0 10px 30px -14px rgba(0,0,0,.5);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #F5F7F6; --bg-grad: #E8EDEB; --surface: #FFFFFF; --surface-2: #F0F4F2;
+    --ink: #1A1A1A; --ink-soft: #4A4A4A; --muted: #6B7B74; --hair: #D9E0DD; --hair-strong: #C4D0CC;
+    --accent: #009688; --accent-soft: #26A69A; --accent-tint: #E0F2F1;
+    --slate: #37474F; --slate-soft: #546E7A; --slate-tint: #ECEFF1;
+    --pass: #009688; --fail: #D32F2F; --rework: #F57C00; --warning: #FFA000; --info: #0288D1;
+    --shadow: 0 1px 2px rgba(0,0,0,.04), 0 8px 24px -12px rgba(0,0,0,.08);
+  }
+  :root[data-theme="dark"] {
+    --bg: #1A1F1E; --bg-grad: #242B2A; --surface: #263230; --surface-2: #2D3A38;
+    --ink: #E8EDEB; --ink-soft: #B8C4C0; --muted: #8FA39C; --hair: #3D4A47; --hair-strong: #4D5C58;
+    --accent: #4DB6AC; --accent-soft: #80CBC4; --accent-tint: #1A3A36;
+    --slate: #90A4AE; --slate-soft: #B0BEC5; --slate-tint: #263238;
+    --pass: #69F0AE; --fail: #EF5350; --rework: #FFB74D; --warning: #FFCA28; --info: #42A5F5;
+    --shadow: 0 1px 2px rgba(0,0,0,.25), 0 10px 30px -14px rgba(0,0,0,.5);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background:
+      radial-gradient(120% 60% at 100% 0%, var(--bg-grad), transparent 60%),
+      var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: "kern";
+  }
+  .wrap {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: clamp(1.5rem, 4vw, 4rem) clamp(1.2rem, 4vw, 2.5rem) 4rem;
+  }
+
+  /* ---- header ---- */
+  header { position: relative; padding-bottom: 2rem; margin-bottom: 2.5rem; border-bottom: 1px solid var(--hair); }
+  .eyebrow {
+    font-size: .72rem; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--muted); font-weight: 600; margin: 0 0 1rem;
+    display: flex; align-items: center; gap: .6rem; flex-wrap: wrap;
+  }
+  .eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.1rem, 6vw, 3.4rem);
+    line-height: 1.02; letter-spacing: -.025em; font-weight: 800;
+    margin: 0 0 1rem; text-wrap: balance;
+  }
+  h1 .amber { color: var(--accent); }
+  .lede { font-size: clamp(1.02rem, 2.2vw, 1.2rem); color: var(--ink-soft); max-width: 50ch; margin: 0; }
+  .route {
+    margin-top: 1.6rem; display: inline-flex; align-items: center; gap: .7rem;
+    font-size: .85rem; font-weight: 600; color: var(--ink-soft);
+    background: var(--surface); border: 1px solid var(--hair-strong);
+    padding: .5rem .9rem; border-radius: 999px; box-shadow: var(--shadow);
+  }
+  .route .arrow { color: var(--accent); font-weight: 800; }
+  .route .pin { color: var(--muted); font-weight: 500; }
+
+  /* ---- section scaffolding ---- */
+  section { margin-top: 3.2rem; }
+  .sec-head { display: flex; align-items: baseline; gap: .8rem; margin-bottom: 1.4rem; }
+  .sec-head h2 {
+    font-family: var(--font-display); font-size: 1.4rem; letter-spacing: -.01em;
+    font-weight: 750; margin: 0; text-wrap: balance;
+  }
+  .sec-num {
+    font-family: var(--font-mono); font-size: .8rem; color: var(--accent);
+    font-weight: 600; border: 1px solid var(--accent); border-radius: 6px;
+    padding: .12rem .4rem; line-height: 1; flex: none;
+  }
+  .sec-sub { color: var(--muted); font-size: .95rem; margin: -.6rem 0 1.4rem; max-width: 60ch; }
+
+  /* ---- dashboard metrics ---- */
+  .metrics-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 1rem;
+  }
+  .metric {
+    background: var(--surface); border: 1px solid var(--hair);
+    border-radius: 14px; padding: 1.2rem; box-shadow: var(--shadow);
+    display: flex; flex-direction: column; gap: .4rem;
+  }
+  .metric-label { font-size: .8rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+  .metric-value { font-size: 1.8rem; font-weight: 800; color: var(--ink); line-height: 1.1; }
+  .metric-value.good { color: var(--pass); }
+  .metric-value.warning { color: var(--warning); }
+  .metric-value.bad { color: var(--fail); }
+  .metric-trend { font-size: .75rem; color: var(--muted); font-family: var(--font-mono); }
+  .metric-trend.up::before { content: "↑ "; color: var(--pass); }
+  .metric-trend.down::before { content: "↓ "; color: var(--fail); }
+
+  /* ---- monitoring panels ---- */
+  .panel {
+    background: var(--panel); border: 1px solid var(--panel-hair);
+    border-radius: 14px; padding: 1.2rem; box-shadow: var(--shadow);
+    overflow-x: auto;
+  }
+  .panel .tag {
+    display: inline-block; font-family: var(--font-mono); font-size: .68rem;
+    letter-spacing: .1em; text-transform: uppercase;
+    color: #A08A6A; margin-bottom: .6rem;
+  }
+
+  /* ---- batch lifecycle view ---- */
+  .lifecycle {
+    display: flex; align-items: stretch; gap: .4rem; flex-wrap: wrap;
+    background: var(--surface); border: 1px solid var(--hair);
+    border-radius: 14px; padding: 1rem; box-shadow: var(--shadow);
+  }
+  .stage-monitor {
+    flex: 1 1 7rem; min-width: 6rem; position: relative;
+    display: flex; flex-direction: column; gap: .3rem;
+    padding: .7rem .75rem; background: var(--surface-2);
+    border: 1px solid var(--hair); border-radius: 10px;
+  }
+  .stage-monitor .name { font-weight: 700; font-size: .85rem; }
+  .stage-monitor .count { font-family: var(--font-mono); font-size: 1.1rem; font-weight: 700; color: var(--accent); }
+  .stage-monitor .time { font-size: .72rem; color: var(--muted); }
+  .stage-monitor.active { border-color: var(--accent); background: var(--accent-tint); }
+  .stage-monitor.alert { border-color: var(--fail); background: #FFEBEE; }
+  .stage-monitor.alert .count { color: var(--fail); }
+
+  /* ---- alert feed ---- */
+  .alert-feed { display: flex; flex-direction: column; gap: .6rem; }
+  .alert {
+    display: flex; align-items: center; gap: .8rem;
+    background: var(--surface); border: 1px solid var(--hair);
+    border-radius: 10px; padding: .8rem 1rem;
+  }
+  .alert.critical { border-left: 4px solid var(--fail); background: #FFEBEE; }
+  .alert.warning { border-left: 4px solid var(--warning); background: #FFF8E1; }
+  .alert.info { border-left: 4px solid var(--info); background: #E3F2FD; }
+  .alert-icon { font-size: 1.2rem; }
+  .alert-content { flex: 1; }
+  .alert-title { font-weight: 700; font-size: .9rem; }
+  .alert-meta { font-size: .75rem; color: var(--muted); font-family: var(--font-mono); }
+  .alert-action {
+    font-size: .75rem; font-weight: 600; padding: .3rem .6rem;
+    border-radius: 6px; background: var(--surface-2); border: 1px solid var(--hair);
+    cursor: pointer;
+  }
+
+  /* ---- KPI cards ---- */
+  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 1rem; }
+  .kpi-card {
+    background: var(--surface); border: 1px solid var(--hair);
+    border-radius: 14px; padding: 1.15rem 1.2rem; box-shadow: var(--shadow);
+    display: flex; flex-direction: column; gap: .6rem;
+  }
+  .kpi-card h3 { font-size: 1rem; margin: 0; font-weight: 700; letter-spacing: -.01em; }
+  .kpi-value { font-family: var(--font-mono); font-size: 1.6rem; font-weight: 700; color: var(--accent); }
+  .kpi-target { font-size: .75rem; color: var(--muted); }
+  .kpi-target span { color: var(--pass); }
+  .kpi-status {
+    font-size: .7rem; font-weight: 600; padding: .2rem .5rem;
+    border-radius: 999px; align-self: flex-start;
+  }
+  .kpi-status.on-track { background: var(--pass); color: white; }
+  .kpi-status.at-risk { background: var(--warning); color: white; }
+  .kpi-status.off-track { background: var(--fail); color: white; }
+
+  /* ---- data needs list ---- */
+  .data-needs { display: grid; grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr)); gap: 1rem; }
+  .data-need {
+    background: var(--surface); border: 1px solid var(--hair); border-left: 3px solid var(--accent);
+    border-radius: 12px; padding: 1.1rem 1.2rem; box-shadow: var(--shadow);
+  }
+  .data-need h4 { margin: 0 0 .4rem; font-size: .95rem; font-weight: 700; }
+  .data-need p { margin: 0 0 .6rem; color: var(--ink-soft); font-size: .88rem; }
+  .data-need .fields {
+    display: flex; flex-wrap: wrap; gap: .25rem; margin: 0; padding: 0; list-style: none;
+  }
+  .data-need .fields li {
+    font-family: var(--font-mono); font-size: .7rem; color: var(--muted);
+    background: var(--surface-2); border: 1px solid var(--hair);
+    border-radius: 5px; padding: .12rem .35rem;
+  }
+
+  /* ---- decision support ---- */
+  .decision-matrix {
+    background: var(--surface); border: 1px solid var(--hair);
+    border-radius: 14px; padding: 1.2rem; box-shadow: var(--shadow);
+  }
+  .decision-row {
+    display: flex; align-items: center; gap: 1rem;
+    padding: .8rem 0; border-bottom: 1px solid var(--hair);
+  }
+  .decision-row:last-child { border-bottom: none; }
+  .decision-trigger { flex: 1; font-weight: 600; font-size: .9rem; }
+  .decision-data { font-family: var(--font-mono); font-size: .8rem; color: var(--muted); }
+  .decision-action {
+    font-size: .8rem; font-weight: 600; padding: .4rem .7rem;
+    border-radius: 6px; background: var(--accent); color: white;
+    border: 1px solid var(--accent);
+  }
+
+  footer {
+    margin-top: 3.5rem; padding-top: 1.4rem; border-top: 1px solid var(--hair);
+    display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+    color: var(--muted); font-size: .8rem;
+  }
+  footer .mono { font-family: var(--font-mono); }
+
+  @media (max-width: 640px) {
+    .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media print {
+    body { background: #fff; }
+    .panel, .metric, .kpi-card, .data-need, .decision-matrix { box-shadow: none; }
+  }
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow"><span class="dot"></span> Bit &times; Infineon Excellence Program &middot; Manager View</p>
+    <h1>Product Transformation<br><span class="amber">monitoring dashboard</span></h1>
+    <p class="lede">What information does a Product Transformation Manager need to monitor the entire transformation lifecycle? Real-time visibility, KPIs, alerts, and decision support for end-to-end batch management.</p>
+    <div class="route">
+      <span>Manager Perspective</span><span class="arrow">&rarr;</span>
+      <span>Operational Oversight</span>
+      <span class="pin">&middot; from farm intake to export shipment</span>
+    </div>
+  </header>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">01</span><h2>Real-time overview metrics</h2></div>
+    <p class="sec-sub">At a glance: what's happening right now across the transformation line. These metrics update continuously and trigger alerts when thresholds are breached.</p>
+    <div class="metrics-grid">
+      <div class="metric">
+        <span class="metric-label">Active Batches</span>
+        <span class="metric-value">24</span>
+        <span class="metric-trend up">+3 from yesterday</span>
+      </div>
+      <div class="metric">
+        <span class="metric-label">Today's Throughput</span>
+        <span class="metric-value good">2,847 kg</span>
+        <span class="metric-trend up">12% above target</span>
+      </div>
+      <div class="metric">
+        <span class="metric-label">QC Pass Rate</span>
+        <span class="metric-value warning">94.2%</span>
+        <span class="metric-trend down">-1.3% from last week</span>
+      </div>
+      <div class="metric">
+        <span class="metric-label">Avg Drying Time</span>
+        <span class="metric-value good">18.4h</span>
+        <span class="metric-trend up">within spec</span>
+      </div>
+      <div class="metric">
+        <span class="metric-label">Energy Mix</span>
+        <span class="metric-value">67% solar</span>
+        <span class="metric-trend up">+5% this month</span>
+      </div>
+      <div class="metric">
+        <span class="metric-label">Compliance Status</span>
+        <span class="metric-value good">98.7%</span>
+        <span class="metric-trend">HACCP on track</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">02</span><h2>Batch lifecycle monitoring</h2></div>
+    <p class="sec-sub">Where are batches right now? How many are stuck at each stage? What's the average time per stage? This view identifies bottlenecks in real time.</p>
+    <div class="lifecycle">
+      <div class="stage-monitor active">
+        <span class="name">Received</span>
+        <span class="count">8</span>
+        <span class="time">Avg 0.5h</span>
+      </div>
+      <div class="stage-monitor active">
+        <span class="name">Washing</span>
+        <span class="count">5</span>
+        <span class="time">Avg 1.2h</span>
+      </div>
+      <div class="stage-monitor alert">
+        <span class="name">Drying</span>
+        <span class="count">9</span>
+        <span class="time">Avg 19.2h ⚠</span>
+      </div>
+      <div class="stage-monitor">
+        <span class="name">Dried</span>
+        <span class="count">3</span>
+        <span class="time">QC pending</span>
+      </div>
+      <div class="stage-monitor">
+        <span class="name">Packaging</span>
+        <span class="count">4</span>
+        <span class="time">Avg 0.8h</span>
+      </div>
+      <div class="stage-monitor">
+        <span class="name">Released</span>
+        <span class="count">12</span>
+        <span class="time">Ready to ship</span>
+      </div>
+      <div class="stage-monitor">
+        <span class="name">Shipped</span>
+        <span class="count">156</span>
+        <span class="time">This month</span>
+      </div>
+    </div>
+    <p style="margin-top: .8rem; color: var(--muted); font-size: .85rem;">⚠ Drying stage has elevated count — 2 batches exceeding 24h, 1 with moisture above target</p>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">03</span><h2>Alert feed & exceptions</h2></div>
+    <p class="sec-sub">What needs attention right now? Alerts are prioritized by severity and include actionable context for rapid response.</p>
+    <div class="alert-feed">
+      <div class="alert critical">
+        <span class="alert-icon">🔴</span>
+        <div class="alert-content">
+          <span class="alert-title">Batch #B-2847 moisture exceeds target (19.2%)</span>
+          <span class="alert-meta">Drying stage • 2h ago • CCP breach</span>
+        </div>
+        <span class="alert-action">View</span>
+      </div>
+      <div class="alert warning">
+        <span class="alert-icon">🟡</span>
+        <div class="alert-content">
+          <span class="alert-title">Water quality test pending at Wash Station 2</span>
+          <span class="alert-meta">QC checkpoint • 4h overdue</span>
+        </div>
+        <span class="alert-action">Assign</span>
+      </div>
+      <div class="alert warning">
+        <span class="alert-icon">🟡</span>
+        <div class="alert-content">
+          <span class="alert-title">Solar dryer output below expected (78% capacity)</span>
+          <span class="alert-meta">Equipment • Today</span>
+        </div>
+        <span class="alert-action">Investigate</span>
+      </div>
+      <div class="alert info">
+        <span class="alert-icon">🔵</span>
+        <div class="alert-content">
+          <span class="alert-title">HACCP audit scheduled for tomorrow</span>
+          <span class="alert-meta">Compliance • 10:00 AM</span>
+        </div>
+        <span class="alert-action">Prepare</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">04</span><h2>Key Performance Indicators</h2></div>
+    <p class="sec-sub">Weekly and monthly KPIs track efficiency, quality, yield, and compliance. Status indicators show whether each metric is on track, at risk, or off target.</p>
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <h3>Overall Yield</h3>
+        <span class="kpi-value">32.4%</span>
+        <span class="kpi-target">Target: 30% <span>✓</span></span>
+        <span class="kpi-status on-track">On Track</span>
+      </div>
+      <div class="kpi-card">
+        <h3>First-Pass Yield</h3>
+        <span class="kpi-value">89.1%</span>
+        <span class="kpi-target">Target: 92% <span>▼</span></span>
+        <span class="kpi-status at-risk">At Risk</span>
+      </div>
+      <div class="kpi-card">
+        <h3>Avg Cycle Time</h3>
+        <span class="kpi-value">21.2h</span>
+        <span class="kpi-target">Target: 24h <span>✓</span></span>
+        <span class="kpi-status on-track">On Track</span>
+      </div>
+      <div class="kpi-card">
+        <h3>QC Pass Rate</h3>
+        <span class="kpi-value">94.2%</span>
+        <span class="kpi-target">Target: 95% <span>▼</span></span>
+        <span class="kpi-status at-risk">At Risk</span>
+      </div>
+      <div class="kpi-card">
+        <h3>HACCP Compliance</h3>
+        <span class="kpi-value">98.7%</span>
+        <span class="kpi-target">Target: 100% <span>▼</span></span>
+        <span class="kpi-status at-risk">At Risk</span>
+      </div>
+      <div class="kpi-card">
+        <h3>Solar Energy Usage</h3>
+        <span class="kpi-value">67%</span>
+        <span class="kpi-target">Target: 60% <span>✓</span></span>
+        <span class="kpi-status on-track">On Track</span>
+      </div>
+      <div class="kpi-card">
+        <h3>Water Consumption</h3>
+        <span class="kpi-value">142 L/kg</span>
+        <span class="kpi-target">Target: 150 L/kg <span>✓</span></span>
+        <span class="kpi-status on-track">On Track</span>
+      </div>
+      <div class="kpi-card">
+        <h3>Export Readiness</h3>
+        <span class="kpi-value">96.3%</span>
+        <span class="kpi-target">Target: 95% <span>✓</span></span>
+        <span class="kpi-status on-track">On Track</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">05</span><h2>Data needs by monitoring area</h2></div>
+    <p class="sec-sub">What specific data points does the manager need for each monitoring area? These are the essential fields that drive the dashboard views.</p>
+    <div class="data-needs">
+      <div class="data-need">
+        <h4>📊 Real-time Status</h4>
+        <p>Current batch counts per stage, active equipment status, resource availability</p>
+        <ul class="fields">
+          <li>batch_id</li><li>current_stage</li><li>stage_entry_time</li><li>equipment_status</li><li>operator_id</li>
+        </ul>
+      </div>
+      <div class="data-need">
+        <h4>⏱️ Throughput & Timing</h4>
+        <p>Stage durations, cycle times, bottleneck identification, capacity planning</p>
+        <ul class="fields">
+          <li>stage_duration</li><li>cycle_time</li><li>wait_time</li><li>throughput_rate</li><li>bottleneck_flag</li>
+        </ul>
+      </div>
+      <div class="data-need">
+        <h4>✅ Quality Monitoring</h4>
+        <p>QC results, pass/fail rates, non-conformance tracking, defect analysis</p>
+        <ul class="fields">
+          <li>qc_result</li><li>parameter_value</li><li>spec_min</li><li>spec_max</li><li>defect_type</li><li>rework_count</li>
+        </ul>
+      </div>
+      <div class="data-need">
+        <h4>🌡️ Process Parameters</h4>
+        <p>Temperature, moisture, humidity logs, energy source tracking</p>
+        <ul class="fields">
+          <li>temperature_log</li><li>moisture_content</li><li>humidity</li><li>energy_source</li><li>drying_method</li>
+        </ul>
+      </div>
+      <div class="data-need">
+        <h4>📦 Yield & Efficiency</h4>
+        <p>Input/output weights, yield calculation, loss analysis, waste tracking</p>
+        <ul class="fields">
+          <li>input_weight</li><li>output_weight</li><li>yield_pct</li><li>loss_weight</li><li>loss_reason</li>
+        </ul>
+      </div>
+      <div class="data-need">
+        <h4>🔒 Compliance & Safety</h4>
+        <p>HACCP CCPs, corrective actions, audit trails, certification status</p>
+        <ul class="fields">
+          <li>ccp_status</li><li>compliance_check</li><li>corrective_action</li><li>auditor_id</li><li>cert_status</li>
+        </ul>
+      </div>
+      <div class="data-need">
+        <h4>💧 Resource Utilization</h4>
+        <p>Water consumption, energy usage, equipment efficiency, cost tracking</p>
+        <ul class="fields">
+          <li>water_used</li><li>energy_kwh</li><li>solar_pct</li><li>equipment_eff</li><li>cost_per_kg</li>
+        </ul>
+      </div>
+      <div class="data-need">
+        <h4>🚢 Export Readiness</h4>
+        <p>Lot codes, best-before dates, documentation status, shipment tracking</p>
+        <ul class="fields">
+          <li>lot_code</li><li>best_before</li><li>doc_complete</li><li>eu_compliance</li><li>shipment_status</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">06</span><h2>Decision support matrix</h2></div>
+    <p class="sec-sub">When something goes wrong, what data does the manager need to make decisions? This matrix maps triggers to required data and recommended actions.</p>
+    <div class="decision-matrix">
+      <div class="decision-row">
+        <span class="decision-trigger">QC failure at any stage</span>
+        <span class="decision-data">batch_id, stage, parameter, measured_value, spec_range, failure_count</span>
+        <span class="decision-action">Hold batch → Investigate → Rework or Reject</span>
+      </div>
+      <div class="decision-row">
+        <span class="decision-trigger">Moisture above target (CCP breach)</span>
+        <span class="decision-data">batch_id, current_moisture, drying_time, temperature_log, energy_source</span>
+        <span class="decision-action">Extend drying → Re-test → Document corrective action</span>
+      </div>
+      <div class="decision-row">
+        <span class="decision-trigger">Stage bottleneck detected</span>
+        <span class="decision-data">stage_name, batch_count, avg_duration, equipment_status, operator_count</span>
+        <span class="decision-action">Reallocate resources → Adjust schedule → Escalate if >4h</span>
+      </div>
+      <div class="decision-row">
+        <span class="decision-trigger">Yield drop below threshold</span>
+        <span class="decision-data">batch_id, input_weight, output_weight, yield_pct, loss_breakdown</span>
+        <span class="decision-action">Analyze loss source → Adjust process → Train operators</span>
+      </div>
+      <div class="decision-row">
+        <span class="decision-trigger">HACCP compliance gap</span>
+        <span class="decision-data">ccp_point, requirement, evidence_doc, status, auditor_notes</span>
+        <span class="decision-action">Document gap → Implement corrective action → Re-audit</span>
+      </div>
+      <div class="decision-row">
+        <span class="decision-trigger">Export deadline approaching</span>
+        <span class="decision-data">batch_id, current_stage, remaining_stages, est_completion, doc_status</span>
+        <span class="decision-action">Prioritize batch → Accelerate QC → Expedite packaging</span>
+      </div>
+      <div class="decision-row">
+        <span class="decision-trigger">Energy cost spike</span>
+        <span class="decision-data">energy_kwh, solar_pct, gas_usage, cost_per_kg, efficiency_metric</span>
+        <span class="decision-action">Shift to solar → Optimize drying schedule → Review equipment</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">07</span><h2>Manager's information hierarchy</h2></div>
+    <p class="sec-sub">Not all data is equal. This hierarchy shows what the manager needs to see at different time horizons and decision levels.</p>
+    <div class="panel">
+      <span class="tag">// information needs by time horizon</span>
+      <svg viewBox="0 0 800 320" role="img" aria-label="Manager information hierarchy pyramid" style="width:100%;min-width:600px;max-width:800px;height:auto;display:block;margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="ui-sans-serif, system-ui, sans-serif">
+        <!-- pyramid layers -->
+        <polygon points="400,30 700,280 100,280" fill="#E0F2F1" stroke="#009688" stroke-width="1.5"/>
+        <polygon points="400,70 640,280 160,280" fill="#B2DFDB" stroke="#009688" stroke-width="1.3"/>
+        <polygon points="400,110 580,280 220,280" fill="#80CBC4" stroke="#009688" stroke-width="1.3"/>
+        <polygon points="400,150 520,280 280,280" fill="#4DB6AC" stroke="#009688" stroke-width="1.3"/>
+        <polygon points="400,190 460,280 340,280" fill="#26A69A" stroke="#009688" stroke-width="1.3"/>
+        
+        <!-- layer labels -->
+        <text x="400" y="55" font-size="11" font-weight="700" fill="#1A1A1A" text-anchor="middle">Strategic (Monthly)</text>
+        <text x="400" y="70" font-size="9" fill="#4A4A4A" text-anchor="middle">Yield trends, market demand, capacity planning</text>
+        
+        <text x="400" y="95" font-size="11" font-weight="700" fill="#1A1A1A" text-anchor="middle">Tactical (Weekly)</text>
+        <text x="400" y="110" font-size="9" fill="#4A4A4A" text-anchor="middle">KPI review, quality trends, compliance status</text>
+        
+        <text x="400" y="135" font-size="11" font-weight="700" fill="#1A1A1A" text-anchor="middle">Operational (Daily)</text>
+        <text x="400" y="150" font-size="9" fill="#4A4A4A" text-anchor="middle">Throughput, batch status, resource allocation</text>
+        
+        <text x="400" y="175" font-size="11" font-weight="700" fill="#1A1A1A" text-anchor="middle">Real-time (Hourly)</text>
+        <text x="400" y="190" font-size="9" fill="#4A4A4A" text-anchor="middle">Alerts, stage bottlenecks, equipment status</text>
+        
+        <text x="400" y="215" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">Immediate (Minutes)</text>
+        <text x="400" y="230" font-size="9" fill="#E8EDEB" text-anchor="middle">CCP breaches, QC failures, safety incidents</text>
+        
+        <!-- side annotations -->
+        <text x="715" y="155" font-size="9" fill="#6B7B74" text-anchor="start">Less frequent</text>
+        <text x="715" y="170" font-size="9" fill="#6B7B74" text-anchor="start">More aggregated</text>
+        <text x="715" y="185" font-size="9" fill="#6B7B74" text-anchor="start">Strategic focus</text>
+        
+        <text x="85" y="155" font-size="9" fill="#6B7B74" text-anchor="end">More frequent</text>
+        <text x="85" y="170" font-size="9" fill="#6B7B74" text-anchor="end">More detailed</text>
+        <text x="85" y="185" font-size="9" fill="#6B7B74" text-anchor="end">Operational focus</text>
+      </svg>
+    </div>
+  </section>
+
+  <footer>
+    <span>Module: Product Transformation &middot; Manager Monitoring View v2</span>
+    <span class="mono">draft v2 &middot; from manager perspective</span>
+  </footer>
+</div>

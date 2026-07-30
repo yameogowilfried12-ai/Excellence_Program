@@ -1,0 +1,1316 @@
+<title>Product Transformation — Interactive Prototype V2</title>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F5F7F6;
+    --bg-grad: #E8EDEB;
+    --surface: #FFFFFF;
+    --surface-2: #F0F4F2;
+    --ink: #1A1A1A;
+    --ink-soft: #4A4A4A;
+    --muted: #6B7B74;
+    --hair: #D9E0DD;
+    --hair-strong: #C4D0CC;
+    --accent: #009688;
+    --accent-soft: #26A69A;
+    --accent-tint: #E0F2F1;
+    --slate: #37474F;
+    --slate-soft: #546E7A;
+    --slate-tint: #ECEFF1;
+    --pass: #009688;
+    --fail: #D32F2F;
+    --rework: #F57C00;
+    --warning: #FFA000;
+    --info: #0288D1;
+    --panel: #FAFCFB;
+    --panel-ink: #1A1A1A;
+    --panel-hair: #D4DBD8;
+    --shadow: 0 1px 2px rgba(0,0,0,.04), 0 8px 24px -12px rgba(0,0,0,.08);
+    --font-body: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --font-display: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: "kern";
+    display: flex;
+    min-height: 100vh;
+  }
+
+  /* ---- Sidebar Navigation ---- */
+  .sidebar {
+    width: 260px;
+    background: var(--accent);
+    border-right: 1px solid var(--accent-soft);
+    padding: 1.5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    height: 100vh;
+    overflow-y: auto;
+  }
+  .sidebar-header {
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    margin-bottom: 1.5rem;
+  }
+  .sidebar-title {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: white;
+    margin: 0 0 .3rem;
+  }
+  .sidebar-subtitle {
+    font-size: .75rem;
+    color: rgba(255,255,255,0.8);
+    margin: 0;
+  }
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+    padding: .75rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: .3rem;
+    font-size: .9rem;
+    font-weight: 500;
+    color: rgba(255,255,255,0.9);
+  }
+  .nav-item:hover {
+    background: rgba(255,255,255,0.15);
+    color: white;
+  }
+  .nav-item.active {
+    background: white;
+    color: var(--accent);
+  }
+  .nav-icon {
+    font-size: 1.3rem;
+  }
+  .nav-section {
+    font-size: .7rem;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: rgba(255,255,255,0.6);
+    font-weight: 700;
+    margin: 1.5rem 0 .5rem .5rem;
+  }
+
+  /* ---- Main Content ---- */
+  .main-content {
+    flex: 1;
+    margin-left: 260px;
+    padding: 2rem;
+    overflow-y: auto;
+  }
+
+  /* ---- Header ---- */
+  .page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--hair);
+  }
+  .page-title {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin: 0;
+  }
+  .page-breadcrumb {
+    font-size: .85rem;
+    color: var(--muted);
+  }
+
+  /* ---- Sections ---- */
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* ---- Dashboard Cards ---- */
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .dash-card {
+    background: var(--surface);
+    border: 1px solid var(--hair);
+    border-radius: 12px;
+    padding: 1.2rem;
+    box-shadow: var(--shadow);
+  }
+  .dash-card .label {
+    font-size: .75rem;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    color: var(--muted);
+    font-weight: 600;
+    margin-bottom: .5rem;
+  }
+  .dash-card .value {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--accent);
+  }
+  .dash-card .trend {
+    font-size: .8rem;
+    color: var(--muted);
+    margin-top: .3rem;
+  }
+
+  /* ---- Tables ---- */
+  .table-container {
+    background: var(--surface);
+    border: 1px solid var(--hair);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    margin-bottom: 2rem;
+  }
+  .table-header {
+    padding: 1rem 1.2rem;
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--hair);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .table-title {
+    font-weight: 700;
+    font-size: .95rem;
+  }
+  .table-actions {
+    display: flex;
+    gap: .5rem;
+  }
+  .btn {
+    padding: .4rem .8rem;
+    border-radius: 6px;
+    font-size: .8rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: white;
+  }
+  .btn-primary:hover {
+    background: var(--accent-soft);
+  }
+  .btn-secondary {
+    background: var(--surface);
+    border: 1px solid var(--hair);
+    color: var(--ink);
+  }
+  .btn-secondary:hover {
+    background: var(--surface-2);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  th, td {
+    padding: .8rem 1.2rem;
+    text-align: left;
+    border-bottom: 1px solid var(--hair);
+  }
+  th {
+    background: var(--surface-2);
+    font-weight: 600;
+    font-size: .85rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .04em;
+  }
+  td {
+    font-size: .9rem;
+  }
+  tr:hover {
+    background: var(--surface-2);
+  }
+
+  /* ---- Status Badges ---- */
+  .badge {
+    display: inline-block;
+    padding: .2rem .5rem;
+    border-radius: 999px;
+    font-size: .7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  .badge-success { background: var(--accent-tint); color: var(--accent); }
+  .badge-warning { background: #FFF8E1; color: var(--warning); }
+  .badge-error { background: #FFEBEE; color: var(--fail); }
+  .badge-info { background: #E3F2FD; color: var(--info); }
+
+  /* ---- Forms ---- */
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: .4rem;
+  }
+  .form-label {
+    font-size: .85rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+  }
+  .form-input {
+    padding: .6rem .8rem;
+    border: 1px solid var(--hair);
+    border-radius: 6px;
+    font-size: .9rem;
+    font-family: var(--font-body);
+  }
+  .form-input:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+
+  /* ---- Traceability Flow ---- */
+  .traceability-flow {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+  .flow-step {
+    background: var(--surface);
+    border: 1px solid var(--hair);
+    border-radius: 8px;
+    padding: .8rem 1rem;
+    text-align: center;
+    min-width: 100px;
+  }
+  .flow-step .icon {
+    font-size: 1.5rem;
+    margin-bottom: .3rem;
+    color: var(--accent);
+  }
+  .flow-step .label {
+    font-size: .75rem;
+    font-weight: 600;
+    color: var(--accent);
+  }
+  .flow-arrow {
+    font-size: 1.2rem;
+    color: var(--accent);
+  }
+
+  /* ---- Resource Bars ---- */
+  .resource-bar {
+    margin-bottom: 1rem;
+  }
+  .resource-bar .label {
+    display: flex;
+    justify-content: space-between;
+    font-size: .85rem;
+    margin-bottom: .3rem;
+  }
+  .resource-bar .bar {
+    height: 8px;
+    background: var(--surface-2);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .resource-bar .fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 4px;
+  }
+
+  /* ---- Tabs ---- */
+  .tabs {
+    display: flex;
+    gap: .5rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--hair);
+    padding-bottom: .5rem;
+  }
+  .tab {
+    padding: .5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: .9rem;
+    font-weight: 500;
+    color: var(--ink-soft);
+  }
+  .tab:hover {
+    background: var(--surface-2);
+  }
+  .tab.active {
+    background: var(--accent);
+    color: white;
+  }
+
+  /* ---- Modal ---- */
+  .modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,.5);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal.active { display: flex; }
+  .modal-content {
+    background: var(--surface);
+    border-radius: 12px;
+    padding: 2rem;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: var(--shadow);
+  }
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  .modal-title {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 0;
+  }
+  .modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--muted);
+  }
+
+  @media (max-width: 768px) {
+    .sidebar {
+      width: 60px;
+      padding: 1rem .5rem;
+    }
+    .sidebar-title, .sidebar-subtitle, .nav-item span, .nav-section {
+      display: none;
+    }
+    .nav-item {
+      justify-content: center;
+      padding: .8rem;
+    }
+    .main-content {
+      margin-left: 60px;
+      padding: 1rem;
+    }
+  }
+</style>
+
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-title">Product Transformation</div>
+    <div class="sidebar-subtitle">Management System V2</div>
+  </div>
+  
+  <div class="nav-section">Main</div>
+  <div class="nav-item active" data-section="dashboard">
+    <span class="nav-icon"><i class="material-icons">dashboard</i></span>
+    <span>Dashboard</span>
+  </div>
+  
+  <div class="nav-section">Core Entities</div>
+  <div class="nav-item" data-section="raw-materials">
+    <span class="nav-icon"><i class="material-icons">grass</i></span>
+    <span>Raw Materials</span>
+  </div>
+  <div class="nav-item" data-section="transformation">
+    <span class="nav-icon"><i class="material-icons">settings</i></span>
+    <span>Transformation</span>
+  </div>
+  <div class="nav-item" data-section="production">
+    <span class="nav-icon"><i class="material-icons">inventory_2</i></span>
+    <span>Production Batches</span>
+  </div>
+  <div class="nav-item" data-section="machinery">
+    <span class="nav-icon"><i class="material-icons">build</i></span>
+    <span>Machinery</span>
+  </div>
+  
+  <div class="nav-section">Quality & Resources</div>
+  <div class="nav-item" data-section="resources">
+    <span class="nav-icon"><i class="material-icons">water_drop</i></span>
+    <span>Resource Consumption</span>
+  </div>
+  <div class="nav-item" data-section="quality">
+    <span class="nav-icon"><i class="material-icons">check_circle</i></span>
+    <span>Quality Control</span>
+  </div>
+  
+  <div class="nav-section">Output</div>
+  <div class="nav-item" data-section="finished">
+    <span class="nav-icon"><i class="material-icons">factory</i></span>
+    <span>Finished Products</span>
+  </div>
+  <div class="nav-item" data-section="storage">
+    <span class="nav-icon"><i class="material-icons">store</i></span>
+    <span>Storage</span>
+  </div>
+  <div class="nav-item" data-section="traceability">
+    <span class="nav-icon"><i class="material-icons">search</i></span>
+    <span>Traceability</span>
+  </div>
+</div>
+
+<div class="main-content">
+  <!-- Dashboard Section -->
+  <div class="section active" id="dashboard">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Dashboard</h1>
+        <div class="page-breadcrumb">Overview of Product Transformation System</div>
+      </div>
+      <button class="btn btn-primary" onclick="openModal('newBatch')">+ New Batch</button>
+    </div>
+
+    <div class="dashboard-grid">
+      <div class="dash-card">
+        <div class="label">Raw Materials</div>
+        <div class="value">12</div>
+        <div class="trend">Available types</div>
+      </div>
+      <div class="dash-card">
+        <div class="label">Active Batches</div>
+        <div class="value">4</div>
+        <div class="trend">Currently processing</div>
+      </div>
+      <div class="dash-card">
+        <div class="label">Finished Products</div>
+        <div class="value">8</div>
+        <div class="trend">Ready for market</div>
+      </div>
+      <div class="dash-card">
+        <div class="label">Yield Rate</div>
+        <div class="value">25%</div>
+        <div class="trend">Avg transformation</div>
+      </div>
+    </div>
+
+    <div class="table-container">
+      <div class="table-header">
+        <div class="table-title">Production Overview</div>
+        <div class="table-actions">
+          <button class="btn btn-secondary">Export</button>
+        </div>
+      </div>
+      <div style="padding: 1.5rem;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem;">
+          <div>
+            <div style="font-size: .85rem; color: var(--muted); margin-bottom: .5rem;">Input Quantity</div>
+            <div style="font-size: 1.5rem; font-weight: 700; color: var(--accent);">1,000 kg</div>
+          </div>
+          <div>
+            <div style="font-size: .85rem; color: var(--muted); margin-bottom: .5rem;">Output Quantity</div>
+            <div style="font-size: 1.5rem; font-weight: 700; color: var(--accent);">250 kg</div>
+          </div>
+          <div>
+            <div style="font-size: .85rem; color: var(--muted); margin-bottom: .5rem;">Yield</div>
+            <div style="font-size: 1.5rem; font-weight: 700; color: var(--accent);">25%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="table-container">
+      <div class="table-header">
+        <div class="table-title">Resource Consumption</div>
+      </div>
+      <div style="padding: 1.5rem;">
+        <div class="resource-bar">
+          <div class="label"><span>Water Usage</span><span>80%</span></div>
+          <div class="bar"><div class="fill" style="width: 80%;"></div></div>
+        </div>
+        <div class="resource-bar">
+          <div class="label"><span>Energy Usage</span><span>65%</span></div>
+          <div class="bar"><div class="fill" style="width: 65%;"></div></div>
+        </div>
+        <div class="resource-bar">
+          <div class="label"><span>Waste Generated</span><span>15%</span></div>
+          <div class="bar"><div class="fill" style="width: 15%; background: var(--fail);"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="table-container">
+      <div class="table-header">
+        <div class="table-title">Recent Production Batches</div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Batch ID</th>
+            <th>Product</th>
+            <th>Status</th>
+            <th>Start Date</th>
+            <th>Progress</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>BATCH-001</td>
+            <td>Dried Mango</td>
+            <td><span class="badge badge-warning">Processing</span></td>
+            <td>2026-01-15</td>
+            <td>60%</td>
+          </tr>
+          <tr>
+            <td>BATCH-002</td>
+            <td>Mango Juice</td>
+            <td><span class="badge badge-info">Quality Check</span></td>
+            <td>2026-01-16</td>
+            <td>85%</td>
+          </tr>
+          <tr>
+            <td>BATCH-003</td>
+            <td>Dried Mango</td>
+            <td><span class="badge badge-success">Storage</span></td>
+            <td>2026-01-14</td>
+            <td>100%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Raw Materials Section -->
+  <div class="section" id="raw-materials">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Raw Materials</h1>
+        <div class="page-breadcrumb">Manage incoming raw materials</div>
+      </div>
+      <button class="btn btn-primary">+ Add Material</button>
+    </div>
+
+    <div class="table-container">
+      <div class="table-header">
+        <div class="table-title">Available Raw Materials</div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Source</th>
+            <th>Quantity</th>
+            <th>Harvest Date</th>
+            <th>Quality</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>RM-001</td>
+            <td>Fresh Mango</td>
+            <td>Fruit</td>
+            <td>Farm A</td>
+            <td>1,000 kg</td>
+            <td>2026-01-10</td>
+            <td>Grade A</td>
+            <td><span class="badge badge-success">Available</span></td>
+          </tr>
+          <tr>
+            <td>RM-002</td>
+            <td>Fresh Mango</td>
+            <td>Fruit</td>
+            <td>Farm B</td>
+            <td>800 kg</td>
+            <td>2026-01-12</td>
+            <td>Grade A</td>
+            <td><span class="badge badge-success">Available</span></td>
+          </tr>
+          <tr>
+            <td>RM-003</td>
+            <td>Pineapple</td>
+            <td>Fruit</td>
+            <td>Farm C</td>
+            <td>500 kg</td>
+            <td>2026-01-08</td>
+            <td>Grade B</td>
+            <td><span class="badge badge-warning">Low Stock</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Transformation Processes Section -->
+  <div class="section" id="transformation">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Transformation Processes</h1>
+        <div class="page-breadcrumb">Define production workflows</div>
+      </div>
+      <button class="btn btn-primary">+ New Process</button>
+    </div>
+
+    <div class="table-container">
+      <div class="table-header">
+        <div class="table-title">Active Transformation Processes</div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Process ID</th>
+            <th>Name</th>
+            <th>Input</th>
+            <th>Output</th>
+            <th>Expected Yield</th>
+            <th>Duration</th>
+            <th>Steps</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>TP-001</td>
+            <td>Dried Mango Production</td>
+            <td>Fresh Mango</td>
+            <td>Dried Mango</td>
+            <td>25%</td>
+            <td>24h</td>
+            <td>7 steps</td>
+          </tr>
+          <tr>
+            <td>TP-002</td>
+            <td>Mango Juice Production</td>
+            <td>Fresh Mango</td>
+            <td>Mango Juice</td>
+            <td>60%</td>
+            <td>8h</td>
+            <td>5 steps</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-container">
+      <div class="table-header">
+        <div class="table-title">Process Steps: Dried Mango Production</div>
+      </div>
+      <div style="padding: 1.5rem;">
+        <div class="traceability-flow">
+          <div class="flow-step">
+            <div class="icon"><i class="material-icons">filter_alt</i></div>
+            <div class="label">Sorting</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="icon"><i class="material-icons">water_drop</i></div>
+            <div class="label">Washing</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="icon"><i class="material-icons">content_cut</i></div>
+            <div class="label">Peeling</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="icon"><i class="material-icons">straighten</i></div>
+            <div class="label">Slicing</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="icon"><i class="material-icons">wb_sunny</i></div>
+            <div class="label">Drying</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="icon"><i class="material-icons">ac_unit</i></div>
+            <div class="label">Cooling</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="icon"><i class="material-icons">inventory_2</i></div>
+            <div class="label">Packaging</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Production Batches Section -->
+  <div class="section" id="production">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Production Batches</h1>
+        <div class="page-breadcrumb">Track production batches</div>
+      </div>
+      <button class="btn btn-primary">+ Create Batch</button>
+    </div>
+
+    <div class="table-container">
+      <div class="table-header">
+        <div class="table-title">All Production Batches</div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Batch ID</th>
+            <th>Raw Material</th>
+            <th>Process</th>
+            <th>Input Qty</th>
+            <th>Output Qty</th>
+            <th>Yield</th>
+            <th>Operator</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>BATCH-001</td>
+            <td>Fresh Mango (RM-001)</td>
+            <td>Dried Mango Production</td>
+            <td>100 kg</td>
+            <td>25 kg</td>
+            <td>25%</td>
+            <td>Operator A</td>
+            <td><span class="badge badge-warning">Processing</span></td>
+          </tr>
+          <tr>
+            <td>BATCH-002</td>
+            <td>Fresh Mango (RM-002)</td>
+            <td>Mango Juice Production</td>
+            <td>50 kg</td>
+            <td>30 kg</td>
+            <td>60%</td>
+            <td>Operator B</td>
+            <td><span class="badge badge-info">Quality Check</span></td>
+          </tr>
+          <tr>
+            <td>BATCH-003</td>
+            <td>Fresh Mango (RM-001)</td>
+            <td>Dried Mango Production</td>
+            <td>200 kg</td>
+            <td>50 kg</td>
+            <td>25%</td>
+            <td>Operator A</td>
+            <td><span class="badge badge-success">Completed</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Machinery Section -->
+  <div class="section" id="machinery">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Machinery</h1>
+        <div class="page-breadcrumb">Equipment management</div>
+      </div>
+      <button class="btn btn-primary">+ Add Machine</button>
+    </div>
+
+    <div class="table-container">
+      <div class="table-header">
+        <div class="table-title">Equipment Inventory</div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Capacity</th>
+            <th>Power</th>
+            <th>Energy Source</th>
+            <th>Last Maintenance</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>MCH-001</td>
+            <td>Solar Dryer A</td>
+            <td>Drying</td>
+            <td>500 kg</td>
+            <td>5 kW</td>
+            <td>Solar</td>
+            <td>2026-01-01</td>
+            <td><span class="badge badge-success">Operational</span></td>
+          </tr>
+          <tr>
+            <td>MCH-002</td>
+            <td>Washing Station</td>
+            <td>Washing</td>
+            <td>200 kg/h</td>
+            <td>2 kW</td>
+            <td>Grid</td>
+            <td>2026-01-05</td>
+            <td><span class="badge badge-success">Operational</span></td>
+          </tr>
+          <tr>
+            <td>MCH-003</td>
+            <td>Slicing Machine</td>
+            <td>Processing</td>
+            <td>100 kg/h</td>
+            <td>1.5 kW</td>
+            <td>Grid</td>
+            <td>2025-12-20</td>
+            <td><span class="badge badge-warning">Maintenance Due</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Resource Consumption Section -->
+  <div class="section" id="resources">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Resource Consumption</h1>
+        <div class="page-breadcrumb">Track resource usage per batch</div>
+      </div>
+    </div>
+
+    <div class="table-container">
+      <div class="table-header">
+        <div class="table-title">Resource Usage by Batch</div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Batch ID</th>
+            <th>Water Used</th>
+            <th>Energy Used</th>
+            <th>Materials Used</th>
+            <th>Waste Generated</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>BATCH-001</td>
+            <td>500 L</td>
+            <td>120 kWh</td>
+            <td>100 kg</td>
+            <td>15 kg</td>
+            <td>2026-01-15</td>
+          </tr>
+          <tr>
+            <td>BATCH-002</td>
+            <td>300 L</td>
+            <td>80 kWh</td>
+            <td>50 kg</td>
+            <td>8 kg</td>
+            <td>2026-01-16</td>
+          </tr>
+          <tr>
+            <td>BATCH-003</td>
+            <td>1,000 L</td>
+            <td>240 kWh</td>
+            <td>200 kg</td>
+            <td>30 kg</td>
+            <td>2026-01-14</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-container">
+      <div class="table-header">
+        <div class="table-title">Sustainability Metrics</div>
+      </div>
+      <div style="padding: 1.5rem;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem;">
+          <div>
+            <div style="font-size: .85rem; color: var(--muted); margin-bottom: .5rem;">Energy per kg</div>
+            <div style="font-size: 1.5rem; font-weight: 700; color: var(--accent);">1.2 kWh/kg</div>
+          </div>
+          <div>
+            <div style="font-size: .85rem; color: var(--muted); margin-bottom: .5rem;">Water per kg</div>
+            <div style="font-size: 1.5rem; font-weight: 700; color: var(--accent);">5 L/kg</div>
+          </div>
+          <div>
+            <div style="font-size: .85rem; color: var(--muted); margin-bottom: .5rem;">Waste %</div>
+            <div style="font-size: 1.5rem; font-weight: 700; color: var(--fail);">15%</div>
+          </div>
+          <div>
+            <div style="font-size: .85rem; color: var(--muted); margin-bottom: .5rem;">Solar Energy</div>
+            <div style="font-size: 1.5rem; font-weight: 700; color: var(--accent);">67%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quality Control Section -->
+  <div class="section" id="quality">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Quality Control</h1>
+        <div class="page-breadcrumb">Quality inspections and approvals</div>
+      </div>
+      <button class="btn btn-primary">+ New Inspection</button>
+    </div>
+
+    <div class="table-container">
+      <div class="table-header">
+        <div class="table-title">Quality Inspections</div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Inspection ID</th>
+            <th>Batch ID</th>
+            <th>Date</th>
+            <th>Inspector</th>
+            <th>Parameters</th>
+            <th>Result</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>QC-001</td>
+            <td>BATCH-001</td>
+            <td>2026-01-15</td>
+            <td>Inspector A</td>
+            <td>Moisture, Color</td>
+            <td>Pass</td>
+            <td><span class="badge badge-success">Approved</span></td>
+          </tr>
+          <tr>
+            <td>QC-002</td>
+            <td>BATCH-002</td>
+            <td>2026-01-16</td>
+            <td>Inspector B</td>
+            <td>pH, Texture</td>
+            <td>Pass</td>
+            <td><span class="badge badge-success">Approved</span></td>
+          </tr>
+          <tr>
+            <td>QC-003</td>
+            <td>BATCH-003</td>
+            <td>2026-01-14</td>
+            <td>Inspector A</td>
+            <td>Moisture, Weight</td>
+            <td>Fail</td>
+            <td><span class="badge badge-error">Rejected</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Finished Products Section -->
+  <div class="section" id="finished">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Finished Products</h1>
+        <div class="page-breadcrumb">Market-ready products</div>
+      </div>
+      <button class="btn btn-primary">+ Add Product</button>
+    </div>
+
+    <div class="table-container">
+      <div class="table-header">
+        <div class="table-title">Finished Product Inventory</div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Product ID</th>
+            <th>Name</th>
+            <th>Batch Number</th>
+            <th>Quantity</th>
+            <th>Packaging</th>
+            <th>Production Date</th>
+            <th>Expiry Date</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>FP-001</td>
+            <td>Dried Mango</td>
+            <td>BATCH-003</td>
+            <td>50 kg</td>
+            <td>Vacuum Pack</td>
+            <td>2026-01-14</td>
+            <td>2026-07-14</td>
+            <td><span class="badge badge-success">Ready</span></td>
+          </tr>
+          <tr>
+            <td>FP-002</td>
+            <td>Mango Juice</td>
+            <td>BATCH-002</td>
+            <td>30 L</td>
+            <td>Bottles</td>
+            <td>2026-01-16</td>
+            <td>2026-04-16</td>
+            <td><span class="badge badge-info">QC Pending</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Storage Section -->
+  <div class="section" id="storage">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Storage</h1>
+        <div class="page-breadcrumb">Warehouse management</div>
+      </div>
+      <button class="btn btn-primary">+ Add Location</button>
+    </div>
+
+    <div class="table-container">
+      <div class="table-header">
+        <div class="table-title">Storage Locations</div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Location ID</th>
+            <th>Location</th>
+            <th>Capacity</th>
+            <th>Temperature</th>
+            <th>Humidity</th>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>ST-001</td>
+            <td>Warehouse A - Zone 1</td>
+            <td>1,000 kg</td>
+            <td>25°C</td>
+            <td>60%</td>
+            <td>Dried Mango</td>
+            <td>50 kg</td>
+            <td><span class="badge badge-success">Available</span></td>
+          </tr>
+          <tr>
+            <td>ST-002</td>
+            <td>Cold Storage - Zone 2</td>
+            <td>500 L</td>
+            <td>4°C</td>
+            <td>80%</td>
+            <td>Mango Juice</td>
+            <td>30 L</td>
+            <td><span class="badge badge-success">Available</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Traceability Section -->
+  <div class="section" id="traceability">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Traceability</h1>
+        <div class="page-breadcrumb">Complete product history tracking</div>
+      </div>
+    </div>
+
+    <div class="table-container">
+      <div class="table-header">
+        <div class="table-title">Batch Traceability Search</div>
+      </div>
+      <div style="padding: 1.5rem;">
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Enter Batch ID</label>
+            <input type="text" class="form-input" placeholder="e.g., BATCH-001" value="BATCH-001">
+          </div>
+          <div class="form-group">
+            <label class="form-label">&nbsp;</label>
+            <button class="btn btn-primary" style="margin-top: .2rem;">Search</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="table-container">
+      <div class="table-header">
+        <div class="table-title">Complete History: BATCH-001</div>
+      </div>
+      <div style="padding: 1.5rem;">
+        <div class="traceability-flow">
+          <div class="flow-step">
+            <div class="icon"><i class="material-icons">grass</i></div>
+            <div class="label">Raw Material</div>
+            <div style="font-size: .7rem; color: var(--muted);">RM-001</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="icon"><i class="material-icons">inventory_2</i></div>
+            <div class="label">Production Batch</div>
+            <div style="font-size: .7rem; color: var(--muted);">BATCH-001</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="icon"><i class="material-icons">build</i></div>
+            <div class="label">Machinery</div>
+            <div style="font-size: .7rem; color: var(--muted);">Solar Dryer A</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="icon"><i class="material-icons">settings</i></div>
+            <div class="label">Process</div>
+            <div style="font-size: .7rem; color: var(--muted);">Drying</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="icon"><i class="material-icons">check_circle</i></div>
+            <div class="label">Quality</div>
+            <div style="font-size: .7rem; color: var(--muted);">QC-001</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="icon"><i class="material-icons">factory</i></div>
+            <div class="label">Finished</div>
+            <div style="font-size: .7rem; color: var(--muted);">FP-001</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="icon"><i class="material-icons">store</i></div>
+            <div class="label">Storage</div>
+            <div style="font-size: .7rem; color: var(--muted);">ST-001</div>
+          </div>
+        </div>
+
+        <div style="margin-top: 2rem;">
+          <h3 style="font-size: 1rem; margin-bottom: 1rem;">Batch Details</h3>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+            <div style="background: var(--surface-2); padding: 1rem; border-radius: 8px;">
+              <div style="font-size: .75rem; color: var(--muted);">Input Quantity</div>
+              <div style="font-weight: 700;">100 kg</div>
+            </div>
+            <div style="background: var(--surface-2); padding: 1rem; border-radius: 8px;">
+              <div style="font-size: .75rem; color: var(--muted);">Output Quantity</div>
+              <div style="font-weight: 700;">25 kg</div>
+            </div>
+            <div style="background: var(--surface-2); padding: 1rem; border-radius: 8px;">
+              <div style="font-size: .75rem; color: var(--muted);">Yield</div>
+              <div style="font-weight: 700;">25%</div>
+            </div>
+            <div style="background: var(--surface-2); padding: 1rem; border-radius: 8px;">
+              <div style="font-size: .75rem; color: var(--muted);">Energy Used</div>
+              <div style="font-weight: 700;">120 kWh</div>
+            </div>
+            <div style="background: var(--surface-2); padding: 1rem; border-radius: 8px;">
+              <div style="font-size: .75rem; color: var(--muted);">Water Used</div>
+              <div style="font-weight: 700;">500 L</div>
+            </div>
+            <div style="background: var(--surface-2); padding: 1rem; border-radius: 8px;">
+              <div style="font-size: .75rem; color: var(--muted);">Quality Status</div>
+              <div style="font-weight: 700; color: var(--pass);">Approved</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal" id="newBatchModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 class="modal-title">Create New Batch</h3>
+      <button class="modal-close" onclick="closeModal('newBatch')">&times;</button>
+    </div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="form-label">Raw Material</label>
+        <select class="form-input">
+          <option>Fresh Mango (RM-001)</option>
+          <option>Fresh Mango (RM-002)</option>
+          <option>Pineapple (RM-003)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Transformation Process</label>
+        <select class="form-input">
+          <option>Dried Mango Production</option>
+          <option>Mango Juice Production</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Input Quantity (kg)</label>
+        <input type="number" class="form-input" placeholder="100">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Operator</label>
+        <select class="form-input">
+          <option>Operator A</option>
+          <option>Operator B</option>
+        </select>
+      </div>
+    </div>
+    <div style="display: flex; gap: .5rem; justify-content: flex-end;">
+      <button class="btn btn-secondary" onclick="closeModal('newBatch')">Cancel</button>
+      <button class="btn btn-primary">Create Batch</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Navigation
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', function() {
+      const section = this.dataset.section;
+      
+      // Update active nav item
+      document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+      this.classList.add('active');
+      
+      // Show corresponding section
+      document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+      document.getElementById(section).classList.add('active');
+    });
+  });
+
+  // Modal functions
+  function openModal(modalId) {
+    document.getElementById(modalId + 'Modal').classList.add('active');
+  }
+
+  function closeModal(modalId) {
+    document.getElementById(modalId + 'Modal').classList.remove('active');
+  }
+
+  // Close modal on outside click
+  document.querySelectorAll('.modal').forEach(modal => {
+    modal.addEventListener('click', function(e) {
+      if (e.target === this) {
+        this.classList.remove('active');
+      }
+    });
+  });
+</script>

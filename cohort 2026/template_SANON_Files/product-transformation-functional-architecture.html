@@ -1,0 +1,642 @@
+<title>Product Transformation — Functional Application Architecture</title>
+<style>
+  :root {
+    --bg: #F5F7F6;
+    --bg-grad: #E8EDEB;
+    --surface: #FFFFFF;
+    --surface-2: #F0F4F2;
+    --ink: #1A1A1A;
+    --ink-soft: #4A4A4A;
+    --muted: #6B7B74;
+    --hair: #D9E0DD;
+    --hair-strong: #C4D0CC;
+    --accent: #009688;
+    --accent-soft: #26A69A;
+    --accent-tint: #E0F2F1;
+    --slate: #37474F;
+    --slate-soft: #546E7A;
+    --slate-tint: #ECEFF1;
+    --pass: #009688;
+    --fail: #D32F2F;
+    --rework: #F57C00;
+    --warning: #FFA000;
+    --info: #0288D1;
+    --panel: #FAFCFB;
+    --panel-ink: #1A1A1A;
+    --panel-hair: #D4DBD8;
+    --shadow: 0 1px 2px rgba(0,0,0,.04), 0 8px 24px -12px rgba(0,0,0,.08);
+    --font-body: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --font-display: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+    --maxw: 72rem;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1A1F1E;
+      --bg-grad: #242B2A;
+      --surface: #263230;
+      --surface-2: #2D3A38;
+      --ink: #E8EDEB;
+      --ink-soft: #B8C4C0;
+      --muted: #8FA39C;
+      --hair: #3D4A47;
+      --hair-strong: #4D5C58;
+      --accent: #4DB6AC;
+      --accent-soft: #80CBC4;
+      --accent-tint: #1A3A36;
+      --slate: #90A4AE;
+      --slate-soft: #B0BEC5;
+      --slate-tint: #263238;
+      --pass: #69F0AE;
+      --fail: #EF5350;
+      --rework: #FFB74D;
+      --warning: #FFCA28;
+      --info: #42A5F5;
+      --shadow: 0 1px 2px rgba(0,0,0,.25), 0 10px 30px -14px rgba(0,0,0,.5);
+    }
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background:
+      radial-gradient(120% 60% at 100% 0%, var(--bg-grad), transparent 60%),
+      var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: "kern";
+  }
+  .wrap {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: clamp(1.5rem, 4vw, 4rem) clamp(1.2rem, 4vw, 2.5rem) 4rem;
+  }
+
+  /* ---- header ---- */
+  header { position: relative; padding-bottom: 2rem; margin-bottom: 2.5rem; border-bottom: 1px solid var(--hair); }
+  .eyebrow {
+    font-size: .72rem; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--muted); font-weight: 600; margin: 0 0 1rem;
+    display: flex; align-items: center; gap: .6rem; flex-wrap: wrap;
+  }
+  .eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.1rem, 6vw, 3.4rem);
+    line-height: 1.02; letter-spacing: -.025em; font-weight: 800;
+    margin: 0 0 1rem; text-wrap: balance;
+  }
+  h1 .amber { color: var(--accent); }
+  .lede { font-size: clamp(1.02rem, 2.2vw, 1.2rem); color: var(--ink-soft); max-width: 55ch; margin: 0; }
+  .route {
+    margin-top: 1.6rem; display: inline-flex; align-items: center; gap: .7rem;
+    font-size: .85rem; font-weight: 600; color: var(--ink-soft);
+    background: var(--surface); border: 1px solid var(--hair-strong);
+    padding: .5rem .9rem; border-radius: 999px; box-shadow: var(--shadow);
+  }
+  .route .arrow { color: var(--accent); font-weight: 800; }
+
+  /* ---- section scaffolding ---- */
+  section { margin-top: 3.2rem; }
+  .sec-head { display: flex; align-items: baseline; gap: .8rem; margin-bottom: 1.4rem; }
+  .sec-head h2 {
+    font-family: var(--font-display); font-size: 1.4rem; letter-spacing: -.01em;
+    font-weight: 750; margin: 0; text-wrap: balance;
+  }
+  .sec-num {
+    font-family: var(--font-mono); font-size: .8rem; color: var(--accent);
+    font-weight: 600; border: 1px solid var(--accent); border-radius: 6px;
+    padding: .12rem .4rem; line-height: 1; flex: none;
+  }
+  .sec-sub { color: var(--muted); font-size: .95rem; margin: -.6rem 0 1.4rem; max-width: 60ch; }
+
+  /* ---- transformation flow ---- */
+  .flow-diagram {
+    display: flex; align-items: center; gap: .5rem; flex-wrap: wrap;
+    background: var(--surface); border: 1px solid var(--hair);
+    border-radius: 14px; padding: 1.2rem; box-shadow: var(--shadow);
+  }
+  .flow-step {
+    flex: 1 1 9rem; min-width: 8rem; position: relative;
+    display: flex; flex-direction: column; gap: .3rem;
+    padding: .9rem .95rem; background: var(--surface-2);
+    border: 1px solid var(--hair); border-radius: 10px;
+  }
+  .flow-step .step-num { font-family: var(--font-mono); font-size: .7rem; color: var(--muted); letter-spacing: .04em; }
+  .flow-step .step-name { font-weight: 700; font-size: .95rem; line-height: 1.2; color: var(--accent); }
+  .flow-step .step-desc { font-size: .75rem; color: var(--ink-soft); }
+  .flow-arrow { font-size: 1.2rem; color: var(--accent); font-weight: 800; }
+
+  /* ---- cards ---- */
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 1rem; }
+  .card {
+    background: var(--surface); border: 1px solid var(--hair);
+    border-radius: 14px; padding: 1.15rem 1.2rem; box-shadow: var(--shadow);
+    display: flex; flex-direction: column; gap: .7rem;
+  }
+  .card-top { display: flex; align-items: center; justify-content: space-between; gap: .5rem; }
+  .card h3 { font-size: 1.05rem; margin: 0; font-weight: 700; letter-spacing: -.01em; }
+  .badge {
+    font-size: .64rem; letter-spacing: .08em; text-transform: uppercase; font-weight: 700;
+    padding: .2rem .5rem; border-radius: 999px; white-space: nowrap;
+  }
+  .badge.primary { color: var(--accent); background: var(--accent-tint); }
+  .badge.secondary { color: var(--slate); background: var(--slate-tint); }
+  .badge.tertiary { color: var(--ink); background: var(--surface-2); border: 1px solid var(--hair-strong); }
+  .card-desc { font-size: .88rem; color: var(--ink-soft); margin: 0; }
+  .card-list { display: flex; flex-wrap: wrap; gap: .3rem; margin: 0; padding: 0; list-style: none; }
+  .card-list li {
+    font-family: var(--font-mono); font-size: .72rem; color: var(--muted);
+    background: var(--surface-2); border: 1px solid var(--hair);
+    border-radius: 6px; padding: .16rem .42rem;
+  }
+
+  /* ---- user flow diagram ---- */
+  .flow-container {
+    background: var(--surface); border: 1px solid var(--hair);
+    border-radius: 14px; padding: 1.2rem; box-shadow: var(--shadow);
+    overflow-x: auto;
+  }
+  .flow-container .tag {
+    display: inline-block; font-family: var(--font-mono); font-size: .68rem;
+    letter-spacing: .1em; text-transform: uppercase;
+    color: #A08A6A; margin-bottom: .6rem;
+  }
+
+  /* ---- dashboard mockup ---- */
+  .dashboard-mockup {
+    background: var(--panel); border: 1px solid var(--panel-hair);
+    border-radius: 14px; padding: 1.2rem; box-shadow: var(--shadow);
+  }
+  .dash-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 1rem; border-bottom: 1px solid var(--hair); margin-bottom: 1rem;
+  }
+  .dash-title { font-weight: 700; font-size: 1.1rem; }
+  .dash-metrics {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); gap: .8rem;
+    margin-bottom: 1rem;
+  }
+  .dash-metric {
+    background: var(--surface); border: 1px solid var(--hair);
+    border-radius: 10px; padding: .9rem;
+  }
+  .dash-metric .label { font-size: .75rem; color: var(--muted); font-weight: 600; text-transform: uppercase; }
+  .dash-metric .value { font-size: 1.4rem; font-weight: 700; color: var(--accent); }
+  .dash-actions {
+    display: flex; gap: .5rem; flex-wrap: wrap;
+  }
+  .dash-btn {
+    font-size: .8rem; font-weight: 600; padding: .5rem .8rem;
+    border-radius: 6px; background: var(--accent); color: white;
+    border: 1px solid var(--accent); cursor: pointer;
+  }
+  .dash-btn.secondary {
+    background: var(--surface-2); color: var(--ink);
+    border: 1px solid var(--hair);
+  }
+
+  /* ---- MVP scope ---- */
+  .mvp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); gap: 1rem; }
+  .mvp-item {
+    background: var(--surface); border: 1px solid var(--hair); border-left: 3px solid var(--accent);
+    border-radius: 12px; padding: 1.1rem 1.2rem; box-shadow: var(--shadow);
+  }
+  .mvp-item h4 { margin: 0 0 .4rem; font-size: .95rem; font-weight: 700; }
+  .mvp-item p { margin: 0 0 .6rem; color: var(--ink-soft); font-size: .88rem; }
+  .mvp-item .priority {
+    font-size: .7rem; font-weight: 600; padding: .2rem .5rem;
+    border-radius: 999px; align-self: flex-start;
+  }
+  .mvp-item .priority.p1 { background: var(--accent); color: white; }
+  .mvp-item .priority.p2 { background: var(--warning); color: white; }
+  .mvp-item .priority.p3 { background: var(--slate); color: white; }
+
+  /* ---- panel ---- */
+  .panel {
+    background: var(--panel); border: 1px solid var(--panel-hair);
+    border-radius: 14px; padding: 1.2rem; box-shadow: var(--shadow);
+    overflow-x: auto;
+  }
+  .panel .tag {
+    display: inline-block; font-family: var(--font-mono); font-size: .68rem;
+    letter-spacing: .1em; text-transform: uppercase;
+    color: #A08A6A; margin-bottom: .6rem;
+  }
+
+  footer {
+    margin-top: 3.5rem; padding-top: 1.4rem; border-top: 1px solid var(--hair);
+    display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+    color: var(--muted); font-size: .8rem;
+  }
+  footer .mono { font-family: var(--font-mono); }
+
+  @media (max-width: 640px) {
+    .flow-diagram { flex-direction: column; }
+    .flow-arrow { transform: rotate(90deg); }
+  }
+  @media print {
+    body { background: #fff; }
+    .panel, .card, .mvp-item, .flow-diagram { box-shadow: none; }
+  }
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow"><span class="dot"></span> Bit &times; Infineon Excellence Program &middot; Functional Architecture</p>
+    <h1>From Data Model to<br><span class="amber">Functional Application</span></h1>
+    <p class="lede">Transforming the Product Transformation data model into a complete functional application architecture: Data Model → User Roles → Core Features → User Flow → Dashboard → MVP</p>
+    <div class="route">
+      <span>Data Model</span><span class="arrow">&rarr;</span>
+      <span>User Roles</span><span class="arrow">&rarr;</span>
+      <span>Core Features</span><span class="arrow">&rarr;</span>
+      <span>User Flow</span><span class="arrow">&rarr;</span>
+      <span>Dashboard</span><span class="arrow">&rarr;</span>
+      <span>MVP</span>
+    </div>
+  </header>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">01</span><h2>Transformation overview</h2></div>
+    <p class="sec-sub">The journey from abstract data model to concrete functional application. Each layer builds on the previous, translating data structures into user experiences.</p>
+    <div class="flow-diagram">
+      <div class="flow-step">
+        <span class="step-num">STEP 1</span>
+        <span class="step-name">Data Model</span>
+        <span class="step-desc">BATCH, stage records, QC checkpoints</span>
+      </div>
+      <span class="flow-arrow">&rarr;</span>
+      <div class="flow-step">
+        <span class="step-num">STEP 2</span>
+        <span class="step-name">User Roles</span>
+        <span class="step-desc">Who interacts with what data</span>
+      </div>
+      <span class="flow-arrow">&rarr;</span>
+      <div class="flow-step">
+        <span class="step-num">STEP 3</span>
+        <span class="step-name">Core Features</span>
+        <span class="step-desc">What users can do</span>
+      </div>
+      <span class="flow-arrow">&rarr;</span>
+      <div class="flow-step">
+        <span class="step-num">STEP 4</span>
+        <span class="step-name">User Flow</span>
+        <span class="step-desc">How users accomplish tasks</span>
+      </div>
+      <span class="flow-arrow">&rarr;</span>
+      <div class="flow-step">
+        <span class="step-num">STEP 5</span>
+        <span class="step-name">Dashboard</span>
+        <span class="step-desc">Manager visibility</span>
+      </div>
+      <span class="flow-arrow">&rarr;</span>
+      <div class="flow-step">
+        <span class="step-num">STEP 6</span>
+        <span class="step-name">MVP</span>
+        <span class="step-desc">Minimum viable product</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">02</span><h2>Step 1: Data Model Foundation</h2></div>
+    <p class="sec-sub">The data model defines what information the system stores. These entities form the backbone of the application.</p>
+    <div class="grid">
+      <div class="card">
+        <div class="card-top"><h3>BATCH</h3><span class="badge primary">Core Entity</span></div>
+        <p class="card-desc">The traceable thread that ties everything together</p>
+        <ul class="card-list">
+          <li>batch_id</li><li>lot_code</li><li>status</li><li>current_stage</li><li>input_weight</li><li>final_weight</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-top"><h3>Stage Records</h3><span class="badge secondary">Process Data</span></div>
+        <p class="card-desc">One record per stage per batch</p>
+        <ul class="card-list">
+          <li>WASH_SORT_RECORD</li><li>DRYING_RUN</li><li>PACKAGING_RECORD</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-top"><h3>QC & Compliance</h3><span class="badge tertiary">Cross-cutting</span></div>
+        <p class="card-desc">Quality and safety across all stages</p>
+        <ul class="card-list">
+          <li>QC_CHECKPOINT</li><li>COMPLIANCE_RECORD</li><li>CCP monitoring</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-top"><h3>Master Data</h3><span class="badge secondary">Reference</span></div>
+        <p class="card-desc">Static data that drives processes</p>
+        <ul class="card-list">
+          <li>FARM</li><li>RAW_INTAKE</li><li>EQUIPMENT</li><li>OPERATOR</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">03</span><h2>Step 2: User Roles</h2></div>
+    <p class="sec-sub">Who uses the system? Each role has specific permissions and responsibilities based on their workflow needs.</p>
+    <div class="grid">
+      <div class="card">
+        <div class="card-top"><h3>Product Transformation Manager</h3><span class="badge primary">Strategic</span></div>
+        <p class="card-desc">Overall oversight, KPI monitoring, decision support</p>
+        <ul class="card-list">
+          <li>View all batches</li><li>Monitor KPIs</li><li>Approve releases</li><li>Access reports</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-top"><h3>Wash Station Operator</h3><span class="badge secondary">Operational</span></div>
+        <p class="card-desc">Executes washing and sorting, records data</p>
+        <ul class="card-list">
+          <li>Create WASH_SORT_RECORD</li><li>Record water quality</li><li>Track yield</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-top"><h3>Drying Operator</h3><span class="badge secondary">Operational</span></div>
+        <p class="card-desc">Manages drying process, monitors parameters</p>
+        <ul class="card-list">
+          <li>Create DRYING_RUN</li><li>Monitor temp/moisture</li><li>Select energy source</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-top"><h3>QC Inspector</h3><span class="badge tertiary">Quality</span></div>
+        <p class="card-desc">Performs quality checks at each stage</p>
+        <ul class="card-list">
+          <li>Create QC_CHECKPOINT</li><li>Record pass/fail</li><li>Trigger corrective actions</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-top"><h3>Packaging Operator</h3><span class="badge secondary">Operational</span></div>
+        <p class="card-desc">Packages products, generates labels</p>
+        <ul class="card-list">
+          <li>Create PACKAGING_RECORD</li><li>Generate lot codes</li><li>Print labels</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-top"><h3>Compliance Auditor</h3><span class="badge tertiary">Compliance</span></div>
+        <p class="card-desc">Ensures HACCP and EU compliance</p>
+        <ul class="card-list">
+          <li>Create COMPLIANCE_RECORD</li><li>Verify CCPs</li><li>Audit trails</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">04</span><h2>Step 3: Core Features</h2></div>
+    <p class="sec-sub">What can users do? Features map directly to data entities and user roles.</p>
+    <div class="grid">
+      <div class="card">
+        <div class="card-top"><h3>Batch Management</h3><span class="badge primary">Core</span></div>
+        <p class="card-desc">Create, track, and manage batches through lifecycle</p>
+        <ul class="card-list">
+          <li>Create batch from intake</li><li>Update batch status</li><li>View batch history</li><li>Search batches</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-top"><h3>Stage Recording</h3><span class="badge secondary">Process</span></div>
+        <p class="card-desc">Record data at each processing stage</p>
+        <ul class="card-list">
+          <li>Wash & sort recording</li><li>Drying run logging</li><li>Packaging tracking</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-top"><h3>Quality Control</h3><span class="badge tertiary">Quality</span></div>
+        <p class="card-desc">QC checkpoints and pass/fail determination</p>
+        <ul class="card-list">
+          <li>Parameter checks</li><li>Auto pass/fail</li><li>Non-conformance tracking</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-top"><h3>Compliance Tracking</h3><span class="badge tertiary">Safety</span></div>
+        <p class="card-desc">HACCP CCP monitoring and documentation</p>
+        <ul class="card-list">
+          <li>CCP monitoring</li><li>Corrective actions</li><li>Audit trails</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-top"><h3>Traceability</h3><span class="badge primary">Core</span></div>
+        <p class="card-desc">End-to-end batch traceability and reporting</p>
+        <ul class="card-list">
+          <li>Batch history query</li><li>Traceability reports</li><li>Export documentation</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-top"><h3>Dashboard & Analytics</h3><span class="badge primary">Manager</span></div>
+        <p class="card-desc">Real-time monitoring and KPI tracking</p>
+        <ul class="card-list">
+          <li>Real-time metrics</li><li>KPI dashboards</li><li>Alert management</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">05</span><h2>Step 4: User Flow</h2></div>
+    <p class="sec-sub">How do users accomplish their tasks? User flows map features to step-by-step workflows.</p>
+    <div class="flow-container">
+      <span class="tag">// complete batch processing workflow</span>
+      <svg viewBox="0 0 900 280" role="img" aria-label="User flow diagram for batch processing" style="width:100%;min-width:700px;max-width:900px;height:auto;display:block;margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="ui-sans-serif, system-ui, sans-serif">
+        <defs>
+          <marker id="arrowFlow" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+            <path d="M0,0 L7,3 L0,6 Z" fill="#009688"/>
+          </marker>
+        </defs>
+        
+        <!-- flow nodes -->
+        <g font-family="ui-monospace, monospace" font-size="11" fill="#1A1A1A" text-anchor="middle">
+          <!-- Start -->
+          <rect x="20" y="110" width="100" height="50" rx="8" fill="#E0F2F1" stroke="#009688" stroke-width="1.5"/>
+          <text x="70" y="135" dominant-baseline="central">Raw Intake</text>
+          
+          <!-- Step 1 -->
+          <rect x="160" y="110" width="100" height="50" rx="8" fill="#FFFFFF" stroke="#009688" stroke-width="1.5"/>
+          <text x="210" y="128" dominant-baseline="central">Create</text>
+          <text x="210" y="142" dominant-baseline="central">BATCH</text>
+          
+          <!-- Step 2 -->
+          <rect x="300" y="110" width="100" height="50" rx="8" fill="#FFFFFF" stroke="#009688" stroke-width="1.5"/>
+          <text x="350" y="128" dominant-baseline="central">Wash &</text>
+          <text x="350" y="142" dominant-baseline="central">Sort</text>
+          
+          <!-- Step 3 -->
+          <rect x="440" y="110" width="100" height="50" rx="8" fill="#FFFFFF" stroke="#009688" stroke-width="1.5"/>
+          <text x="490" y="128" dominant-baseline="central">QC</text>
+          <text x="490" y="142" dominant-baseline="central">Check</text>
+          
+          <!-- Step 4 -->
+          <rect x="580" y="110" width="100" height="50" rx="8" fill="#FFFFFF" stroke="#009688" stroke-width="1.5"/>
+          <text x="630" y="128" dominant-baseline="central">Dry</text>
+          <text x="630" y="142" dominant-baseline="central">Process</text>
+          
+          <!-- Step 5 -->
+          <rect x="720" y="110" width="100" height="50" rx="8" fill="#FFFFFF" stroke="#009688" stroke-width="1.5"/>
+          <text x="770" y="128" dominant-baseline="central">Package</text>
+          <text x="770" y="142" dominant-baseline="central">& Label</text>
+          
+          <!-- End -->
+          <rect x="860" y="110" width="100" height="50" rx="8" fill="#009688" stroke="#009688" stroke-width="2"/>
+          <text x="910" y="135" dominant-baseline="central" fill="white" font-weight="700">SHIP</text>
+        </g>
+        
+        <!-- flow arrows -->
+        <path d="M120,135 L152,135" stroke="#009688" stroke-width="1.5" fill="none" marker-end="url(#arrowFlow)"/>
+        <path d="M260,135 L292,135" stroke="#009688" stroke-width="1.5" fill="none" marker-end="url(#arrowFlow)"/>
+        <path d="M400,135 L432,135" stroke="#009688" stroke-width="1.5" fill="none" marker-end="url(#arrowFlow)"/>
+        <path d="M540,135 L572,135" stroke="#009688" stroke-width="1.5" fill="none" marker-end="url(#arrowFlow)"/>
+        <path d="M680,135 L712,135" stroke="#009688" stroke-width="1.5" fill="none" marker-end="url(#arrowFlow)"/>
+        <path d="M820,135 L852,135" stroke="#009688" stroke-width="1.5" fill="none" marker-end="url(#arrowFlow)"/>
+        
+        <!-- role labels -->
+        <text x="70" y="175" font-size="9" fill="#6B7B74" text-anchor="middle">Farm Manager</text>
+        <text x="210" y="175" font-size="9" fill="#6B7B74" text-anchor="middle">Batch Admin</text>
+        <text x="350" y="175" font-size="9" fill="#6B7B74" text-anchor="middle">Wash Operator</text>
+        <text x="490" y="175" font-size="9" fill="#6B7B74" text-anchor="middle">QC Inspector</text>
+        <text x="630" y="175" font-size="9" fill="#6B7B74" text-anchor="middle">Drying Operator</text>
+        <text x="770" y="175" font-size="9" fill="#6B7B74" text-anchor="middle">Packaging</text>
+        <text x="910" y="175" font-size="9" fill="#6B7B74" text-anchor="middle">Export Coord</text>
+        
+        <!-- data labels -->
+        <text x="70" y="195" font-family="ui-monospace, monospace" font-size="8" fill="#009688" text-anchor="middle">RAW_INTAKE</text>
+        <text x="210" y="195" font-family="ui-monospace, monospace" font-size="8" fill="#009688" text-anchor="middle">BATCH</text>
+        <text x="350" y="195" font-family="ui-monospace, monospace" font-size="8" fill="#009688" text-anchor="middle">WASH_SORT</text>
+        <text x="490" y="195" font-family="ui-monospace, monospace" font-size="8" fill="#009688" text-anchor="middle">QC_CHECK</text>
+        <text x="630" y="195" font-family="ui-monospace, monospace" font-size="8" fill="#009688" text-anchor="middle">DRYING_RUN</text>
+        <text x="770" y="195" font-family="ui-monospace, monospace" font-size="8" fill="#009688" text-anchor="middle">PACKAGE</text>
+      </svg>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">06</span><h2>Step 5: Dashboard Design</h2></div>
+    <p class="sec-sub">The manager's view into the system. Real-time metrics, alerts, and decision support.</p>
+    <div class="dashboard-mockup">
+      <div class="dash-header">
+        <span class="dash-title">Product Transformation Dashboard</span>
+        <span style="font-size: .8rem; color: var(--muted);">Last updated: 2 min ago</span>
+      </div>
+      <div class="dash-metrics">
+        <div class="dash-metric">
+          <div class="label">Active Batches</div>
+          <div class="value">24</div>
+        </div>
+        <div class="dash-metric">
+          <div class="label">Today's Throughput</div>
+          <div class="value">2,847 kg</div>
+        </div>
+        <div class="dash-metric">
+          <div class="label">QC Pass Rate</div>
+          <div class="value">94.2%</div>
+        </div>
+        <div class="dash-metric">
+          <div class="label">Energy Mix</div>
+          <div class="value">67% solar</div>
+        </div>
+      </div>
+      <div class="dash-actions">
+        <span class="dash-btn">View All Batches</span>
+        <span class="dash-btn secondary">Generate Report</span>
+        <span class="dash-btn secondary">Alert Settings</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">07</span><h2>Step 6: MVP Scope</h2></div>
+    <p class="sec-sub">Minimum Viable Product: what do we build first to deliver value quickly? Prioritized by impact and feasibility.</p>
+    <div class="mvp-grid">
+      <div class="mvp-item">
+        <h4>Batch Creation & Tracking</h4>
+        <p>Create batches from raw intake, track status through stages, basic history view</p>
+        <span class="priority p1">Priority 1</span>
+      </div>
+      <div class="mvp-item">
+        <h4>Stage Recording (Wash & Dry)</h4>
+        <p>Record wash/sort data and drying runs with basic parameters</p>
+        <span class="priority p1">Priority 1</span>
+      </div>
+      <div class="mvp-item">
+        <h4>Basic QC Checkpoints</h4>
+        <p>Simple pass/fail checks at key stages with parameter recording</p>
+        <span class="priority p1">Priority 1</span>
+      </div>
+      <div class="mvp-item">
+        <h4>Manager Dashboard</h4>
+        <p>Real-time batch counts, throughput metrics, basic KPIs</p>
+        <span class="priority p2">Priority 2</span>
+      </div>
+      <div class="mvp-item">
+        <h4>Packaging & Lot Codes</h4>
+        <p>Package recording, lot code generation, label printing</p>
+        <span class="priority p2">Priority 2</span>
+      </div>
+      <div class="mvp-item">
+        <h4>Traceability Reports</h4>
+        <p>Batch history reports, export documentation generation</p>
+        <span class="priority p2">Priority 2</span>
+      </div>
+      <div class="mvp-item">
+        <h4>HACCP Compliance</h4>
+        <p>CCP monitoring, compliance records, audit trails</p>
+        <span class="priority p3">Priority 3</span>
+      </div>
+      <div class="mvp-item">
+        <h4>Alert System</h4>
+        <p>Automated alerts for QC failures, CCP breaches, bottlenecks</p>
+        <span class="priority p3">Priority 3</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">08</span><h2>Architecture Summary</h2></div>
+    <div class="panel">
+      <span class="tag">// complete transformation mapping</span>
+      <svg viewBox="0 0 800 400" role="img" aria-label="Architecture transformation summary" style="width:100%;min-width:600px;max-width:800px;height:auto;display:block;margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="ui-sans-serif, system-ui, sans-serif">
+        <defs>
+          <marker id="arrowArch" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+            <path d="M0,0 L7,3 L0,6 Z" fill="#009688"/>
+          </marker>
+        </defs>
+        
+        <!-- Layer 1: Data Model -->
+        <rect x="50" y="20" width="700" height="50" rx="8" fill="#E0F2F1" stroke="#009688" stroke-width="1.5"/>
+        <text x="400" y="45" font-size="12" font-weight="700" fill="#1A1A1A" text-anchor="middle" dominant-baseline="central">DATA MODEL: BATCH, WASH_SORT_RECORD, DRYING_RUN, QC_CHECKPOINT, PACKAGING_RECORD, COMPLIANCE_RECORD</text>
+        
+        <!-- Layer 2: User Roles -->
+        <rect x="50" y="90" width="700" height="50" rx="8" fill="#B2DFDB" stroke="#009688" stroke-width="1.5"/>
+        <text x="400" y="115" font-size="12" font-weight="700" fill="#1A1A1A" text-anchor="middle" dominant-baseline="central">USER ROLES: Manager, Wash Operator, Drying Operator, QC Inspector, Packaging Operator, Auditor</text>
+        
+        <!-- Layer 3: Core Features -->
+        <rect x="50" y="160" width="700" height="50" rx="8" fill="#80CBC4" stroke="#009688" stroke-width="1.5"/>
+        <text x="400" y="185" font-size="12" font-weight="700" fill="#1A1A1A" text-anchor="middle" dominant-baseline="central">CORE FEATURES: Batch Management, Stage Recording, QC, Compliance, Traceability, Dashboard</text>
+        
+        <!-- Layer 4: User Flow -->
+        <rect x="50" y="230" width="700" height="50" rx="8" fill="#4DB6AC" stroke="#009688" stroke-width="1.5"/>
+        <text x="400" y="255" font-size="12" font-weight="700" fill="#1A1A1A" text-anchor="middle" dominant-baseline="central">USER FLOW: Intake → Create Batch → Wash → QC → Dry → Package → Ship</text>
+        
+        <!-- Layer 5: Dashboard -->
+        <rect x="50" y="300" width="700" height="50" rx="8" fill="#26A69A" stroke="#009688" stroke-width="1.5"/>
+        <text x="400" y="325" font-size="12" font-weight="700" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">DASHBOARD: Real-time metrics, KPIs, alerts, decision support</text>
+        
+        <!-- Layer 6: MVP -->
+        <rect x="50" y="370" width="700" height="50" rx="8" fill="#009688" stroke="#009688" stroke-width="2"/>
+        <text x="400" y="395" font-size="12" font-weight="700" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">MVP: Batch tracking, Stage recording, Basic QC, Manager dashboard, Packaging, Reports</text>
+        
+        <!-- Vertical arrows -->
+        <path d="M400,70 L400,82" stroke="#009688" stroke-width="1.5" fill="none" marker-end="url(#arrowArch)"/>
+        <path d="M400,140 L400,152" stroke="#009688" stroke-width="1.5" fill="none" marker-end="url(#arrowArch)"/>
+        <path d="M400,210 L400,222" stroke="#009688" stroke-width="1.5" fill="none" marker-end="url(#arrowArch)"/>
+        <path d="M400,280 L400,292" stroke="#009688" stroke-width="1.5" fill="none" marker-end="url(#arrowArch)"/>
+        <path d="M400,350 L400,362" stroke="#009688" stroke-width="1.5" fill="none" marker-end="url(#arrowArch)"/>
+      </svg>
+    </div>
+  </section>
+
+  <footer>
+    <span>Module: Product Transformation &middot; Functional Architecture</span>
+    <span class="mono">Data Model → MVP transformation guide</span>
+  </footer>
+</div>
