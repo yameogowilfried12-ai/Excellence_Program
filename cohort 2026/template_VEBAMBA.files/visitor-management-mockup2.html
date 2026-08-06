@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Visitor Management App — Mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --primary:#0A8276;
+    --primary-dark:#065E55;
+    --accent:#0FA396;
+    --secondary-orange:#EF6C00;
+    --secondary-red:#C62828;
+    --secondary-green:#4CAF50;
+    --ink:#0F2A26;
+    --grey:#5A6B7A;
+    --bg:#F5F7FA;
+    --line:#CDEFE9;
+    --white:#FFFFFF;
+  }
+  *{box-sizing:border-box;}
+  html, body{
+    height:100%;
+    margin:0;
+    overflow:hidden;
+  }
+  body{
+    background:var(--bg);
+    font-family:'Inter', sans-serif;
+    color:var(--ink);
+  }
+  .app-shell{
+    display:flex;
+    height:100vh;
+    width:100%;
+  }
+  .hamburger{
+    display:none;
+    flex-direction:column;
+    gap:5px;
+    background:var(--primary);
+    border:none;
+    border-radius:4px;
+    cursor:pointer;
+    padding:10px;
+    margin-bottom:14px;
+  }
+  .hamburger span{width:22px;height:2px;background:var(--white);border-radius:2px;}
+
+  .main-content{
+    margin-left:230px;
+    flex:1;
+    height:100vh;
+    overflow-y:auto;
+    display:flex;
+    flex-direction:column;
+  }
+  .top-bar{
+    background:var(--white);
+    padding:18px 32px;
+    border-bottom:1px solid var(--line);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-shrink:0;
+  }
+  .top-bar h1{
+    font-family:'Montserrat', sans-serif;
+    font-size:20px;
+    font-weight:700;
+    color:var(--primary-dark);
+    margin:0;
+  }
+  .user-info{
+    display:flex;
+    align-items:center;
+    font-size:13px;
+    font-weight:500;
+    color:var(--ink);
+    gap:12px;
+  }
+  .user-avatar{
+    width:34px;
+    height:34px;
+    background:#E8F5E9;
+    color:var(--primary);
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:700;
+    font-family:'Montserrat', sans-serif;
+    font-size:13px;
+  }
+  .content-wrap{
+    padding:28px 32px 60px;
+    flex:1;
+  }
+
+  .layout{
+    display:block;
+  }
+  .side-nav{
+    display:flex;
+    flex-direction:column;
+    background:var(--primary);
+    padding:20px 14px;
+    position:fixed;
+    top:0;
+    left:0;
+    width:230px;
+    height:100vh;
+    overflow-y:auto;
+    z-index:10;
+  }
+  .side-nav .brand{
+    display:flex;
+    justify-content:center;
+    margin-bottom:16px;
+    padding:8px 10px 4px;
+  }
+  .side-nav .brand svg{width:108px;height:auto;display:block;}
+  .side-nav .module-name{
+    font-family:'Montserrat', sans-serif;
+    font-weight:700;
+    font-size:12px;
+    letter-spacing:0.06em;
+    color:var(--white);
+    text-transform:uppercase;
+    padding:0 6px 14px;
+    margin-bottom:10px;
+    border-bottom:1px solid rgba(255,255,255,0.25);
+  }
+  .nav-group{
+    display:flex;
+    flex-direction:column;
+    gap:3px;
+    flex:1;
+  }
+  .nav-item{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    background:none;
+    border:none;
+    text-align:left;
+    padding:10px 12px;
+    font-family:'Inter', sans-serif;
+    font-weight:500;
+    font-size:13.5px;
+    color:rgba(255,255,255,0.85);
+    cursor:pointer;
+    border-radius:7px;
+  }
+  .nav-item svg{width:17px;height:17px;flex-shrink:0;stroke:currentColor;}
+  .nav-item.active{
+    background:rgba(255,255,255,0.16);
+    color:var(--white);
+    font-weight:600;
+  }
+  .nav-item:not(.active):hover{background:rgba(255,255,255,0.08);}
+  .nav-logout{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    background:rgba(255,255,255,0.08);
+    border:none;
+    text-align:left;
+    padding:10px 12px;
+    font-family:'Inter', sans-serif;
+    font-weight:500;
+    font-size:13.5px;
+    color:rgba(255,255,255,0.85);
+    cursor:pointer;
+    border-radius:7px;
+    margin-top:12px;
+  }
+  .nav-logout svg{width:17px;height:17px;stroke:currentColor;}
+  .nav-logout:hover{background:rgba(255,255,255,0.16);color:var(--white);}
+
+  .main-col{display:flex;flex-direction:column;gap:20px;}
+
+  .screen{display:none;}
+  .screen.active{display:block;}
+
+  /* Dashboard (overview) */
+  .app-heading{margin-bottom:4px;}
+  .app-heading h2{
+    font-family:'Montserrat', sans-serif;
+    font-weight:700;
+    font-size:26px;
+    margin:0;
+    color:var(--ink);
+  }
+  .app-heading p{
+    margin:2px 0 0;
+    font-size:13px;
+    color:var(--grey);
+  }
+
+  .counters{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:14px;
+  }
+  .counter-card{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:16px 18px;
+  }
+  .counter-card .c-label{
+    font-size:12px;
+    color:var(--grey);
+    margin-bottom:6px;
+  }
+  .counter-card .c-value{
+    font-family:'Montserrat', sans-serif;
+    font-weight:700;
+    font-size:28px;
+    color:var(--primary-dark);
+  }
+
+  .dash-body{
+    display:grid;
+    grid-template-columns:1fr 280px;
+    gap:20px;
+  }
+  .card-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:14px;
+  }
+  .feature-card{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:18px;
+    min-height:110px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    cursor:pointer;
+    transition:box-shadow .15s ease, transform .15s ease;
+  }
+  .feature-card:hover{
+    box-shadow:0 4px 14px rgba(10,130,118,0.15);
+    transform:translateY(-1px);
+  }
+  .feature-card .f-title{
+    font-family:'Montserrat', sans-serif;
+    font-weight:700;
+    font-size:17px;
+    color:var(--ink);
+    line-height:1.2;
+  }
+  .feature-card .f-open{
+    font-family:'Inter', sans-serif;
+    font-size:12px;
+    color:var(--primary);
+    margin-top:10px;
+  }
+
+  .side-panel{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:18px;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+  .side-panel h3{
+    font-family:'Montserrat', sans-serif;
+    font-weight:700;
+    font-size:17px;
+    margin:0;
+    color:var(--ink);
+  }
+  .task-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;}
+  .task-list li{
+    font-size:13px;
+    color:var(--ink);
+    padding:8px 10px;
+    background:#F2FBF9;
+    border-radius:6px;
+    border-left:3px solid var(--primary);
+  }
+  .growth-circle{
+    align-self:center;
+    width:110px;height:110px;
+    border-radius:50%;
+    border:3px solid var(--primary);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    font-family:'Montserrat', sans-serif;
+    font-weight:700;
+    font-size:14px;
+    color:var(--primary-dark);
+    line-height:1.2;
+  }
+
+  /* Detail screens */
+  .detail-panel{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:28px;
+  }
+  .back-link{
+    display:inline-block;
+    font-family:'Inter', sans-serif;
+    font-size:12px;
+    color:var(--primary);
+    cursor:pointer;
+    margin-bottom:14px;
+  }
+  .detail-panel h2{
+    font-family:'Montserrat', sans-serif;
+    font-weight:700;
+    font-size:26px;
+    margin:0 0 20px;
+    color:var(--primary-dark);
+    border-bottom:3px solid var(--accent);
+    padding-bottom:8px;
+    display:inline-block;
+  }
+
+  .week-grid{
+    display:grid;
+    grid-template-columns:80px repeat(6,1fr);
+    border-top:1px solid var(--line);
+    border-left:1px solid var(--line);
+  }
+  .week-grid .cell{
+    border-right:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    padding:9px 6px;
+    font-size:12px;
+  }
+  .week-grid .head{
+    background:var(--primary-dark);
+    color:var(--white);
+    font-family:'Inter', sans-serif;
+    font-weight:500;
+    text-align:center;
+    font-size:11px;
+  }
+  .slot{
+    background:#DCF3EF;
+    color:var(--primary-dark);
+    border:1px solid var(--primary);
+    border-radius:3px;
+    padding:2px 5px;
+    font-size:11px;
+    display:inline-block;
+  }
+  .slot.full{background:#FBEAEA;color:var(--secondary-red);border-color:var(--secondary-red);}
+
+  .form-row{margin-bottom:16px;}
+  .form-row label{
+    display:block;
+    font-family:'Inter', sans-serif;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    color:var(--primary);
+    margin-bottom:5px;
+  }
+  .form-row input, .form-row select{
+    width:100%;
+    padding:9px 11px;
+    border:1px solid var(--line);
+    background:#F7FDFB;
+    font-family:'Inter', sans-serif;
+    font-size:13px;
+    border-radius:5px;
+  }
+  .form-cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .btn{
+    background:var(--primary);
+    color:var(--white);
+    border:none;
+    padding:11px 20px;
+    font-family:'Inter', sans-serif;
+    font-size:12px;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    cursor:pointer;
+    border-radius:5px;
+  }
+  .btn:hover{background:var(--primary-dark);}
+
+  .stops{display:flex;flex-direction:column;border-left:3px solid var(--primary);padding-left:18px;gap:18px;}
+  .stop{position:relative;}
+  .stop::before{
+    content:"";position:absolute;left:-25px;top:4px;
+    width:9px;height:9px;background:var(--accent);
+    border:2px solid var(--primary-dark);border-radius:50%;
+  }
+  .stop .stop-title{font-family:'Montserrat', sans-serif;font-weight:700;font-size:16px;color:var(--primary-dark);}
+  .stop .stop-meta{font-family:'Inter', sans-serif;font-size:11px;color:var(--grey);margin-top:2px;}
+
+  table{width:100%;border-collapse:collapse;font-size:13px;}
+  th, td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);}
+  th{
+    background:var(--primary-dark);color:var(--white);
+    font-family:'Inter', sans-serif;font-size:11px;
+    text-transform:uppercase;letter-spacing:0.03em;
+  }
+  .tag{display:inline-block;padding:3px 9px;border-radius:11px;font-size:11px;font-family:'Inter', sans-serif;font-weight:600;}
+  .tag.done{background:#E7F5E8;color:var(--secondary-green);}
+  .tag.pending{background:#FDF0E3;color:var(--secondary-orange);}
+
+  .flow{display:flex;align-items:stretch;gap:0;flex-wrap:wrap;}
+  .flow-step{
+    background:#F7FDFB;border:1px solid var(--line);border-top:3px solid var(--primary);
+    padding:14px 16px;min-width:140px;font-size:13px;
+  }
+  .flow-step .step-label{font-family:'Inter', sans-serif;font-size:11px;color:var(--primary);margin-bottom:4px;}
+  .flow-arrow{padding:0 10px;color:var(--accent);font-size:18px;align-self:center;}
+
+  .stars{color:var(--accent);font-size:20px;letter-spacing:2px;}
+  .q-block{margin-bottom:18px;}
+  .q-block .q{font-family:'Montserrat', sans-serif;font-weight:600;font-size:16px;margin-bottom:6px;}
+
+  .footer-note{margin-top:24px;font-family:'Inter', sans-serif;font-size:11px;color:var(--grey);}
+
+  @media (max-width: 760px){
+    html, body{overflow:auto;}
+    .hamburger{display:flex;}
+    .main-content{margin-left:0;height:auto;overflow-y:visible;}
+    .side-nav{display:none;position:fixed;height:100vh;}
+    .side-nav.open{display:flex;}
+    .counters{grid-template-columns:1fr 1fr;}
+    .dash-body{grid-template-columns:1fr;}
+    .card-grid{grid-template-columns:1fr;}
+    .form-cols{grid-template-columns:1fr;}
+    .week-grid{grid-template-columns:60px repeat(6,1fr);font-size:9px;}
+    .flow{flex-direction:column;}
+    .flow-arrow{transform:rotate(90deg);padding:6px 0;align-self:flex-start;margin-left:16px;}
+  }
+</style>
+</head>
+<body>
+<div class="app-shell">
+
+  <div class="side-nav" id="sideNav">
+      <div class="brand">
+        <svg viewBox="0 0 182 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M135.382 53.554C142.177 53.554 144.292 46.3689 144.292 39.7611C144.292 30.908 140.574 26.289 135.382 26.289C128.844 26.289 126.536 33.4741 126.6 39.8894C126.664 46.2405 128.459 53.554 135.382 53.554ZM132.049 39.697C132.049 37.0667 132.049 30.908 135.382 30.908C138.972 30.908 138.844 37.0025 138.844 39.8253C138.844 42.5197 138.844 49.0633 135.51 49.0633C131.921 48.9991 132.049 42.4555 132.049 39.697ZM115.639 53.554C118.395 53.554 120.767 52.4634 123.011 50.0897L121.023 46.3689C119.485 48.0368 117.947 48.935 116.088 48.935C114.549 48.935 113.267 48.0368 112.498 46.4972C111.857 45.15 111.729 43.6103 111.729 41.9423V41.4291H123.267V40.2743C123.267 34.5647 122.562 31.4212 120.767 29.0476C119.421 27.2513 117.434 26.289 114.998 26.289C112.434 26.289 110.319 27.4438 108.78 29.6891C107.113 32.1269 106.408 35.3987 106.408 39.8894C106.344 48.4859 109.742 53.554 115.639 53.554ZM115.062 30.5231C116.344 30.5231 117.113 31.2288 117.626 32.3835C118.011 33.41 118.203 35.1421 118.203 37.195H111.729C111.793 32.6401 112.754 30.5231 115.062 30.5231ZM148.523 52.9125H153.523V33.6666C154.741 32.1911 156.151 31.3571 157.176 31.3571C157.817 31.3571 158.458 31.4854 158.843 31.9986C159.228 32.576 159.42 33.41 159.42 35.3987V52.9125H164.42V33.0892C164.42 31.3571 164.228 29.625 163.202 28.3419C162.305 27.1871 160.894 26.4815 159.099 26.4815C156.792 26.4815 154.42 27.8287 153.138 29.3683C153.074 28.0211 152.625 26.7381 152.497 26.289L147.818 27.5079C148.074 28.9193 148.459 30.6514 148.459 33.7949V52.9125H148.523ZM90.4476 29.3683C90.3835 28.0211 89.9347 26.7381 89.8065 26.289L85.1272 27.5079C85.3836 28.9193 85.7682 30.6514 85.7682 33.7949V52.8483H90.7681V33.6024C91.986 32.1269 93.3962 31.2929 94.4218 31.2929C95.0628 31.2929 95.7038 31.4212 96.0885 31.9345C96.4731 32.5118 96.6654 33.3458 96.6654 35.3346V52.8483H101.665V33.0892C101.665 31.3571 101.473 29.625 100.447 28.3419C99.5499 27.1871 98.1397 26.4815 96.3449 26.4815C94.1013 26.4815 91.7296 27.8287 90.4476 29.3683ZM29.295 18.1416C32.2437 18.1416 34.6154 15.7679 34.6154 12.8169C34.6154 9.86585 32.2437 7.49219 29.295 7.49219C26.3464 7.49219 23.9746 9.86585 23.9746 12.8169C23.9746 15.7679 26.3464 18.1416 29.295 18.1416ZM53.8458 52.9125V33.0892C53.8458 31.3571 53.6535 29.625 52.6279 28.3419C51.7304 27.1871 50.3202 26.4815 48.5254 26.4815C46.2177 26.4815 43.846 27.8287 42.564 29.3683C42.4999 28.0211 42.0512 26.7381 41.923 26.289L37.3077 27.5721C37.5641 28.9834 37.9487 30.7155 37.9487 33.859V52.9125H42.9486V33.6666C44.1665 32.1911 45.5767 31.3571 46.6024 31.3571C47.2434 31.3571 47.8844 31.4854 48.269 31.9986C48.6536 32.576 48.8459 33.41 48.8459 35.3987V52.9125H53.8458ZM76.8581 16.7302C74.9992 16.7302 73.5248 18.2057 73.5248 20.0662C73.5248 21.9266 74.9992 23.4021 76.794 23.4021C78.6529 23.4021 80.1273 21.9266 80.1273 20.0662C80.1273 18.2057 78.6529 16.7302 76.8581 16.7302ZM26.9233 52.9125H31.9232V21.67L26.9233 22.3115V52.9125ZM67.7557 19.8096C68.6532 19.8096 69.5506 20.1303 70.1275 20.5794L71.5377 16.6661C70.1916 15.7038 68.7173 15.2547 66.8583 15.2547C65.5763 15.2547 64.2302 15.5755 63.0123 16.5378C61.7943 17.5642 60.5123 19.6171 60.5123 23.4663C60.5123 25.1342 60.5764 26.8664 60.5764 26.8664H58.8457V31.2929H60.5764V52.8483H65.7045V31.3571H69.4865L70.448 26.9305H65.7686V22.953C65.7686 21.0285 66.5378 19.8096 67.7557 19.8096ZM74.2941 52.9125H79.3581V26.4815L74.2941 27.123V52.9125Z" fill="white"/>
+          <path d="M154.163 67.0253C137.241 72.0292 116.664 74.2104 96.5363 74.2104C45.4477 74.2104 12.4997 59.1986 10.1921 39.3754C9.35877 31.9337 15.192 24.6844 24.9354 18.5257C23.2046 17.2426 22.1149 15.1898 22.0508 12.8802C7.94854 20.322 0 30.0732 0 39.9528C0 61.8289 39.0376 80.305 97.0491 79.5351C117.241 79.2785 134.1 76.3916 149.356 71.3877C167.496 65.4856 178.906 57.0174 181.663 53.2966C178.394 56.2476 170.637 62.1497 154.163 67.0253ZM46.5374 8.77446C49.9348 7.61971 54.7424 6.14419 54.7424 6.14419C68.2677 2.42332 83.2033 0.242125 97.1133 0.370431C81.088 -0.591863 66.4729 0.370431 53.7168 2.67994C53.7168 2.67994 49.4861 3.38562 44.9349 4.54037C44.9349 4.54037 42.7555 5.11775 41.4093 5.50266C40.0632 5.88758 38.2043 6.4008 38.2043 6.4008C36.9223 6.78572 35.6402 7.23479 34.3582 7.68386C35.6402 8.96692 36.4095 10.6349 36.4736 12.5595C38.7171 11.533 43.0119 9.99337 46.5374 8.77446Z" fill="white"/>
+        </svg>
+      </div>
+      <div class="module-name">Visitor Management</div>
+      <div class="nav-group">
+        <button class="nav-item active" data-screen="dashboard"><svg class="lucide lucide-layout-dashboard" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <rect width="7" height="9" x="3" y="3" rx="1" /> <rect width="7" height="5" x="14" y="3" rx="1" /> <rect width="7" height="9" x="14" y="12" rx="1" /> <rect width="7" height="5" x="3" y="16" rx="1" /> </svg>Dashboard</button>
+        <button class="nav-item" data-screen="scheduling"><svg class="lucide lucide-calendar" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M8 2v3" /> <path d="M16 2v3" /> <rect x="3" y="3" width="18" height="18" rx="2" /> <path d="M3 9h18" /> </svg>Scheduling</button>
+        <button class="nav-item" data-screen="registration"><svg class="lucide lucide-user-plus" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /> <circle cx="9" cy="7" r="4" /> <line x1="19" x2="19" y1="8" y2="14" /> <line x1="22" x2="16" y1="11" y2="11" /> </svg>Registration</button>
+        <button class="nav-item" data-screen="education"><svg class="lucide lucide-book-open" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M12 5v16" /> <path d="M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z" /> </svg>Education</button>
+        <button class="nav-item" data-screen="safety"><svg class="lucide lucide-shield-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" /> <path d="m9 12 2 2 4-4" /> </svg>Safety</button>
+        <button class="nav-item" data-screen="booking"><svg class="lucide lucide-ticket" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z" /> <path d="M13 5v2" /> <path d="M13 17v2" /> <path d="M13 11v2" /> </svg>Booking</button>
+        <button class="nav-item" data-screen="feedback"><svg class="lucide lucide-message-square" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z" /> </svg>Feedback</button>
+      </div>
+      <button class="nav-logout"><svg class="lucide lucide-log-out" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="m16 17 5-5-5-5" /> <path d="M21 12H9" /> <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /> </svg>Logout</button>
+  </div>
+
+  <div class="main-content">
+    <header class="top-bar">
+      <h1 id="page-title">Dashboard Overview</h1>
+      <div class="user-info">
+        Carine VEBAMBA
+        <div class="user-avatar">CV</div>
+      </div>
+    </header>
+
+    <div class="content-wrap">
+    <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+
+    <div class="main-col">
+
+      <!-- DASHBOARD -->
+      <div class="screen active" id="dashboard">
+        <div class="counters">
+          <div class="counter-card"><div class="c-label">Visitors this week</div><div class="c-value">27</div></div>
+          <div class="counter-card"><div class="c-label">Slots booked</div><div class="c-value">6/12</div></div>
+          <div class="counter-card"><div class="c-label">Safety briefings pending</div><div class="c-value">2</div></div>
+          <div class="counter-card"><div class="c-label">Avg. satisfaction</div><div class="c-value">4.2/5</div></div>
+        </div>
+
+        <div class="dash-body" style="margin-top:18px;">
+          <div class="card-grid">
+            <div class="feature-card" data-goto="scheduling">
+              <div class="f-title">Farm tour scheduling</div>
+              <div class="f-open">Open →</div>
+            </div>
+            <div class="feature-card" data-goto="registration">
+              <div class="f-title">Visitor registration</div>
+              <div class="f-open">Open →</div>
+            </div>
+            <div class="feature-card" data-goto="education">
+              <div class="f-title">Educational program</div>
+              <div class="f-open">Open →</div>
+            </div>
+            <div class="feature-card" data-goto="safety">
+              <div class="f-title">Safety briefings tracking</div>
+              <div class="f-open">Open →</div>
+            </div>
+            <div class="feature-card" data-goto="booking">
+              <div class="f-title">Agritourism booking system</div>
+              <div class="f-open">Open →</div>
+            </div>
+            <div class="feature-card" data-goto="feedback">
+              <div class="f-title">Visitor feedback collection</div>
+              <div class="f-open">Open →</div>
+            </div>
+          </div>
+
+          <div class="side-panel">
+            <h3>Upcoming tasks</h3>
+            <ul class="task-list">
+              <li>Confirm Thu 9am school group (8)</li>
+              <li>Send reminder — Wed 2pm booking</li>
+              <li>Brief Jean Petit's group</li>
+              <li>Compile last week's feedback</li>
+            </ul>
+            <div class="growth-circle">Week 30<br>Overview</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCHEDULING -->
+      <div class="screen" id="scheduling">
+        <div class="detail-panel">
+          <h2>Farm tour scheduling</h2>
+          <div class="week-grid">
+            <div class="cell head"></div>
+            <div class="cell head">Mon</div>
+            <div class="cell head">Tue</div>
+            <div class="cell head">Wed</div>
+            <div class="cell head">Thu</div>
+            <div class="cell head">Fri</div>
+            <div class="cell head">Sat</div>
+
+            <div class="cell head">9–11am</div>
+            <div class="cell"><span class="slot">6/10</span></div>
+            <div class="cell"><span class="slot full">Full</span></div>
+            <div class="cell"><span class="slot">4/10</span></div>
+            <div class="cell"><span class="slot">8/10</span></div>
+            <div class="cell"><span class="slot">6/10</span></div>
+            <div class="cell"><span class="slot full">Full</span></div>
+
+            <div class="cell head">2–4pm</div>
+            <div class="cell"><span class="slot">1/10</span></div>
+            <div class="cell"><span class="slot">3/10</span></div>
+            <div class="cell"><span class="slot">6/10</span></div>
+            <div class="cell"><span class="slot">5/10</span></div>
+            <div class="cell"><span class="slot full">Full</span></div>
+            <div class="cell"><span class="slot">2/10</span></div>
+          </div>
+          <div class="footer-note">Max capacity: 10 visitors / slot · 2 slots per day · closed on Sundays. Mon 9–11am: Marie Dubois (4) + Jean Petit (2) · Wed 2–4pm: Sophie Laurent (6) · Thu 9–11am: School group (8)</div>
+        </div>
+      </div>
+
+      <!-- REGISTRATION -->
+      <div class="screen" id="registration">
+        <div class="detail-panel">
+          <h2>Visitor registration</h2>
+          <div class="form-cols">
+            <div class="form-row"><label>Full name</label><input placeholder="e.g. Marie Dubois"></div>
+            <div class="form-row"><label>Group size</label><input placeholder="e.g. 4"></div>
+            <div class="form-row"><label>Email</label><input placeholder="email@example.com"></div>
+            <div class="form-row"><label>Phone</label><input placeholder="+226 ..."></div>
+            <div class="form-row"><label>Visit date</label><input placeholder="e.g. 22/07/2026 (Wed)"></div>
+            <div class="form-row"><label>Time slot</label><select><option>9–11am</option><option>2–4pm</option></select></div>
+            <div class="form-row"><label>Preferred language</label><select><option>French</option><option>Moore</option><option>German</option><option>English</option></select></div>
+            <div class="form-row"><label>Visitor type</label><select><option>General public</option><option>Export buyer / partner</option><option>School group</option></select></div>
+          </div>
+          <div class="form-row"><label>Special requirements</label><input placeholder="Allergies, mobility needs, etc."></div>
+          <button class="btn">Register visitor</button>
+        </div>
+      </div>
+
+      <!-- EDUCATION -->
+      <div class="screen" id="education">
+        <div class="detail-panel">
+          <h2>Educational program</h2>
+          <div class="stops">
+            <div class="stop">
+              <div class="stop-title">Welcome & safety briefing</div>
+              <div class="stop-meta">10 min · meeting point · access control notice (face recognition)</div>
+            </div>
+            <div class="stop">
+              <div class="stop-title">Solar plant & tracking system</div>
+              <div class="stop-meta">20 min · PV panels with solar tracker, Infineon sensors</div>
+            </div>
+            <div class="stop">
+              <div class="stop-title">Mango orchard (Kent, Keitt, Amélie)</div>
+              <div class="stop-meta">20 min · smart drip irrigation, 200 trees over 2 ha</div>
+            </div>
+            <div class="stop">
+              <div class="stop-title">Dryer & processing unit</div>
+              <div class="stop-meta">20 min · slicing, drying, packaging for export to Germany</div>
+            </div>
+            <div class="stop">
+              <div class="stop-title">Wrap-up & questions</div>
+              <div class="stop-meta">15 min · closing, hot feedback, translation support if needed</div>
+            </div>
+          </div>
+          <div class="footer-note">Tour built around the farm's real modules: solar energy, irrigation, security, processing.</div>
+        </div>
+      </div>
+
+      <!-- SAFETY -->
+      <div class="screen" id="safety">
+        <div class="detail-panel">
+          <h2>Safety briefing tracker</h2>
+          <table>
+            <tr><th>Visitor</th><th>Group</th><th>Briefing time</th><th>Status</th></tr>
+            <tr><td>Marie Dubois</td><td>4 pers.</td><td>09:02</td><td><span class="tag done">Done</span></td></tr>
+            <tr><td>Jean Petit</td><td>2 pers.</td><td>—</td><td><span class="tag pending">Pending</span></td></tr>
+            <tr><td>Sophie Laurent</td><td>6 pers.</td><td>14:05</td><td><span class="tag done">Done</span></td></tr>
+            <tr><td>School group</td><td>8 pers.</td><td>—</td><td><span class="tag pending">Pending</span></td></tr>
+          </table>
+          <div class="footer-note">Every briefing is timestamped and linked to the group leader.</div>
+        </div>
+      </div>
+
+      <!-- BOOKING -->
+      <div class="screen" id="booking">
+        <div class="detail-panel">
+          <h2>Agritourism booking system</h2>
+          <div class="flow">
+            <div class="flow-step"><div class="step-label">Step 1</div>Choose time slot & tour type</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step"><div class="step-label">Step 2</div>Registration form</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step"><div class="step-label">Step 3</div>Email confirmation</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step"><div class="step-label">Step 4</div>Reminder 24h before</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FEEDBACK -->
+      <div class="screen" id="feedback">
+        <div class="detail-panel">
+          <h2>Satisfaction survey</h2>
+          <div class="q-block">
+            <div class="q">How would you rate your overall visit?</div>
+            <div class="stars">★★★★☆</div>
+          </div>
+          <div class="q-block">
+            <div class="q">Was the safety briefing clear?</div>
+            <div class="form-row"><select><option>Yes, very clear</option><option>Somewhat</option><option>Not really</option></select></div>
+          </div>
+          <div class="q-block">
+            <div class="q">Did the educational program teach you something new?</div>
+            <div class="form-row"><select><option>Yes, a lot</option><option>A little</option><option>No</option></select></div>
+          </div>
+          <div class="q-block">
+            <div class="q">Would you recommend this visit?</div>
+            <div class="form-row"><select><option>Definitely</option><option>Maybe</option><option>No</option></select></div>
+          </div>
+          <button class="btn">Submit feedback</button>
+        </div>
+      </div>
+
+    </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const navItems = document.querySelectorAll('.nav-item');
+  const screens = document.querySelectorAll('.screen');
+  const sideNav = document.getElementById('sideNav');
+  const hamburgerBtn = document.getElementById('hamburgerBtn');
+  const pageTitle = document.getElementById('page-title');
+
+  const titles = {
+    dashboard: 'Dashboard Overview',
+    scheduling: 'Farm Tour Scheduling',
+    registration: 'Visitor Registration',
+    education: 'Educational Program',
+    safety: 'Safety Briefing Tracker',
+    booking: 'Agritourism Booking System',
+    feedback: 'Satisfaction Survey'
+  };
+
+  function goToScreen(name){
+    navItems.forEach(n => n.classList.toggle('active', n.dataset.screen === name));
+    screens.forEach(s => s.classList.toggle('active', s.id === name));
+    if (pageTitle && titles[name]) pageTitle.textContent = titles[name];
+    if (window.innerWidth <= 760) sideNav.classList.remove('open');
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  navItems.forEach(item => item.addEventListener('click', () => goToScreen(item.dataset.screen)));
+  document.querySelectorAll('[data-goto]').forEach(el => {
+    if (!el.classList.contains('nav-item')) {
+      el.addEventListener('click', () => goToScreen(el.dataset.goto));
+    }
+  });
+  hamburgerBtn.addEventListener('click', () => sideNav.classList.toggle('open'));
+</script>
+</body>
+</html>
