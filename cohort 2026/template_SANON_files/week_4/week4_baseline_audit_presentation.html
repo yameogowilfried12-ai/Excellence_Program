@@ -1,0 +1,2936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 4 Baseline Audit - Product Transformation</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- GSAP & ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <style>
+        :root {
+            --bg-dark: #0A0D14;
+            --bg-secondary: #121621;
+            --accent-teal: #009688;
+            --accent-teal-light: #4DB6AC;
+            --accent-teal-dark: #00796B;
+            --highlight-gold: #FFC845;
+            --highlight-green: #00FF00;
+            --text-white: #FFFFFF;
+            --text-muted: #9CA3AF;
+        }
+        
+        /* Light Mode Variables */
+        [data-theme="light"] {
+            --bg-dark: #FFFFFF;
+            --bg-secondary: #F5F5F5;
+            --accent-teal: #009688;
+            --accent-teal-light: #4DB6AC;
+            --accent-teal-dark: #00796B;
+            --highlight-gold: #FFA000;
+            --highlight-green: #2E7D32;
+            --text-white: #1A1A1A;
+            --text-muted: #6B7280;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-white);
+            overflow: hidden;
+            height: 100vh;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+        
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(0.95);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
+        }
+        
+        /* Madrid-style Header */
+        .madrid-header {
+            background: linear-gradient(180deg, rgba(0, 150, 136, 0.15) 0%, rgba(0, 150, 136, 0.05) 100%);
+            border-bottom: 2px solid var(--accent-teal);
+            padding: 0;
+            transition: background 0.3s ease;
+        }
+        
+        [data-theme="light"] .madrid-header {
+            background: linear-gradient(180deg, rgba(0, 150, 136, 0.08) 0%, rgba(0, 150, 136, 0.02) 100%);
+        }
+        
+        .madrid-header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 3rem;
+        }
+        
+        .madrid-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-white);
+        }
+        
+        .madrid-author {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        
+        .madrid-header-nav {
+            display: flex;
+            justify-content: center;
+            padding: 0.4rem 0;
+            background: rgba(0, 150, 136, 0.08);
+            border-top: 1px solid rgba(0, 150, 136, 0.1);
+            transition: background 0.3s ease;
+        }
+        
+        [data-theme="light"] .madrid-header-nav {
+            background: rgba(0, 150, 136, 0.05);
+            border-top: 1px solid rgba(0, 150, 136, 0.15);
+        }
+        
+        .madrid-mini-frames {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .madrid-mini-frame {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(0, 150, 136, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .madrid-mini-frame:hover {
+            background: rgba(0, 150, 136, 0.6);
+            transform: scale(1.5);
+            box-shadow: 0 0 8px rgba(0, 150, 136, 0.4);
+        }
+        
+        .madrid-mini-frame.active {
+            background: var(--accent-teal);
+            box-shadow: 0 0 12px rgba(0, 150, 136, 0.6);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 0 8px rgba(0, 150, 136, 0.5);
+            transform: scale(1);
+            }
+            50% {
+                box-shadow: 0 0 16px rgba(0, 150, 136, 0.8);
+                transform: scale(1.1);
+            }
+        }
+        
+        .slide-header {
+            padding: 1.5rem 3rem 1rem 3rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .slide-header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: var(--text-white);
+            letter-spacing: -0.01em;
+        }
+        
+        .slide-header .badge {
+            background: linear-gradient(135deg, var(--accent-teal), var(--accent-teal-dark));
+            padding: 0.375rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+            box-shadow: 0 2px 8px rgba(0, 150, 136, 0.2);
+        }
+        
+        .slide-header .badge .material-icons-outlined {
+            font-size: 0.875rem;
+        }
+        
+        .slide-body {
+            flex: 1;
+            padding: 1.5rem 3.5rem;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent-teal) var(--bg-secondary);
+            transition: background 0.3s ease;
+        }
+        
+        [data-theme="light"] .slide-body {
+            scrollbar-color: var(--accent-teal) #E5E5E5;
+        }
+        
+        .slide-body::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .slide-body::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+        
+        .slide-body::-webkit-scrollbar-thumb {
+            background: var(--accent-teal);
+            border-radius: 4px;
+        }
+        
+        /* Madrid-style Footer */
+        .madrid-footer {
+            background: linear-gradient(180deg, rgba(0, 150, 136, 0.05) 0%, rgba(0, 150, 136, 0.1) 100%);
+            border-top: 2px solid var(--accent-teal);
+            padding: 0.5rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s ease;
+        }
+        
+        [data-theme="light"] .madrid-footer {
+            background: linear-gradient(180deg, rgba(0, 150, 136, 0.03) 0%, rgba(0, 150, 136, 0.06) 100%);
+        }
+        
+        .madrid-footer-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .madrid-footer-center {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .madrid-footer-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .madrid-footer-text {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        
+        .madrid-footer-text strong {
+            color: var(--accent-teal);
+        }
+        
+        .slide-footer {
+            display: none; /* Hide old footer, using Madrid footer instead */
+        }
+        
+        .glass-card {
+            background: rgba(18, 22, 33, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 150, 136, 0.15);
+            border-radius: 16px;
+            padding: 1.25rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transform: translateZ(0);
+        }
+        
+        [data-theme="light"] .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .glass-card:hover {
+            border-color: var(--accent-teal);
+            box-shadow: 0 8px 30px rgba(0, 150, 136, 0.25);
+            transform: translateY(-4px) translateZ(0);
+        }
+        
+        .glass-card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--accent-teal);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .glass-card p {
+            color: var(--text-muted);
+            line-height: 1.5;
+            font-size: 0.9rem;
+        }
+        
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.25rem;
+        }
+        
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+        
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.875rem;
+        }
+        
+        .priority-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .priority-p0 {
+            background: rgba(255, 99, 71, 0.2);
+            color: #FF6347;
+            border: 1px solid rgba(255, 99, 71, 0.3);
+        }
+        
+        .priority-p1 {
+            background: rgba(255, 200, 69, 0.2);
+            color: var(--highlight-gold);
+            border: 1px solid rgba(255, 200, 69, 0.3);
+        }
+        
+        .priority-p2 {
+            background: rgba(0, 255, 0, 0.2);
+            color: var(--highlight-green);
+            border: 1px solid rgba(0, 255, 0, 0.3);
+        }
+        
+        .status-complete {
+            color: #10B981;
+        }
+        
+        .status-inprogress {
+            color: var(--accent-teal);
+        }
+        
+        .status-pending {
+            color: var(--text-muted);
+        }
+        
+        .nav-button {
+            background: rgba(0, 150, 136, 0.15);
+            border: 1px solid rgba(0, 150, 136, 0.3);
+            color: var(--text-white);
+            padding: 0.875rem 1.75rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 500;
+            backdrop-filter: blur(10px);
+        }
+        
+        .nav-button:hover {
+            background: var(--accent-teal);
+            color: var(--bg-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 150, 136, 0.3);
+        }
+        
+        .nav-button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .nav-button:disabled:hover {
+            background: rgba(0, 150, 136, 0.15);
+            color: var(--text-white);
+            transform: none;
+            box-shadow: none;
+        }
+        
+        /* Beamer-style navigation */
+        /* Madrid Navigation Bar */
+        .madrid-nav {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0;
+        }
+        
+        .madrid-nav-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(0, 150, 136, 0.3);
+            border: 2px solid rgba(0, 150, 136, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .madrid-nav-dot:hover {
+            background: rgba(0, 150, 136, 0.6);
+            border-color: var(--accent-teal);
+            transform: scale(1.5);
+            box-shadow: 0 0 10px rgba(0, 150, 136, 0.3);
+        }
+        
+        .madrid-nav-dot.active {
+            background: var(--accent-teal);
+            border-color: var(--accent-teal);
+            box-shadow: 0 0 12px rgba(0, 150, 136, 0.6);
+            animation: pulse-dot 2s infinite;
+        }
+        
+        @keyframes pulse-dot {
+            0%, 100% {
+                box-shadow: 0 0 8px rgba(0, 150, 136, 0.5);
+                transform: scale(1);
+            }
+            50% {
+                box-shadow: 0 0 16px rgba(0, 150, 136, 0.8);
+                transform: scale(1.2);
+            }
+        }
+        
+        /* Madrid Navigation Symbols */
+        .madrid-nav-symbols {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        
+        .madrid-nav-symbol {
+            width: 28px;
+            height: 28px;
+            border-radius: 4px;
+            background: rgba(0, 150, 136, 0.1);
+            border: 1px solid rgba(0, 150, 136, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-teal);
+            font-size: 0.75rem;
+        }
+        
+        [data-theme="light"] .madrid-nav-symbol {
+            background: rgba(0, 150, 136, 0.08);
+            border: 1px solid rgba(0, 150, 136, 0.2);
+        }
+        
+        .madrid-nav-symbol:hover {
+            background: var(--accent-teal);
+            color: var(--bg-dark);
+            transform: translateY(-2px);
+        }
+        
+        .madrid-nav-symbol:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        
+        .madrid-nav-symbol:disabled:hover {
+            background: rgba(0, 150, 136, 0.1);
+            color: var(--accent-teal);
+            transform: none;
+        }
+        
+        /* Section-aware mini frames */
+        .madrid-section-group {
+            display: flex;
+            gap: 0.25rem;
+            align-items: center;
+            padding: 0 0.5rem;
+            border-right: 1px solid rgba(0, 150, 136, 0.2);
+        }
+        
+        .madrid-section-group:last-child {
+            border-right: none;
+        }
+        
+        .madrid-section-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-right: 0.5rem;
+        }
+        
+        .beamer-nav-btn {
+            background: rgba(0, 150, 136, 0.15);
+            border: 1px solid rgba(0, 150, 136, 0.3);
+            color: var(--text-white);
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .beamer-nav-btn:hover {
+            background: var(--accent-teal);
+            color: var(--bg-dark);
+            transform: translateY(-2px);
+        }
+        
+        .beamer-nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        
+        .beamer-nav-btn:disabled:hover {
+            background: rgba(0, 150, 136, 0.15);
+            color: var(--text-white);
+            transform: none;
+        }
+        
+        /* Additional Madrid Navigation Features */
+        .madrid-section-indicator {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-teal), var(--accent-teal-light));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .slide.active .madrid-section-indicator {
+            opacity: 1;
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: scaleX(0);
+                opacity: 0;
+            }
+            to {
+                transform: scaleX(1);
+                opacity: 1;
+            }
+        }
+        
+        .madrid-toc-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 5rem;
+            background: rgba(0, 150, 136, 0.15);
+            border: 1px solid rgba(0, 150, 136, 0.3);
+            color: var(--text-white);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .madrid-toc-toggle:hover {
+            background: var(--accent-teal);
+            color: var(--bg-dark);
+        }
+        
+        .theme-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(0, 150, 136, 0.15);
+            border: 1px solid rgba(0, 150, 136, 0.3);
+            color: var(--text-white);
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .theme-toggle:hover {
+            background: var(--accent-teal);
+            color: var(--bg-dark);
+            transform: rotate(180deg);
+        }
+        
+        [data-theme="light"] .theme-toggle {
+            background: rgba(0, 150, 136, 0.1);
+            border: 1px solid rgba(0, 150, 136, 0.2);
+        }
+        
+        [data-theme="light"] .theme-toggle:hover {
+            background: var(--accent-teal);
+            color: var(--bg-dark);
+            transform: rotate(180deg);
+        }
+        
+        .madrid-toc-panel {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100%;
+            background: rgba(18, 22, 33, 0.98);
+            backdrop-filter: blur(10px);
+            border-left: 2px solid var(--accent-teal);
+            transition: right 0.3s ease, background 0.3s ease;
+            z-index: 999;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+        
+        [data-theme="light"] .madrid-toc-panel {
+            background: rgba(255, 255, 255, 0.98);
+        }
+        
+        .madrid-toc-panel.open {
+            right: 0;
+        }
+        
+        .madrid-toc-item {
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--text-muted);
+        }
+        
+        .madrid-toc-item:hover {
+            background: rgba(0, 150, 136, 0.1);
+            color: var(--text-white);
+        }
+        
+        .madrid-toc-item.active {
+            background: rgba(0, 150, 136, 0.2);
+            color: var(--accent-teal);
+            border-left: 3px solid var(--accent-teal);
+            animation: slideInLeft 0.3s ease-out;
+        }
+        
+        @keyframes slideInLeft {
+            from {
+                transform: translateX(-10px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .madrid-toc-item .slide-number {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+        
+        .table-container {
+            background: rgba(18, 22, 33, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 150, 136, 0.15);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        [data-theme="light"] .table-container {
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .table-container table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .table-container th {
+            background: rgba(0, 150, 136, 0.12);
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--accent-teal);
+            border-bottom: 1px solid rgba(0, 150, 136, 0.2);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .table-container td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid rgba(0, 150, 136, 0.08);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+        
+        .table-container tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .table-container tr:hover td {
+            background: rgba(0, 150, 136, 0.05);
+        }
+        
+        .progress-step {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: rgba(18, 22, 33, 0.6);
+            border: 1px solid rgba(0, 150, 136, 0.2);
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+            transition: background 0.3s ease;
+        }
+        
+        [data-theme="light"] .progress-step {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(0, 150, 136, 0.15);
+        }
+        
+        .progress-step.completed {
+            border-color: #10B981;
+        }
+        
+        .progress-step.completed .step-icon {
+            background: #10B981;
+            color: white;
+        }
+        
+        .step-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(0, 150, 136, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-teal);
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+        
+        .step-content h4 {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .step-content p {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+        
+        .metric-card {
+            text-align: center;
+            padding: 2.5rem;
+            background: linear-gradient(135deg, rgba(0, 150, 136, 0.08), rgba(0, 150, 136, 0.02));
+            border: 1px solid rgba(0, 150, 136, 0.2);
+            border-radius: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        [data-theme="light"] .metric-card {
+            background: linear-gradient(135deg, rgba(0, 150, 136, 0.05), rgba(0, 150, 136, 0.01));
+            border: 1px solid rgba(0, 150, 136, 0.15);
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-teal);
+            box-shadow: 0 8px 25px rgba(0, 150, 136, 0.2);
+        }
+        
+        .metric-card .metric-value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--accent-teal);
+            margin-bottom: 0.75rem;
+            line-height: 1;
+        }
+        
+        .metric-card .metric-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .dependency-flow {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .dependency-node {
+            background: rgba(0, 150, 136, 0.12);
+            border: 1px solid rgba(0, 150, 136, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+        
+        [data-theme="light"] .dependency-node {
+            background: rgba(0, 150, 136, 0.08);
+            border: 1px solid rgba(0, 150, 136, 0.2);
+        }
+        
+        .dependency-node:hover {
+            background: rgba(0, 150, 136, 0.2);
+            border-color: var(--accent-teal);
+        }
+        
+        .dependency-arrow {
+            color: var(--accent-teal);
+            font-size: 1rem;
+        }
+        
+        .cover-slide {
+            background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-secondary) 50%, rgba(0, 150, 136, 0.05) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            transition: background 0.3s ease;
+        }
+        
+        [data-theme="light"] .cover-slide {
+            background: linear-gradient(135deg, #FFFFFF 0%, #F5F5F5 50%, rgba(0, 150, 136, 0.03) 100%);
+        }
+        
+        .cover-slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(0, 150, 136, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        
+        [data-theme="light"] .cover-slide::before {
+            background: radial-gradient(circle at 50% 50%, rgba(0, 150, 136, 0.05) 0%, transparent 50%);
+        }
+        
+        .cover-slide > * {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .cover-slide h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
+            background: linear-gradient(135deg, var(--accent-teal), var(--accent-teal-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+        
+        .cover-slide .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-weight: 300;
+            line-height: 1.4;
+        }
+        
+        .cover-slide .meta {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .cover-slide .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            padding: 0.5rem 1rem;
+            background: rgba(18, 22, 33, 0.5);
+            border-radius: 6px;
+            border: 1px solid rgba(0, 150, 136, 0.1);
+            transition: background 0.3s ease;
+        }
+        
+        [data-theme="light"] .cover-slide .meta-item {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(0, 150, 136, 0.2);
+        }
+        
+        .cover-slide .cta {
+            background: linear-gradient(135deg, var(--accent-teal), var(--accent-teal-dark));
+            color: var(--bg-dark);
+            padding: 1.25rem 2.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.125rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            box-shadow: 0 4px 15px rgba(0, 150, 136, 0.3);
+            transition: all 0.3s ease;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .cover-slide .cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 150, 136, 0.4);
+            animation: none;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+        
+        .feature-list {
+            list-style: none;
+        }
+        
+        .feature-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(0, 150, 136, 0.08);
+            transition: all 0.2s ease;
+        }
+        
+        .feature-list li:hover {
+            padding-left: 0.5rem;
+            border-bottom-color: rgba(0, 150, 136, 0.2);
+        }
+        
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .feature-list li .material-icons-outlined {
+            color: var(--accent-teal);
+            font-size: 1.25rem;
+            flex-shrink: 0;
+            margin-top: 0.125rem;
+        }
+        
+        .feature-list li strong {
+            color: var(--text-white);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <!-- Slide 1: Cover -->
+    <div class="slide active" id="slide-1">
+        <div class="madrid-section-indicator"></div>
+        <div class="madrid-header">
+            <div class="madrid-header-top">
+                <div class="madrid-title">WEEK 4 BASELINE AUDIT</div>
+                <div class="madrid-author">Abdoul Ben Fatao SANON</div>
+            </div>
+            <div class="madrid-header-nav">
+                <div class="madrid-mini-frames" id="headerMiniFrames">
+                    <!-- Mini frames generated by JS -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="cover-slide">
+            <div class="badge" style="margin-bottom: 2rem;">
+                <span class="material-icons-outlined">assignment</span>
+                Week 4 Baseline Audit
+            </div>
+            <h1>WEEK 4 BASELINE AUDIT</h1>
+            <p class="subtitle">Product Transformation Workstream • Sustainable Farm Project</p>
+            
+            <div class="meta">
+                <div class="meta-item">
+                    <span class="material-icons-outlined">person</span>
+                    Abdoul Ben Fatao SANON
+                </div>
+                <div class="meta-item">
+                    <span class="material-icons-outlined">calendar_today</span>
+                    2026-08-10
+                </div>
+                <div class="meta-item">
+                    <span class="material-icons-outlined">flag</span>
+                    🔵 IN PROGRESS
+                </div>
+            </div>
+            
+            <div class="cta">
+                <span class="material-icons-outlined">arrow_forward</span>
+                Press Space or ArrowRight to Begin
+            </div>
+        </div>
+        
+        <div class="madrid-footer">
+            <div class="madrid-footer-left">
+                <span class="madrid-footer-text">BIT × Infineon Excellence Program</span>
+            </div>
+            <div class="madrid-footer-center">
+                <div class="madrid-nav-symbols">
+                    <button class="madrid-nav-symbol" id="firstSlideBtn" onclick="goToSlide(1)" title="First slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">first_page</span>
+                    </button>
+                    <button class="madrid-nav-symbol" id="prevSlideBtn" onclick="prevSlide()" title="Previous slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">navigate_before</span>
+                    </button>
+                    <button class="madrid-nav-symbol" id="nextSlideBtn" onclick="nextSlide()" title="Next slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">navigate_next</span>
+                    </button>
+                    <button class="madrid-nav-symbol" id="lastSlideBtn" onclick="goToSlide(totalSlides)" title="Last slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">last_page</span>
+                    </button>
+                </div>
+            </div>
+            <div class="madrid-footer-right">
+                <span class="madrid-footer-text"><strong>1</strong> / 16</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 2: Executive Summary -->
+    <div class="slide" id="slide-2">
+        <div class="madrid-section-indicator"></div>
+        <div class="madrid-header">
+            <div class="madrid-header-top">
+                <div class="madrid-title">WEEK 4 BASELINE AUDIT</div>
+                <div class="madrid-author">Abdoul Ben Fatao SANON</div>
+            </div>
+            <div class="madrid-header-nav">
+                <div class="madrid-mini-frames" id="headerMiniFrames-2">
+                    <!-- Mini frames generated by JS -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="slide-header">
+            <div class="badge">
+                <span class="material-icons-outlined">summarize</span>
+                01
+            </div>
+            <h1>Executive Summary</h1>
+        </div>
+        <div class="slide-body">
+            <div class="grid-2">
+                <div class="glass-card">
+                    <h3>Audit Objective</h3>
+                    <p>Establish baseline for Week 04 by documenting current state, validating Week 03 achievements, mapping reviewer feedback to actionable tasks, and defining execution sequence for Week 04 deliverables.</p>
+                </div>
+                <div class="glass-card">
+                    <h3>Key Finding</h3>
+                    <p>Week 03 successfully established a validated requirements baseline with all six external workstreams. Week 04 must now transform these requirements into visual process flows, data integration contracts, and platform-aligned design specifications.</p>
+                </div>
+            </div>
+            
+            <div class="glass-card" style="margin-top: 1.5rem;">
+                <h3>Current Position</h3>
+                <p>The Product Transformation workstream has completed the <strong>Requirements Engineering</strong> phase (Phase 1 of the 12-week roadmap) and is positioned to begin the <strong>System Design</strong> phase (Phase 2). Requirements Baseline v1.0 is approved and ready for system design translation.</p>
+            </div>
+        </div>
+        
+        <div class="madrid-footer">
+            <div class="madrid-footer-left">
+                <span class="madrid-footer-text">BIT × Infineon Excellence Program</span>
+            </div>
+            <div class="madrid-footer-center">
+                <div class="madrid-nav-symbols">
+                    <button class="madrid-nav-symbol" onclick="goToSlide(1)" title="First slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">first_page</span>
+                    </button>
+                    <button class="madrid-nav-symbol" onclick="prevSlide()" title="Previous slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">navigate_before</span>
+                    </button>
+                    <button class="madrid-nav-symbol" onclick="nextSlide()" title="Next slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">navigate_next</span>
+                    </button>
+                    <button class="madrid-nav-symbol" onclick="goToSlide(totalSlides)" title="Last slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">last_page</span>
+                    </button>
+                </div>
+            </div>
+            <div class="madrid-footer-right">
+                <span class="madrid-footer-text"><strong>2</strong> / 16</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 3: Current State -->
+    <div class="slide" id="slide-3">
+        <div class="madrid-section-indicator"></div>
+        <div class="madrid-header">
+            <div class="madrid-header-top">
+                <div class="madrid-title">WEEK 4 BASELINE AUDIT</div>
+                <div class="madrid-author">Abdoul Ben Fatao SANON</div>
+            </div>
+            <div class="madrid-header-nav">
+                <div class="madrid-mini-frames" id="headerMiniFrames-3">
+                    <!-- Mini frames generated by JS -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="slide-header">
+            <div class="badge">
+                <span class="material-icons-outlined">timeline</span>
+                02
+            </div>
+            <h1>Current State</h1>
+        </div>
+        <div class="slide-body">
+            <div class="glass-card" style="margin-bottom: 1.5rem;">
+                <h3>Week 01-03 Progression</h3>
+                <div class="dependency-flow">
+                    <div class="dependency-node">Week 01: Reverse Engineering ✅</div>
+                    <span class="dependency-arrow material-icons-outlined">arrow_downward</span>
+                    <div class="dependency-node">Week 02: Digital Foundation ✅</div>
+                    <span class="dependency-arrow material-icons-outlined">arrow_downward</span>
+                    <div class="dependency-node">Week 03: Cross-Functional Requirements Validation ✅</div>
+                    <span class="dependency-arrow material-icons-outlined">arrow_downward</span>
+                    <div class="dependency-node" style="border-color: var(--accent-teal); background: rgba(0, 150, 136, 0.2);">Week 04: System Design & Visualization (CURRENT)</div>
+                </div>
+            </div>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Week</th>
+                            <th>Status</th>
+                            <th>Primary Output</th>
+                            <th>Validation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Week 01</strong></td>
+                            <td><span class="status-complete">✅ Complete</span></td>
+                            <td>Reverse Engineering Analysis, Data Model V1</td>
+                            <td>Stakeholder review</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Week 02</strong></td>
+                            <td><span class="status-complete">✅ Complete</span></td>
+                            <td>Data Model V2, Functional Architecture, Interactive Prototype</td>
+                            <td>Technical review</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Week 03</strong></td>
+                            <td><span class="status-complete">✅ Complete</span></td>
+                            <td>Cross-Functional Requirements Matrix, Requirements Baseline v1.0</td>
+                            <td>All 6 teams validated</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="madrid-footer">
+            <div class="madrid-footer-left">
+                <span class="madrid-footer-text">BIT × Infineon Excellence Program</span>
+            </div>
+            <div class="madrid-footer-center">
+                <div class="madrid-nav-symbols">
+                    <button class="madrid-nav-symbol" onclick="goToSlide(1)" title="First slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">first_page</span>
+                    </button>
+                    <button class="madrid-nav-symbol" onclick="prevSlide()" title="Previous slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">navigate_before</span>
+                    </button>
+                    <button class="madrid-nav-symbol" onclick="nextSlide()" title="Next slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">navigate_next</span>
+                    </button>
+                    <button class="madrid-nav-symbol" onclick="goToSlide(totalSlides)" title="Last slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">last_page</span>
+                    </button>
+                </div>
+            </div>
+            <div class="madrid-footer-right">
+                <span class="madrid-footer-text"><strong>3</strong> / 16</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 4: Existing Assets - Documentation -->
+    <div class="slide" id="slide-4">
+        <div class="madrid-section-indicator"></div>
+        <div class="madrid-header">
+            <div class="madrid-header-top">
+                <div class="madrid-title">WEEK 4 BASELINE AUDIT</div>
+                <div class="madrid-author">Abdoul Ben Fatao SANON</div>
+            </div>
+            <div class="madrid-header-nav">
+                <div class="madrid-mini-frames" id="headerMiniFrames-4">
+                    <!-- Mini frames generated by JS -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="slide-header">
+            <div class="badge">
+                <span class="material-icons-outlined">folder_open</span>
+                03
+            </div>
+            <h1>Existing Assets Inventory</h1>
+        </div>
+        <div class="slide-body">
+            <div class="grid-2">
+                <div class="glass-card">
+                    <h3>Core Documentation</h3>
+                    <ul class="feature-list">
+                        <li>
+                            <span class="material-icons-outlined">description</span>
+                            <div>
+                                <strong>Cross-Functional Requirements Matrix</strong>
+                                <p style="font-size: 0.75rem; margin: 0;">Week 3 • Complete • Markdown</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="material-icons-outlined">description</span>
+                            <div>
+                                <strong>Implementation Plan</strong>
+                                <p style="font-size: 0.75rem; margin: 0;">Week 1-3 • Complete • Markdown</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="material-icons-outlined">description</span>
+                            <div>
+                                <strong>MVP Backlog</strong>
+                                <p style="font-size: 0.75rem; margin: 0;">Empty placeholder • Markdown</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="glass-card">
+                    <h3>Research & Analysis</h3>
+                    <ul class="feature-list">
+                        <li>
+                            <span class="material-icons-outlined">search</span>
+                            <div>
+                                <strong>Reverse Engineering Analysis</strong>
+                                <p style="font-size: 0.75rem; margin: 0;">Week 1 • Complete • Markdown</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="material-icons-outlined">picture_as_pdf</span>
+                            <div>
+                                <strong>Cross-Functional Requirements Analysis</strong>
+                                <p style="font-size: 0.75rem; margin: 0;">Week 3 • Complete • PDF</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="madrid-footer">
+            <div class="madrid-footer-left">
+                <span class="madrid-footer-text">BIT × Infineon Excellence Program</span>
+            </div>
+            <div class="madrid-footer-center">
+                <div class="madrid-nav-symbols">
+                    <button class="madrid-nav-symbol" onclick="goToSlide(1)" title="First slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">first_page</span>
+                    </button>
+                    <button class="madrid-nav-symbol" onclick="prevSlide()" title="Previous slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">navigate_before</span>
+                    </button>
+                    <button class="madrid-nav-symbol" onclick="nextSlide()" title="Next slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">navigate_next</span>
+                    </button>
+                    <button class="madrid-nav-symbol" onclick="goToSlide(totalSlides)" title="Last slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">last_page</span>
+                    </button>
+                </div>
+            </div>
+            <div class="madrid-footer-right">
+                <span class="madrid-footer-text"><strong>4</strong> / 16</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 5: Existing Assets - Technical -->
+    <div class="slide" id="slide-5">
+        <div class="madrid-section-indicator"></div>
+        <div class="madrid-header">
+            <div class="madrid-header-top">
+                <div class="madrid-title">WEEK 4 BASELINE AUDIT</div>
+                <div class="madrid-author">Abdoul Ben Fatao SANON</div>
+            </div>
+            <div class="madrid-header-nav">
+                <div class="madrid-mini-frames" id="headerMiniFrames-5">
+                    <!-- Mini frames generated by JS -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="slide-header">
+            <div class="badge">
+                <span class="material-icons-outlined">code</span>
+                03
+            </div>
+            <h1>Technical Artifacts</h1>
+        </div>
+        <div class="slide-body">
+            <div class="grid-3">
+                <div class="glass-card metric-card">
+                    <div class="metric-value">5</div>
+                    <div class="metric-label">HTML Artifacts</div>
+                </div>
+                <div class="glass-card metric-card">
+                    <div class="metric-value">2</div>
+                    <div class="metric-label">Markdown Models</div>
+                </div>
+                <div class="glass-card metric-card">
+                    <div class="metric-value">9</div>
+                    <div class="metric-label">Core Entities</div>
+                </div>
+            </div>
+            
+            <div class="table-container" style="margin-top: 1.5rem;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Asset</th>
+                            <th>Format</th>
+                            <th>Status</th>
+                            <th>Week</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Data Model V2</strong></td>
+                            <td>HTML</td>
+                            <td><span class="status-complete">✅ Complete</span></td>
+                            <td>2</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Functional Architecture</strong></td>
+                            <td>HTML</td>
+                            <td><span class="status-complete">✅ Complete</span></td>
+                            <td>2</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Interactive Prototype</strong></td>
+                            <td>HTML</td>
+                            <td><span class="status-complete">✅ Complete</span></td>
+                            <td>2</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Data Model V1</strong></td>
+                            <td>Markdown</td>
+                            <td><span class="status-complete">✅ Complete</span></td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td><strong>App Architecture</strong></td>
+                            <td>Markdown</td>
+                            <td><span class="status-complete">✅ Complete</span></td>
+                            <td>1</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="madrid-footer">
+            <div class="madrid-footer-left">
+                <span class="madrid-footer-text">BIT × Infineon Excellence Program</span>
+            </div>
+            <div class="madrid-footer-center">
+                <div class="madrid-nav-symbols">
+                    <button class="madrid-nav-symbol" onclick="goToSlide(1)" title="First slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">first_page</span>
+                    </button>
+                    <button class="madrid-nav-symbol" onclick="prevSlide()" title="Previous slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">navigate_before</span>
+                    </button>
+                    <button class="madrid-nav-symbol" onclick="nextSlide()" title="Next slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">navigate_next</span>
+                    </button>
+                    <button class="madrid-nav-symbol" onclick="goToSlide(totalSlides)" title="Last slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">last_page</span>
+                    </button>
+                </div>
+            </div>
+            <div class="madrid-footer-right">
+                <span class="madrid-footer-text"><strong>5</strong> / 16</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 6: Validated Requirements -->
+    <div class="slide" id="slide-6">
+        <div class="madrid-section-indicator"></div>
+        <div class="madrid-header">
+            <div class="madrid-header-top">
+                <div class="madrid-title">WEEK 4 BASELINE AUDIT</div>
+                <div class="madrid-author">Abdoul Ben Fatao SANON</div>
+            </div>
+            <div class="madrid-header-nav">
+                <div class="madrid-mini-frames" id="headerMiniFrames-6">
+                    <!-- Mini frames generated by JS -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="slide-header">
+            <div class="badge">
+                <span class="material-icons-outlined">check_circle</span>
+                04
+            </div>
+            <h1>Week 03 Validated Requirements</h1>
+        </div>
+        <div class="slide-body">
+            <div class="grid-2">
+                <div class="glass-card">
+                    <h3>Functional Requirements (FR-01 to FR-09)</h3>
+                    <ul class="feature-list">
+                        <li>
+                            <span class="material-icons-outlined">inventory_2</span>
+                            <div>
+                                <strong>FR-01: Raw material intake tracking</strong>
+                                <span class="priority-badge priority-p0">MUST</span>
+                                <p style="font-size: 0.75rem; margin: 0.25rem 0 0;">Source: Plants</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="material-icons-outlined">barcode</span>
+                            <div>
+                                <strong>FR-02: Batch creation and traceability</strong>
+                                <span class="priority-badge priority-p0">MUST</span>
+                                <p style="font-size: 0.75rem; margin: 0.25rem 0 0;">Source: All teams</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="material-icons-outlined">settings</span>
+                            <div>
+                                <strong>FR-03: Process stage recording</strong>
+                                <span class="priority-badge priority-p0">MUST</span>
+                                <p style="font-size: 0.75rem; margin: 0.25rem 0 0;">Source: Machinery</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="material-icons-outlined">bolt</span>
+                            <div>
+                                <strong>FR-04: Resource consumption tracking</strong>
+                                <span class="priority-badge priority-p0">MUST</span>
+                                <p style="font-size: 0.75rem; margin: 0.25rem 0 0;">Source: Energy, Water</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="glass-card">
+                    <h3>Non-Functional Requirements</h3>
+                    <ul class="feature-list">
+                        <li>
+                            <span class="material-icons-outlined">wifi</span>
+                            <div>
+                                <strong>Availability: ≥99% uptime</strong>
+                                <span class="priority-badge priority-p0">MUST</span>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="material-icons-outlined">api</span>
+                            <div>
+                                <strong>Interoperability: API-based exchange</strong>
+                                <span class="priority-badge priority-p0">MUST</span>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="material-icons-outlined">trending_up</span>
+                            <div>
+                                <strong>Scalability: 100+ concurrent batches</strong>
+                                <span class="priority-badge priority-p1">SHOULD</span>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="material-icons-outlined">security</span>
+                            <div>
+                                <strong>Security: Role-based access control</strong>
+                                <span class="priority-badge priority-p0">MUST</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="madrid-footer">
+            <div class="madrid-footer-left">
+                <span class="madrid-footer-text">BIT × Infineon Excellence Program</span>
+            </div>
+            <div class="madrid-footer-center">
+                <div class="madrid-nav-symbols">
+                    <button class="madrid-nav-symbol" onclick="goToSlide(1)" title="First slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">first_page</span>
+                    </button>
+                    <button class="madrid-nav-symbol" onclick="prevSlide()" title="Previous slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">navigate_before</span>
+                    </button>
+                    <button class="madrid-nav-symbol" onclick="nextSlide()" title="Next slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">navigate_next</span>
+                    </button>
+                    <button class="madrid-nav-symbol" onclick="goToSlide(totalSlides)" title="Last slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">last_page</span>
+                    </button>
+                </div>
+            </div>
+            <div class="madrid-footer-right">
+                <span class="madrid-footer-text"><strong>6</strong> / 16</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 7: Data Dependencies -->
+    <div class="slide" id="slide-7">
+        <div class="madrid-section-indicator"></div>
+        <div class="madrid-header">
+            <div class="madrid-header-top">
+                <div class="madrid-title">WEEK 4 BASELINE AUDIT</div>
+                <div class="madrid-author">Abdoul Ben Fatao SANON</div>
+            </div>
+            <div class="madrid-header-nav">
+                <div class="madrid-mini-frames" id="headerMiniFrames-7">
+                    <!-- Mini frames generated by JS -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="slide-header">
+            <div class="badge">
+                <span class="material-icons-outlined">share</span>
+                04
+            </div>
+            <h1>Cross-Functional Data Dependencies</h1>
+        </div>
+        <div class="slide-body">
+            <div class="grid-2">
+                <div class="glass-card">
+                    <h3>Incoming Data Flows</h3>
+                    <div class="dependency-flow" style="margin-bottom: 1rem;">
+                        <div class="dependency-node">Plants</div>
+                        <span class="dependency-arrow material-icons-outlined">arrow_forward</span>
+                        <div class="dependency-node" style="border-color: var(--accent-teal);">Product Transformation</div>
+                    </div>
+                    <p style="font-size: 0.875rem; margin-bottom: 1rem;">Mango variety, Harvest quantity, Harvest date, Farm/block, Batch ID, Quality grade</p>
+                    
+                    <div class="dependency-flow" style="margin-bottom: 1rem;">
+                        <div class="dependency-node">Machinery</div>
+                        <span class="dependency-arrow material-icons-outlined">arrow_forward</span>
+                        <div class="dependency-node" style="border-color: var(--accent-teal);">Product Transformation</div>
+                    </div>
+                    <p style="font-size: 0.875rem; margin-bottom: 1rem;">Equipment capacity, Operating parameters, Energy consumption, Maintenance schedules</p>
+                    
+                    <div class="dependency-flow">
+                        <div class="dependency-node">Energy & Water</div>
+                        <span class="dependency-arrow material-icons-outlined">arrow_forward</span>
+                        <div class="dependency-node" style="border-color: var(--accent-teal);">Product Transformation</div>
+                    </div>
+                    <p style="font-size: 0.875rem;">Energy availability, Solar output, Peak demand, Water availability, Quality standards</p>
+                </div>
+                
+                <div class="glass-card">
+                    <h3>Outgoing Data Flows</h3>
+                    <div class="dependency-flow" style="margin-bottom: 1rem;">
+                        <div class="dependency-node" style="border-color: var(--accent-teal);">Product Transformation</div>
+                        <span class="dependency-arrow material-icons-outlined">arrow_forward</span>
+                        <div class="dependency-node">All Teams</div>
+                    </div>
+                    <p style="font-size: 0.875rem; margin-bottom: 1.5rem;">Processing outcomes, Quality results, Yield data, Resource consumption, Finished product specifications</p>
+                    
+                    <h3>Additional Dependencies</h3>
+                    <div class="dependency-flow" style="margin-bottom: 0.5rem;">
+                        <div class="dependency-node">Storage</div>
+                        <span class="dependency-arrow material-icons-outlined">arrow_forward</span>
+                        <div class="dependency-node" style="border-color: var(--accent-teal);">Product Transformation</div>
+                    </div>
+                    <p style="font-size: 0.875rem; margin-bottom: 1rem;">Storage capacity, Storage conditions, Inventory levels</p>
+                    
+                    <div class="dependency-flow">
+                        <div class="dependency-node">Sales & Marketing</div>
+                        <span class="dependency-arrow material-icons-outlined">arrow_forward</span>
+                        <div class="dependency-node" style="border-color: var(--accent-teal);">Product Transformation</div>
+                    </div>
+                    <p style="font-size: 0.875rem;">Market quality standards, Packaging requirements, Import regulations, Traceability requirements</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="madrid-footer">
+            <div class="madrid-footer-left">
+                <span class="madrid-footer-text">BIT × Infineon Excellence Program</span>
+            </div>
+            <div class="madrid-footer-center">
+                <div class="madrid-nav-symbols">
+                    <button class="madrid-nav-symbol" onclick="goToSlide(1)" title="First slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">first_page</span>
+                    </button>
+                    <button class="madrid-nav-symbol" onclick="prevSlide()" title="Previous slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">navigate_before</span>
+                    </button>
+                    <button class="madrid-nav-symbol" onclick="nextSlide()" title="Next slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">navigate_next</span>
+                    </button>
+                    <button class="madrid-nav-symbol" onclick="goToSlide(totalSlides)" title="Last slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">last_page</span>
+                    </button>
+                </div>
+            </div>
+            <div class="madrid-footer-right">
+                <span class="madrid-footer-text"><strong>7</strong> / 16</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 8: Existing Architecture -->
+    <div class="slide" id="slide-8">
+        <div class="madrid-section-indicator"></div>
+        <div class="madrid-header">
+            <div class="madrid-header-top">
+                <div class="madrid-title">WEEK 4 BASELINE AUDIT</div>
+                <div class="madrid-author">Abdoul Ben Fatao SANON</div>
+            </div>
+            <div class="madrid-header-nav">
+                <div class="madrid-mini-frames" id="headerMiniFrames-8">
+                    <!-- Mini frames generated by JS -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="slide-header">
+            <div class="badge">
+                <span class="material-icons-outlined">architecture</span>
+                05
+            </div>
+            <h1>Existing Architecture</h1>
+        </div>
+        <div class="slide-body">
+            <div class="grid-2">
+                <div class="glass-card">
+                    <h3>Data Model V2 - Core Entities</h3>
+                    <div class="grid-3">
+                        <div class="metric-card" style="padding: 1rem;">
+                            <div class="metric-value" style="font-size: 1.5rem;">BATCH</div>
+                            <div class="metric-label" style="font-size: 0.75rem;">Central traceability</div>
+                        </div>
+                        <div class="metric-card" style="padding: 1rem;">
+                            <div class="metric-value" style="font-size: 1.5rem;">WASH_SORT</div>
+                            <div class="metric-label" style="font-size: 0.75rem;">Stage data</div>
+                        </div>
+                        <div class="metric-card" style="padding: 1rem;">
+                            <div class="metric-value" style="font-size: 1.5rem;">DRYING_RUN</div>
+                            <div class="metric-label" style="font-size: 0.75rem;">Process data</div>
+                        </div>
+                        <div class="metric-card" style="padding: 1rem;">
+                            <div class="metric-value" style="font-size: 1.5rem;">PACKAGING</div>
+                            <div class="metric-label" style="font-size: 0.75rem;">Stage data</div>
+                        </div>
+                        <div class="metric-card" style="padding: 1rem;">
+                            <div class="metric-value" style="font-size: 1.5rem;">QC_CHECKPOINT</div>
+                            <div class="metric-label" style="font-size: 0.75rem;">Quality data</div>
+                        </div>
+                        <div class="metric-card" style="padding: 1rem;">
+                            <div class="metric-value" style="font-size: 1.5rem;">COMPLIANCE</div>
+                            <div class="metric-label" style="font-size: 0.75rem;">HACCP data</div>
+                        </div>
+                    </div>
+                    <p style="font-size: 0.875rem; margin-top: 1rem; color: var(--text-muted);">Plus: RAW_INTAKE, EQUIPMENT, OPERATOR</p>
+                </div>
+                
+                <div class="glass-card">
+                    <h3>Functional Architecture - Modules</h3>
+                    <ul class="feature-list">
+                        <li>
+                            <span class="material-icons-outlined">widgets</span>
+                            <strong>Batch Management Module</strong>
+                        </li>
+                        <li>
+                            <span class="material-icons-outlined">edit_note</span>
+                            <strong>Stage Recording Module</strong>
+                        </li>
+                        <li>
+                            <span class="material-icons-outlined">verified</span>
+                            <strong>Quality Control Module</strong>
+                        </li>
+                        <li>
+                            <span class="material-icons-outlined">gavel</span>
+                            <strong>Compliance Module</strong>
+                        </li>
+                        <li>
+                            <span class="material-icons-outlined">history</span>
+                            <strong>Traceability Module</strong>
+                        </li>
+                        <li>
+                            <span class="material-icons-outlined">dashboard</span>
+                            <strong>Dashboard Module</strong>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="madrid-footer">
+            <div class="madrid-footer-left">
+                <span class="madrid-footer-text">BIT × Infineon Excellence Program</span>
+            </div>
+            <div class="madrid-footer-center">
+                <div class="madrid-nav-symbols">
+                    <button class="madrid-nav-symbol" onclick="goToSlide(1)" title="First slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">first_page</span>
+                    </button>
+                    <button class="madrid-nav-symbol" onclick="prevSlide()" title="Previous slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">navigate_before</span>
+                    </button>
+                    <button class="madrid-nav-symbol" onclick="nextSlide()" title="Next slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">navigate_next</span>
+                    </button>
+                    <button class="madrid-nav-symbol" onclick="goToSlide(totalSlides)" title="Last slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">last_page</span>
+                    </button>
+                </div>
+            </div>
+            <div class="madrid-footer-right">
+                <span class="madrid-footer-text"><strong>8</strong> / 16</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 9: Existing Prototype -->
+    <div class="slide" id="slide-9">
+        <div class="madrid-section-indicator"></div>
+        <div class="madrid-header">
+            <div class="madrid-header-top">
+                <div class="madrid-title">WEEK 4 BASELINE AUDIT</div>
+                <div class="madrid-author">Abdoul Ben Fatao SANON</div>
+            </div>
+            <div class="madrid-header-nav">
+                <div class="madrid-mini-frames" id="headerMiniFrames-9">
+                    <!-- Mini frames generated by JS -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="slide-header">
+            <div class="badge">
+                <span class="material-icons-outlined">phone_iphone</span>
+                06
+            </div>
+            <h1>Existing Prototype Analysis</h1>
+        </div>
+        <div class="slide-body">
+            <div class="grid-2">
+                <div class="glass-card">
+                    <h3>Current Screens (10)</h3>
+                    <div class="grid-2">
+                        <div class="dependency-node">Dashboard</div>
+                        <div class="dependency-node">Raw Materials</div>
+                        <div class="dependency-node">Transformation Processes</div>
+                        <div class="dependency-node">Production Batches</div>
+                        <div class="dependency-node">Machinery</div>
+                        <div class="dependency-node">Resource Consumption</div>
+                        <div class="dependency-node">Quality Control</div>
+                        <div class="dependency-node">Finished Products</div>
+                        <div class="dependency-node">Storage</div>
+                        <div class="dependency-node">Traceability</div>
+                    </div>
+                </div>
+                
+                <div class="glass-card">
+                    <h3>Design System</h3>
+                    <ul class="feature-list">
+                        <li>
+                            <span class="material-icons-outlined">palette</span>
+                            <strong>Custom CSS</strong> with teal accent (#009688)
+                        </li>
+                        <li>
+                            <span class="material-icons-outlined">icons</span>
+                            <strong>Material Design Icons</strong>
+                        </li>
+                        <li>
+                            <span class="material-icons-outlined">menu</span>
+                            <strong>Responsive sidebar navigation</strong>
+                        </li>
+                        <li>
+                            <span class="material-icons-outlined">view_agenda</span>
+                            <strong>Card-based layouts</strong>
+                        </li>
+                        <li>
+                            <span class="material-icons-outlined">label</span>
+                            <strong>Status badges</strong> (success/warning/error/info)
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="glass-card" style="margin-top: 1.5rem;">
+                <h3>Unknown Alignment Factors</h3>
+                <div class="grid-4">
+                    <div class="dependency-node">Platform design language</div>
+                    <div class="dependency-node">Shared component library</div>
+                    <div class="dependency-node">Navigation patterns</div>
+                    <div class="dependency-node">Typography standards</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="madrid-footer">
+            <div class="madrid-footer-left">
+                <span class="madrid-footer-text">BIT × Infineon Excellence Program</span>
+            </div>
+            <div class="madrid-footer-center">
+                <div class="madrid-nav-symbols">
+                    <button class="madrid-nav-symbol" onclick="goToSlide(1)" title="First slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">first_page</span>
+                    </button>
+                    <button class="madrid-nav-symbol" onclick="prevSlide()" title="Previous slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">navigate_before</span>
+                    </button>
+                    <button class="madrid-nav-symbol" onclick="nextSlide()" title="Next slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">navigate_next</span>
+                    </button>
+                    <button class="madrid-nav-symbol" onclick="goToSlide(totalSlides)" title="Last slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">last_page</span>
+                    </button>
+                </div>
+            </div>
+            <div class="madrid-footer-right">
+                <span class="madrid-footer-text"><strong>9</strong> / 16</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 10: Reviewer Feedback -->
+    <div class="slide" id="slide-10">
+        <div class="madrid-section-indicator"></div>
+        <div class="madrid-header">
+            <div class="madrid-header-top">
+                <div class="madrid-title">WEEK 4 BASELINE AUDIT</div>
+                <div class="madrid-author">Abdoul Ben Fatao SANON</div>
+            </div>
+            <div class="madrid-header-nav">
+                <div class="madrid-mini-frames" id="headerMiniFrames-10">
+                    <!-- Mini frames generated by JS -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="slide-header">
+            <div class="badge">
+                <span class="material-icons-outlined">feedback</span>
+                07
+            </div>
+            <h1>Reviewer Feedback Mapping</h1>
+        </div>
+        <div class="slide-body">
+            <div class="grid-2">
+                <div class="glass-card">
+                    <h3>Homepage Labels Issue</h3>
+                    <p style="font-style: italic; margin-bottom: 1rem;">"Quite some strange labels on your homepage."</p>
+                    <ul class="feature-list">
+                        <li>
+                            <span class="material-icons-outlined">label</span>
+                            <div>
+                                <strong>4 potentially misaligned dashboard labels</strong>
+                                <p style="font-size: 0.75rem; margin: 0;">Raw Materials, Active Batches, Finished Products, Yield Rate</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="material-icons-outlined">priority_high</span>
+                            <span class="priority-badge priority-p1">P1 Priority</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="glass-card">
+                    <h3>UI/Mockup Consistency</h3>
+                    <p style="font-style: italic; margin-bottom: 1rem;">"Mock-up style needs to match styles of other apps – make it easy later when integrated all as one platform."</p>
+                    <ul class="feature-list">
+                        <li>
+                            <span class="material-icons-outlined">design_services</span>
+                            <div>
+                                <strong>Platform design alignment needed</strong>
+                                <p style="font-size: 0.75rem; margin: 0;">Custom CSS, no shared framework identified</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="material-icons-outlined">priority_high</span>
+                            <span class="priority-badge priority-p1">P1 Priority</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="madrid-footer">
+            <div class="madrid-footer-left">
+                <span class="madrid-footer-text">BIT × Infineon Excellence Program</span>
+            </div>
+            <div class="madrid-footer-center">
+                <div class="madrid-nav-symbols">
+                    <button class="madrid-nav-symbol" onclick="goToSlide(1)" title="First slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">first_page</span>
+                    </button>
+                    <button class="madrid-nav-symbol" onclick="prevSlide()" title="Previous slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">navigate_before</span>
+                    </button>
+                    <button class="madrid-nav-symbol" onclick="nextSlide()" title="Next slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">navigate_next</span>
+                    </button>
+                    <button class="madrid-nav-symbol" onclick="goToSlide(totalSlides)" title="Last slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">last_page</span>
+                    </button>
+                </div>
+            </div>
+            <div class="madrid-footer-right">
+                <span class="madrid-footer-text"><strong>10</strong> / 16</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 11: More Reviewer Feedback -->
+    <div class="slide" id="slide-11">
+        <div class="madrid-section-indicator"></div>
+        <div class="madrid-header">
+            <div class="madrid-header-top">
+                <div class="madrid-title">WEEK 4 BASELINE AUDIT</div>
+                <div class="madrid-author">Abdoul Ben Fatao SANON</div>
+            </div>
+            <div class="madrid-header-nav">
+                <div class="madrid-mini-frames" id="headerMiniFrames-11">
+                    <!-- Mini frames generated by JS -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="slide-header">
+            <div class="badge">
+                <span class="material-icons-outlined">feedback</span>
+                07
+            </div>
+            <h1>Reviewer Feedback (Continued)</h1>
+        </div>
+        <div class="slide-body">
+            <div class="grid-2">
+                <div class="glass-card">
+                    <h3>Plants Data Integration</h3>
+                    <p style="font-style: italic; margin-bottom: 1rem;">"Any possibility to get input from Plants app e.g. amount of Mango harvested..."</p>
+                    <ul class="feature-list">
+                        <li>
+                            <span class="material-icons-outlined">input</span>
+                            <div>
+                                <strong>Integration concept captured, not detailed</strong>
+                                <p style="font-size: 0.75rem; margin: 0;">Data fields identified, contract not formalized</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="material-icons-outlined">priority_high</span>
+                            <span class="priority-badge priority-p0">P0 Priority</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="glass-card">
+                    <h3>Historical Forecasting</h3>
+                    <p style="font-style: italic; margin-bottom: 1rem;">"Make a forecast based on historical values."</p>
+                    <ul class="feature-list">
+                        <li>
+                            <span class="material-icons-outlined">trending_up</span>
+                            <div>
+                                <strong>FR-09 includes historical analysis (SHOULD)</strong>
+                                <p style="font-size: 0.75rem; margin: 0;">Data structure and method not defined</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="material-icons-outlined">priority_high</span>
+                            <span class="priority-badge priority-p1">P1 Priority</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="glass-card" style="margin-top: 1.5rem; border-color: var(--highlight-gold);">
+                <h3 style="color: var(--highlight-gold);">Primary Week 04 Deliverable</h3>
+                <p style="font-style: italic; margin-bottom: 1rem;">"Identified cross-functional dependencies – best way to show such cross-function dependency is to build a swimlane diagram – please do it for next week."</p>
+                <div class="dependency-flow">
+                    <div class="dependency-node">Cross-Functional Swimlane Diagram</div>
+                    <span class="priority-badge priority-p0">P0 MUST COMPLETE</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="madrid-footer">
+            <div class="madrid-footer-left">
+                <span class="madrid-footer-text">BIT × Infineon Excellence Program</span>
+            </div>
+            <div class="madrid-footer-center">
+                <div class="madrid-nav-symbols">
+                    <button class="madrid-nav-symbol" onclick="goToSlide(1)" title="First slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">first_page</span>
+                    </button>
+                    <button class="madrid-nav-symbol" onclick="prevSlide()" title="Previous slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">navigate_before</span>
+                    </button>
+                    <button class="madrid-nav-symbol" onclick="nextSlide()" title="Next slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">navigate_next</span>
+                    </button>
+                    <button class="madrid-nav-symbol" onclick="goToSlide(totalSlides)" title="Last slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">last_page</span>
+                    </button>
+                </div>
+            </div>
+            <div class="madrid-footer-right">
+                <span class="madrid-footer-text"><strong>11</strong> / 16</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 12: Known Gaps -->
+    <div class="slide" id="slide-12">
+        <div class="madrid-section-indicator"></div>
+        <div class="madrid-header">
+            <div class="madrid-header-top">
+                <div class="madrid-title">WEEK 4 BASELINE AUDIT</div>
+                <div class="madrid-author">Abdoul Ben Fatao SANON</div>
+            </div>
+            <div class="madrid-header-nav">
+                <div class="madrid-mini-frames" id="headerMiniFrames-12">
+                    <!-- Mini frames generated by JS -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="slide-header">
+            <div class="badge">
+                <span class="material-icons-outlined">report_problem</span>
+                08
+            </div>
+            <h1>Known Gaps</h1>
+        </div>
+        <div class="slide-body">
+            <div class="grid-2">
+                <div class="glass-card">
+                    <h3>Missing Week 04 Deliverables</h3>
+                    <ul class="feature-list">
+                        <li>
+                            <span class="material-icons-outlined" style="color: #FF6347;">cancel</span>
+                            <div>
+                                <strong>WEEK_4_CROSS_FUNCTIONAL_SWIMLANE</strong>
+                                <span class="priority-badge priority-p0">P0</span>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="material-icons-outlined" style="color: #FF6347;">cancel</span>
+                            <div>
+                                <strong>WEEK_4_DATA_INTEGRATION_SPEC</strong>
+                                <span class="priority-badge priority-p0">P0</span>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="material-icons-outlined" style="color: #FF6347;">cancel</span>
+                            <div>
+                                <strong>WEEK_4_FORECASTING_SPEC</strong>
+                                <span class="priority-badge priority-p1">P1</span>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="material-icons-outlined" style="color: #FF6347;">cancel</span>
+                            <div>
+                                <strong>WEEK_4_DESIGN_ALIGNMENT</strong>
+                                <span class="priority-badge priority-p1">P1</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="glass-card">
+                    <h3>Missing Integration Details</h3>
+                    <ul class="feature-list">
+                        <li>
+                            <span class="material-icons-outlined">link_off</span>
+                            <strong>Plants → Product Transformation</strong>
+                            <p style="font-size: 0.75rem; margin: 0;">Data contract not defined</p>
+                        </li>
+                        <li>
+                            <span class="material-icons-outlined">link_off</span>
+                            <strong>Machinery → Product Transformation</strong>
+                            <p style="font-size: 0.75rem; margin: 0;">API specification not defined</p>
+                        </li>
+                        <li>
+                            <span class="material-icons-outlined">link_off</span>
+                            <strong>Energy/Water → Product Transformation</strong>
+                            <p style="font-size: 0.75rem; margin: 0;">Real-time integration not specified</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="madrid-footer">
+            <div class="madrid-footer-left">
+                <span class="madrid-footer-text">BIT × Infineon Excellence Program</span>
+            </div>
+            <div class="madrid-footer-center">
+                <div class="madrid-nav-symbols">
+                    <button class="madrid-nav-symbol" onclick="goToSlide(1)" title="First slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">first_page</span>
+                    </button>
+                    <button class="madrid-nav-symbol" onclick="prevSlide()" title="Previous slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">navigate_before</span>
+                    </button>
+                    <button class="madrid-nav-symbol" onclick="nextSlide()" title="Next slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">navigate_next</span>
+                    </button>
+                    <button class="madrid-nav-symbol" onclick="goToSlide(totalSlides)" title="Last slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">last_page</span>
+                    </button>
+                </div>
+            </div>
+            <div class="madrid-footer-right">
+                <span class="madrid-footer-text"><strong>12</strong> / 16</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 13: Week 04 Priorities -->
+    <div class="slide" id="slide-13">
+        <div class="madrid-section-indicator"></div>
+        <div class="madrid-header">
+            <div class="madrid-header-top">
+                <div class="madrid-title">WEEK 4 BASELINE AUDIT</div>
+                <div class="madrid-author">Abdoul Ben Fatao SANON</div>
+            </div>
+            <div class="madrid-header-nav">
+                <div class="madrid-mini-frames" id="headerMiniFrames-13">
+                    <!-- Mini frames generated by JS -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="slide-header">
+            <div class="badge">
+                <span class="material-icons-outlined">flag</span>
+                09
+            </div>
+            <h1>Week 04 Priorities</h1>
+        </div>
+        <div class="slide-body">
+            <div class="glass-card" style="margin-bottom: 1.5rem; border-color: #FF6347;">
+                <h3 style="color: #FF6347;">P0 - Must Complete This Week</h3>
+                <div class="progress-step">
+                    <div class="step-icon">1</div>
+                    <div class="step-content">
+                        <h4>Cross-Functional Swimlane Diagram</h4>
+                        <p>Create visual swimlane with all 6 workstreams, map process steps, data flows, handoffs, decision points, and resource dependencies</p>
+                    </div>
+                </div>
+                <div class="progress-step">
+                    <div class="step-icon">2</div>
+                    <div class="step-content">
+                        <h4>Plants → Product Transformation Integration</h4>
+                        <p>Define data contract, integration trigger, frequency, data ownership, and create integration specification</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="glass-card" style="margin-bottom: 1.5rem; border-color: var(--highlight-gold);">
+                <h3 style="color: var(--highlight-gold);">P1 - Should Complete This Week</h3>
+                <div class="progress-step">
+                    <div class="step-icon">3</div>
+                    <div class="step-content">
+                        <h4>Homepage Terminology Cleanup</h4>
+                        <p>Audit labels against business terminology, consult with other workstreams, create alignment document</p>
+                    </div>
+                </div>
+                <div class="progress-step">
+                    <div class="step-icon">4</div>
+                    <div class="step-content">
+                        <h4>Platform Design Alignment</h4>
+                        <p>Inspect other prototypes, identify shared patterns, define platform design language</p>
+                    </div>
+                </div>
+                <div class="progress-step">
+                    <div class="step-icon">5</div>
+                    <div class="step-content">
+                        <h4>Forecasting Prototype</h4>
+                        <p>Define historical data structure, select baseline method, create transparent forecast demonstration</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="madrid-footer">
+            <div class="madrid-footer-left">
+                <span class="madrid-footer-text">BIT × Infineon Excellence Program</span>
+            </div>
+            <div class="madrid-footer-center">
+                <div class="madrid-nav-symbols">
+                    <button class="madrid-nav-symbol" onclick="goToSlide(1)" title="First slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">first_page</span>
+                    </button>
+                    <button class="madrid-nav-symbol" onclick="prevSlide()" title="Previous slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">navigate_before</span>
+                    </button>
+                    <button class="madrid-nav-symbol" onclick="nextSlide()" title="Next slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">navigate_next</span>
+                    </button>
+                    <button class="madrid-nav-symbol" onclick="goToSlide(totalSlides)" title="Last slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">last_page</span>
+                    </button>
+                </div>
+            </div>
+            <div class="madrid-footer-right">
+                <span class="madrid-footer-text"><strong>13</strong> / 16</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 14: Execution Sequence -->
+    <div class="slide" id="slide-14">
+        <div class="madrid-section-indicator"></div>
+        <div class="madrid-header">
+            <div class="madrid-header-top">
+                <div class="madrid-title">WEEK 4 BASELINE AUDIT</div>
+                <div class="madrid-author">Abdoul Ben Fatao SANON</div>
+            </div>
+            <div class="madrid-header-nav">
+                <div class="madrid-mini-frames" id="headerMiniFrames-14">
+                    <!-- Mini frames generated by JS -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="slide-header">
+            <div class="badge">
+                <span class="material-icons-outlined">list_alt</span>
+                10
+            </div>
+            <h1>Recommended Execution Sequence</h1>
+        </div>
+        <div class="slide-body">
+            <div class="progress-step completed">
+                <div class="step-icon"><span class="material-icons-outlined" style="font-size: 0.875rem;">check</span></div>
+                <div class="step-content">
+                    <h4>Step 1: Repository Audit ✅ COMPLETE</h4>
+                    <p>Inspected directory structure, reviewed Week 01-03 files, identified existing assets</p>
+                </div>
+            </div>
+            <div class="progress-step completed">
+                <div class="step-icon"><span class="material-icons-outlined" style="font-size: 0.875rem;">check</span></div>
+                <div class="step-content">
+                    <h4>Step 2: Baseline Audit ✅ THIS DOCUMENT</h4>
+                    <p>Documented current state, inventoried assets, mapped feedback, identified gaps</p>
+                </div>
+            </div>
+            <div class="progress-step" style="border-color: var(--accent-teal);">
+                <div class="step-icon" style="background: var(--accent-teal); color: var(--bg-dark);">3</div>
+                <div class="step-content">
+                    <h4>Step 3: Build Swimlane Diagram (NEXT)</h4>
+                    <p>Use Week 03 matrix as source, create 7-lane swimlane, map complete process flow</p>
+                </div>
+            </div>
+            <div class="progress-step">
+                <div class="step-icon">4</div>
+                <div class="step-content">
+                    <h4>Step 4: Define Plants Integration</h4>
+                    <p>Extract requirements, define data structure, specify integration contract</p>
+                </div>
+            </div>
+            <div class="progress-step">
+                <div class="step-icon">5</div>
+                <div class="step-content">
+                    <h4>Step 5: Define Forecasting</h4>
+                    <p>Define historical data structure, select baseline method, design calculation</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="madrid-footer">
+            <div class="madrid-footer-left">
+                <span class="madrid-footer-text">BIT × Infineon Excellence Program</span>
+            </div>
+            <div class="madrid-footer-center">
+                <div class="madrid-nav-symbols">
+                    <button class="madrid-nav-symbol" onclick="goToSlide(1)" title="First slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">first_page</span>
+                    </button>
+                    <button class="madrid-nav-symbol" onclick="prevSlide()" title="Previous slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">navigate_before</span>
+                    </button>
+                    <button class="madrid-nav-symbol" onclick="nextSlide()" title="Next slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">navigate_next</span>
+                    </button>
+                    <button class="madrid-nav-symbol" onclick="goToSlide(totalSlides)" title="Last slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">last_page</span>
+                    </button>
+                </div>
+            </div>
+            <div class="madrid-footer-right">
+                <span class="madrid-footer-text"><strong>14</strong> / 16</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 15: Success Criteria -->
+    <div class="slide" id="slide-15">
+        <div class="madrid-section-indicator"></div>
+        <div class="madrid-header">
+            <div class="madrid-header-top">
+                <div class="madrid-title">WEEK 4 BASELINE AUDIT</div>
+                <div class="madrid-author">Abdoul Ben Fatao SANON</div>
+            </div>
+            <div class="madrid-header-nav">
+                <div class="madrid-mini-frames" id="headerMiniFrames-15">
+                    <!-- Mini frames generated by JS -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="slide-header">
+            <div class="badge">
+                <span class="material-icons-outlined">verified</span>
+                12
+            </div>
+            <h1>Week 04 Success Criteria</h1>
+        </div>
+        <div class="slide-body">
+            <div class="grid-2">
+                <div class="glass-card">
+                    <h3>Primary Deliverables</h3>
+                    <ul class="feature-list">
+                        <li>
+                            <span class="material-icons-outlined">check_box_outline_blank</span>
+                            Cross-functional swimlane diagram complete and accurate
+                        </li>
+                        <li>
+                            <span class="material-icons-outlined">check_box_outline_blank</span>
+                            All six external workstream dependencies represented
+                        </li>
+                        <li>
+                            <span class="material-icons-outlined">check_box_outline_blank</span>
+                            Plants → Product Transformation data flow defined with contract
+                        </li>
+                        <li>
+                            <span class="material-icons-outlined">check_box_outline_blank</span>
+                            Historical harvest data structure represented in architecture
+                        </li>
+                        <li>
+                            <span class="material-icons-outlined">check_box_outline_blank</span>
+                            Transparent baseline forecast demonstrated with methodology
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="glass-card">
+                    <h3>Quality & Consistency</h3>
+                    <ul class="feature-list">
+                        <li>
+                            <span class="material-icons-outlined">check_box_outline_blank</span>
+                            Homepage terminology audited with improvement recommendations
+                        </li>
+                        <li>
+                            <span class="material-icons-outlined">check_box_outline_blank</span>
+                            Product Transformation UI aligned with platform patterns
+                        </li>
+                        <li>
+                            <span class="material-icons-outlined">check_box_outline_blank</span>
+                            Forecasting limitations and assumptions documented
+                        </li>
+                        <li>
+                            <span class="material-icons-outlined">check_box_outline_blank</span>
+                            Batch traceability remains intact in all designs
+                        </li>
+                        <li>
+                            <span class="material-icons-outlined">check_box_outline_blank</span>
+                            Architecture, data model, and prototype consistent with Week 04 decisions
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="madrid-footer">
+            <div class="madrid-footer-left">
+                <span class="madrid-footer-text">BIT × Infineon Excellence Program</span>
+            </div>
+            <div class="madrid-footer-center">
+                <div class="madrid-nav-symbols">
+                    <button class="madrid-nav-symbol" onclick="goToSlide(1)" title="First slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">first_page</span>
+                    </button>
+                    <button class="madrid-nav-symbol" onclick="prevSlide()" title="Previous slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">navigate_before</span>
+                    </button>
+                    <button class="madrid-nav-symbol" onclick="nextSlide()" title="Next slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">navigate_next</span>
+                    </button>
+                    <button class="madrid-nav-symbol" onclick="goToSlide(totalSlides)" title="Last slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">last_page</span>
+                    </button>
+                </div>
+            </div>
+            <div class="madrid-footer-right">
+                <span class="madrid-footer-text"><strong>15</strong> / 16</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 16: Conclusion -->
+    <div class="slide" id="slide-16">
+        <div class="madrid-section-indicator"></div>
+        <div class="madrid-header">
+            <div class="madrid-header-top">
+                <div class="madrid-title">WEEK 4 BASELINE AUDIT</div>
+                <div class="madrid-author">Abdoul Ben Fatao SANON</div>
+            </div>
+            <div class="madrid-header-nav">
+                <div class="madrid-mini-frames" id="headerMiniFrames-16">
+                    <!-- Mini frames generated by JS -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="slide-header">
+            <div class="badge">
+                <span class="material-icons-outlined">done_all</span>
+                15
+            </div>
+            <h1>Conclusion & Next Steps</h1>
+        </div>
+        <div class="slide-body">
+            <div class="glass-card" style="margin-bottom: 1.5rem; text-align: center;">
+                <h3 style="color: #10B981;">Baseline Status: ✅ Established</h3>
+                <p>Week 03 provides a solid validated requirements baseline. Week 04 must now transform these requirements into visual process documentation, data integration contracts, and platform-aligned design specifications.</p>
+            </div>
+            
+            <div class="glass-card" style="margin-bottom: 1.5rem;">
+                <h3>Key Principle</h3>
+                <p style="font-size: 1.125rem; font-weight: 500; color: var(--accent-cyan);">Build on Week 03, do not recreate it.</p>
+                <p>Use the validated requirements as the source of truth for all Week 04 work.</p>
+            </div>
+            
+            <div class="glass-card" style="border-color: var(--highlight-gold);">
+                <h3 style="color: var(--highlight-gold);">Primary Focus</h3>
+                <p>The cross-functional swimlane diagram is the primary Week 04 deliverable and must be completed first, as it provides the visual foundation for all other Week 04 work.</p>
+            </div>
+            
+            <div class="glass-card" style="margin-top: 1.5rem; background: linear-gradient(135deg, rgba(0, 150, 136, 0.1), rgba(0, 150, 136, 0.2));">
+                <h3>Next Action</h3>
+                <div class="dependency-flow">
+                    <div class="dependency-node" style="border-color: var(--accent-cyan); background: rgba(12, 185, 193, 0.2);">Begin STEP 3 - Build Cross-Functional Swimlane Diagram</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="madrid-footer">
+            <div class="madrid-footer-left">
+                <span class="madrid-footer-text">BIT × Infineon Excellence Program</span>
+            </div>
+            <div class="madrid-footer-center">
+                <div class="madrid-nav-symbols">
+                    <button class="madrid-nav-symbol" onclick="goToSlide(1)" title="First slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">first_page</span>
+                    </button>
+                    <button class="madrid-nav-symbol" onclick="prevSlide()" title="Previous slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">navigate_before</span>
+                    </button>
+                    <button class="madrid-nav-symbol" onclick="nextSlide()" title="Next slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">navigate_next</span>
+                    </button>
+                    <button class="madrid-nav-symbol" onclick="goToSlide(totalSlides)" title="Last slide">
+                        <span class="material-icons-outlined" style="font-size: 1rem;">last_page</span>
+                    </button>
+                </div>
+            </div>
+            <div class="madrid-footer-right">
+                <span class="madrid-footer-text"><strong>16</strong> / 16</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
+        <span class="material-icons-outlined">light_mode</span>
+    </button>
+    
+    <!-- Madrid TOC Toggle -->
+    <button class="madrid-toc-toggle" onclick="toggleTOC()">
+        <span class="material-icons-outlined">view_list</span>
+        Contents
+    </button>
+    
+    <!-- Madrid TOC Panel -->
+    <div class="madrid-toc-panel" id="tocPanel">
+        <h2 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; color: var(--accent-teal); margin-bottom: 1.5rem;">Table of Contents</h2>
+        <div id="tocItems">
+            <!-- TOC items generated by JS -->
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 16;
+        
+        // Section titles for each slide
+        const sectionTitles = [
+            'Cover',
+            'Executive Summary',
+            'Current State',
+            'Documentation Assets',
+            'Technical Artifacts',
+            'Validated Requirements',
+            'Data Dependencies',
+            'Architecture',
+            'Prototype Analysis',
+            'Reviewer Feedback',
+            'Feedback (Cont.)',
+            'Known Gaps',
+            'Week 04 Priorities',
+            'Execution Sequence',
+            'Success Criteria',
+            'Conclusion'
+        ];
+
+        function showSlide(n) {
+            const slides = document.querySelectorAll('.slide');
+            
+            if (n > totalSlides) currentSlide = 1;
+            if (n < 1) currentSlide = totalSlides;
+            
+            // Animate out current slide first
+            const currentActiveSlide = document.querySelector('.slide.active');
+            if (currentActiveSlide && currentActiveSlide.id !== `slide-${currentSlide}`) {
+                gsap.to(currentActiveSlide, {
+                    opacity: 0,
+                    scale: 0.95,
+                    duration: 0.3,
+                    ease: 'power2.in',
+                    onComplete: () => {
+                        currentActiveSlide.classList.remove('active');
+                        activateNewSlide();
+                    }
+                });
+            } else {
+                activateNewSlide();
+            }
+        }
+        
+        function activateNewSlide() {
+            const slides = document.querySelectorAll('.slide');
+            
+            slides.forEach(slide => {
+                slide.classList.remove('active');
+            });
+            
+            const activeSlide = document.getElementById(`slide-${currentSlide}`);
+            activeSlide.classList.add('active');
+            
+            // Kill any existing animations on this slide
+            gsap.killTweensOf(activeSlide);
+            
+            // Reset all animated elements to their initial state
+            const allAnimatedElements = activeSlide.querySelectorAll('.slide-header, .madrid-header, .glass-card, .table-container, .progress-step, .feature-list li, .dependency-node, .metric-card, .madrid-footer');
+            gsap.set(allAnimatedElements, { opacity: 0, clearProps: 'transform' });
+            
+            // Animate slide entrance
+            gsap.fromTo(activeSlide,
+                { opacity: 0, scale: 0.95 },
+                { opacity: 1, scale: 1, duration: 0.4, ease: 'power2.out' }
+            );
+            
+            // Animate header with more sophisticated effect
+            const headerElement = activeSlide.querySelector('.slide-header');
+            if (headerElement) {
+                gsap.fromTo(headerElement, 
+                    { opacity: 0, y: -20, x: -10 },
+                    { opacity: 1, y: 0, x: 0, duration: 0.5, ease: 'power3.out' }
+                );
+            }
+            
+            // Animate Madrid header
+            const madridHeader = activeSlide.querySelector('.madrid-header');
+            if (madridHeader) {
+                gsap.fromTo(madridHeader,
+                    { opacity: 0, y: -10 },
+                    { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out', delay: 0.1 }
+                );
+            }
+            
+            // Animate elements with stagger and different effects
+            const glassCards = activeSlide.querySelectorAll('.glass-card');
+            if (glassCards.length > 0) {
+                gsap.fromTo(glassCards,
+                    { opacity: 0, y: 40, scale: 0.95 },
+                    { 
+                        opacity: 1, 
+                        y: 0, 
+                        scale: 1, 
+                        duration: 0.5, 
+                        stagger: 0.08, 
+                        ease: 'back.out(1.2)',
+                        delay: 0.2
+                    }
+                );
+            }
+            
+            const tableContainers = activeSlide.querySelectorAll('.table-container');
+            if (tableContainers.length > 0) {
+                gsap.fromTo(tableContainers,
+                    { opacity: 0, y: 30, scale: 0.98 },
+                    { 
+                        opacity: 1, 
+                        y: 0, 
+                        scale: 1, 
+                        duration: 0.5, 
+                        stagger: 0.1, 
+                        ease: 'power2.out',
+                        delay: 0.25
+                    }
+                );
+            }
+            
+            const progressSteps = activeSlide.querySelectorAll('.progress-step');
+            if (progressSteps.length > 0) {
+                gsap.fromTo(progressSteps,
+                    { opacity: 0, x: -30 },
+                    { 
+                        opacity: 1, 
+                        x: 0, 
+                        duration: 0.4, 
+                        stagger: 0.06, 
+                        ease: 'power2.out',
+                        delay: 0.3
+                    }
+                );
+            }
+            
+            // Animate feature list items
+            const featureListItems = activeSlide.querySelectorAll('.feature-list li');
+            if (featureListItems.length > 0) {
+                gsap.fromTo(featureListItems,
+                    { opacity: 0, x: -20 },
+                    { 
+                        opacity: 1, 
+                        x: 0, 
+                        duration: 0.3, 
+                        stagger: 0.05, 
+                        ease: 'power2.out',
+                        delay: 0.35
+                    }
+                );
+            }
+            
+            // Animate dependency nodes
+            const dependencyNodes = activeSlide.querySelectorAll('.dependency-node');
+            if (dependencyNodes.length > 0) {
+                gsap.fromTo(dependencyNodes,
+                    { opacity: 0, scale: 0.8 },
+                    { 
+                        opacity: 1, 
+                        scale: 1, 
+                        duration: 0.4, 
+                        stagger: 0.08, 
+                        ease: 'elastic.out(1, 0.5)',
+                        delay: 0.25
+                    }
+                );
+            }
+            
+            // Animate metric cards
+            const metricCards = activeSlide.querySelectorAll('.metric-card');
+            if (metricCards.length > 0) {
+                gsap.fromTo(metricCards,
+                    { opacity: 0, y: 30, scale: 0.9 },
+                    { 
+                        opacity: 1, 
+                        y: 0, 
+                        scale: 1, 
+                        duration: 0.5, 
+                        stagger: 0.1, 
+                        ease: 'power2.out',
+                        delay: 0.2
+                    }
+                );
+            }
+            
+            // Animate Madrid footer
+            const madridFooter = activeSlide.querySelector('.madrid-footer');
+            if (madridFooter) {
+                gsap.fromTo(madridFooter,
+                    { opacity: 0, y: 20 },
+                    { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out', delay: 0.5 }
+                );
+            }
+            
+            // Update Madrid navigation
+            updateMadridNav();
+            
+            // Update TOC
+            updateTOC();
+        }
+
+        function updateMadridNav() {
+            // Update header mini frames for current slide
+            const headerContainerId = currentSlide === 1 ? 'headerMiniFrames' : `headerMiniFrames-${currentSlide}`;
+            const headerContainer = document.getElementById(headerContainerId);
+            if (headerContainer) {
+                const frames = headerContainer.querySelectorAll('.madrid-mini-frame');
+                frames.forEach((frame, index) => {
+                    if (index + 1 === currentSlide) {
+                        frame.classList.add('active');
+                    } else {
+                        frame.classList.remove('active');
+                    }
+                });
+            }
+            
+            // Update footer slide counter for current slide
+            const currentSlideElement = document.getElementById(`slide-${currentSlide}`);
+            if (currentSlideElement) {
+                const counter = currentSlideElement.querySelector('.madrid-footer-right .madrid-footer-text');
+                if (counter) {
+                    counter.innerHTML = `<strong>${currentSlide}</strong> / ${totalSlides}`;
+                }
+                
+                // Update navigation symbols state
+                const navSymbols = currentSlideElement.querySelectorAll('.madrid-nav-symbol');
+                navSymbols.forEach((btn, index) => {
+                    if (index === 0) { // First slide button
+                        btn.disabled = currentSlide === 1;
+                    } else if (index === 1) { // Previous button
+                        btn.disabled = currentSlide === 1;
+                    } else if (index === 2) { // Next button
+                        btn.disabled = currentSlide === totalSlides;
+                    } else if (index === 3) { // Last slide button
+                        btn.disabled = currentSlide === totalSlides;
+                    }
+                });
+            }
+        }
+
+        function goToSlide(n) {
+            currentSlide = n;
+            showSlide(currentSlide);
+        }
+
+        function nextSlide() {
+            currentSlide++;
+            showSlide(currentSlide);
+        }
+
+        function prevSlide() {
+            currentSlide--;
+            showSlide(currentSlide);
+        }
+
+        // Generate Madrid navigation elements
+        function generateMadridNav() {
+            // Generate header mini frames for each slide
+            for (let slideNum = 1; slideNum <= totalSlides; slideNum++) {
+                const containerId = slideNum === 1 ? 'headerMiniFrames' : `headerMiniFrames-${slideNum}`;
+                const container = document.getElementById(containerId);
+                if (container) {
+                    for (let i = 1; i <= totalSlides; i++) {
+                        const frame = document.createElement('div');
+                        frame.className = 'madrid-mini-frame';
+                        frame.onclick = () => goToSlide(i);
+                        frame.title = sectionTitles[i - 1];
+                        container.appendChild(frame);
+                    }
+                }
+            }
+            
+            // Generate TOC items
+            const tocContainer = document.getElementById('tocItems');
+            if (tocContainer) {
+                for (let i = 1; i <= totalSlides; i++) {
+                    const tocItem = document.createElement('div');
+                    tocItem.className = 'madrid-toc-item';
+                    tocItem.id = `toc-item-${i}`;
+                    tocItem.innerHTML = `
+                        <span class="slide-number">${i}</span>
+                        <span>${sectionTitles[i - 1]}</span>
+                    `;
+                    tocItem.onclick = () => {
+                        goToSlide(i);
+                        toggleTOC();
+                    };
+                    tocContainer.appendChild(tocItem);
+                }
+            }
+        }
+        
+        // Toggle TOC panel
+        function toggleTOC() {
+            const tocPanel = document.getElementById('tocPanel');
+            tocPanel.classList.toggle('open');
+        }
+        
+        // Toggle theme
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            html.setAttribute('data-theme', newTheme);
+            
+            // Update theme toggle icon
+            const themeIcon = document.querySelector('.theme-toggle .material-icons-outlined');
+            themeIcon.textContent = newTheme === 'light' ? 'dark_mode' : 'light_mode';
+            
+            // Save preference to localStorage
+            localStorage.setItem('theme', newTheme);
+        }
+        
+        // Load saved theme preference
+        function loadThemePreference() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                document.documentElement.setAttribute('data-theme', savedTheme);
+                const themeIcon = document.querySelector('.theme-toggle .material-icons-outlined');
+                themeIcon.textContent = savedTheme === 'light' ? 'dark_mode' : 'light_mode';
+            }
+        }
+        
+        // Update TOC active state
+        function updateTOC() {
+            const tocItems = document.querySelectorAll('.madrid-toc-item');
+            tocItems.forEach((item, index) => {
+                if (index + 1 === currentSlide) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        }
+
+        // Keyboard navigation (enhanced for KDE Connect and remote controls)
+        document.addEventListener('keydown', (e) => {
+            // Right arrow, Space, PageDown, Enter, or remote control right
+            if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown' || e.key === 'Enter' || e.key === 'MediaTrackNext') {
+                e.preventDefault();
+                nextSlide();
+            } 
+            // Left arrow, PageUp, or remote control left
+            else if (e.key === 'ArrowLeft' || e.key === 'PageUp' || e.key === 'MediaTrackPrevious') {
+                e.preventDefault();
+                prevSlide();
+            } 
+            // Home or remote control first
+            else if (e.key === 'Home' || e.key === 'MediaRewind') {
+                e.preventDefault();
+                goToSlide(1);
+            } 
+            // End or remote control last
+            else if (e.key === 'End' || e.key === 'MediaFastForward') {
+                e.preventDefault();
+                goToSlide(totalSlides);
+            }
+            // Number keys for direct slide navigation
+            else if (e.key >= '1' && e.key <= '9') {
+                const slideNum = parseInt(e.key);
+                if (slideNum <= totalSlides) {
+                    e.preventDefault();
+                    goToSlide(slideNum);
+                }
+            }
+            // Escape to close TOC
+            else if (e.key === 'Escape') {
+                const tocPanel = document.getElementById('tocPanel');
+                if (tocPanel.classList.contains('open')) {
+                    toggleTOC();
+                }
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadThemePreference();
+            generateMadridNav();
+            showSlide(1);
+            updateTOC();
+        });
+    </script>
+</body>
+</html>
