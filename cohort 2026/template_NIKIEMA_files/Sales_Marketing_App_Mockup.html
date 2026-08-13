@@ -1,0 +1,1668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@600;700&display=swap');.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 300,'GRAD' 0,'opsz' 24;}</style><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={theme:{extend:{"colors":{"on-error":"#ffffff","surface-container":"#e5eeff","surface":"#f8f9ff","tertiary-fixed-dim":"#ffb59b","on-primary-container":"#edfffa","on-surface":"#0b1c30","inverse-surface":"#213145","on-primary":"#ffffff","tertiary-container":"#ac5f42","surface-tint":"#006a60","inverse-on-surface":"#eaf1ff","outline-variant":"#bdc9c6","primary-container":"#0a8276","on-secondary-fixed":"#331200","on-tertiary-fixed-variant":"#74341a","surface-variant":"#d3e4fe","surface-container-high":"#dce9ff","secondary-fixed":"#ffdbca","primary":"#00675d","error-container":"#ffdad6","on-background":"#0b1c30","on-secondary":"#ffffff","outline":"#6e7a77","inverse-primary":"#77d7c9","surface-container-highest":"#d3e4fe","on-tertiary":"#ffffff","surface-container-low":"#eff4ff","surface-container-lowest":"#ffffff","secondary":"#9c4400","primary-fixed-dim":"#77d7c9","on-surface-variant":"#3e4947","on-primary-fixed":"#00201c","tertiary":"#8e472c","surface-bright":"#f8f9ff","secondary-container":"#fd7613","surface-dim":"#cbdbf5","secondary-fixed-dim":"#ffb68f","tertiary-fixed":"#ffdbcf","error":"#ba1a1a","on-tertiary-container":"#fffaf9","primary-fixed":"#93f4e5","on-secondary-container":"#5b2500","on-error-container":"#93000a","on-primary-fixed-variant":"#005048","on-secondary-fixed-variant":"#773200","on-tertiary-fixed":"#380d00","background":"#f8f9ff"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"sm":"8px","gutter":"24px","margin-desktop":"32px","unit":"4px","xs":"4px","margin-mobile":"16px","md":"16px","xl":"32px","lg":"24px","xxl":"48px"},"fontFamily":{"label-md":["Inter"],"mono-label":["Inter"],"body-sm":["Inter"],"headline-sm":["Montserrat"],"headline-md":["Montserrat"],"display-lg":["Montserrat"],"body-md":["Inter"],"headline-lg":["Montserrat"],"headline-lg-mobile":["Montserrat"],"body-lg":["Inter"]},"fontSize":{"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.05em","fontWeight":"600"}],"mono-label":["13px",{"lineHeight":"18px","fontWeight":"500"}],"body-sm":["14px",{"lineHeight":"20px","fontWeight":"400"}],"headline-sm":["20px",{"lineHeight":"28px","fontWeight":"600"}],"headline-md":["24px",{"lineHeight":"32px","fontWeight":"600"}],"display-lg":["48px",{"lineHeight":"56px","letterSpacing":"-0.02em","fontWeight":"700"}],"body-md":["16px",{"lineHeight":"24px","fontWeight":"400"}],"headline-lg":["32px",{"lineHeight":"40px","fontWeight":"600"}],"headline-lg-mobile":["24px",{"lineHeight":"32px","fontWeight":"600"}],"body-lg":["18px",{"lineHeight":"28px","fontWeight":"400"}]}}}}</script></head>
+<body class="bg-background font-body-md text-on-background">
+<aside class="fixed left-0 top-0 h-full w-72 bg-primary-container z-50 flex flex-col py-xl shadow-xl"><div class="px-lg mb-xxl flex items-center gap-sm"><div class="w-2 h-8 bg-on-primary-container rounded-full"></div><span class="font-headline-sm text-headline-sm text-on-primary-container tracking-wider uppercase">Sales &amp; Marketing</span></div><nav class="flex-1 px-md flex flex-col gap-xs" data-active-classes="rounded-full"><a class="flex items-center px-lg py-md opacity-80 hover:opacity-100 transition-all duration-200 group rounded-full" data-path="dashboard" href="#"><span class="material-symbols-outlined mr-md">grid_view</span><span class="font-label-md text-label-md">DASHBOARD</span></a><a class="flex items-center px-lg py-md text-on-primary-container opacity-80 hover:opacity-100 hover:bg-primary/20 rounded-full transition-all duration-200 group" data-path="forecasting" href="#"><span class="material-symbols-outlined mr-md">trending_up</span><span class="font-label-md text-label-md">FORECASTING</span></a><a class="flex items-center px-lg py-md text-on-primary-container opacity-80 hover:opacity-100 hover:bg-primary/20 rounded-full transition-all duration-200 group" data-path="crm" href="#"><span class="material-symbols-outlined mr-md">group</span><span class="font-label-md text-label-md">CRM / CLIENTS</span></a><a class="flex items-center px-lg py-md text-on-primary-container opacity-80 hover:opacity-100 hover:bg-primary/20 rounded-full transition-all duration-200 group" data-path="sales-channels" href="#"><span class="material-symbols-outlined mr-md">shopping_cart</span><span class="font-label-md text-label-md">SALES CHANNELS</span></a><a class="flex items-center px-lg py-md text-on-primary-container opacity-80 hover:opacity-100 hover:bg-primary/20 rounded-full transition-all duration-200 group" data-path="pricing" href="#"><span class="material-symbols-outlined mr-md">sell</span><span class="font-label-md text-label-md">PRICING</span></a><a class="flex items-center px-lg py-md text-on-primary-container opacity-80 hover:opacity-100 hover:bg-primary/20 rounded-full transition-all duration-200 group" data-path="campaigns" href="#"><span class="material-symbols-outlined mr-md">campaign</span><span class="font-label-md text-label-md">CAMPAIGNS</span></a><a class="flex items-center px-lg py-md text-on-primary-container opacity-80 hover:opacity-100 hover:bg-primary/20 rounded-full transition-all duration-200 group" data-path="delivery" href="#"><span class="material-symbols-outlined mr-md">local_shipping</span><span class="font-label-md text-label-md">DELIVERY</span></a></nav><div class="px-md mt-auto pt-lg"><a class="flex items-center px-lg py-md text-on-primary-container opacity-80 hover:opacity-100 hover:bg-error/20 rounded-full transition-all group" data-path="logout" href="#"><span class="material-symbols-outlined mr-md">logout</span><span class="font-label-md text-label-md">LOGOUT</span></a></div></aside>
+<div class="pl-72">
+<header class="fixed top-0 left-72 right-0 h-20 bg-surface-container-lowest/90 backdrop-blur-md z-40 flex items-center justify-between px-margin-desktop shadow-[0_1px_8px_rgba(10,130,118,0.06)]"><div class="flex items-center gap-lg"><img alt="Infineon logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AP1WRLsxYRWwPFq-nQqTuwEW-JddDc8DDYDMOGyRfp3CGLPrJE5QDwnb2YhkmkSjiik-cBKUGxddSynpAq-pVYHa5ymWnrEwFuQ9wpgB_MV5rFiZCT-9MxxPEILRAFSdayiQanBR424h64327lE9BWjhKZjeqdbH6qRdsEPFhRIq97us8k9rNf3zkl9bMGlJ9iFgzPeqho_FnhJULUUGXlIZIuLrfhtO2a4sU2-ufcllOWti7fUflgS9-t33If7EY_BMI5xa9LStgx9m3Q"><div class="h-6 w-px bg-outline-variant"></div><h1 class="font-headline-sm text-headline-sm text-primary">SALES &amp; MARKETING</h1></div><div class="flex items-center gap-xl"><button class="flex items-center text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined">search</span></button><button class="relative flex items-center text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined">notifications</span><span class="absolute top-0 right-0 w-2 h-2 bg-secondary rounded-full"></span></button><div class="flex items-center gap-md pl-md border-l border-outline-variant"><div class="text-right hidden sm:block"><p class="font-label-md text-label-md text-on-surface">Alex Rivera</p><p class="text-[11px] text-on-surface-variant">Module Lead</p></div><div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center shadow-md"><span class="material-symbols-outlined text-on-primary text-[20px]">person</span></div></div></div></header>
+<main class="relative pt-20 bg-surface min-h-screen">
+<section id="page-dashboard" class="page-section" data-page="dashboard" ><div class="flex flex-col w-full px-margin-desktop py-xl gap-gutter max-w-[1600px] mx-auto">
+<!-- Header Area -->
+<div class="flex justify-between items-end mb-md">
+<div>
+<div class="flex items-center gap-xs text-on-surface-variant font-mono-label text-mono-label uppercase tracking-widest mb-xs">
+<span class="material-symbols-outlined text-[16px]">monitoring</span>
+<span class="">Demand Intelligence</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-on-background">Overview</h2>
+</div>
+<div class="flex gap-md">
+<button class="bg-surface-container hover:bg-surface-container-high text-primary px-lg py-sm rounded-full font-label-md text-label-md transition-colors flex items-center gap-sm">
+<span class="material-symbols-outlined text-[18px]">download</span>
+                EXPORT REPORT
+            </button>
+<button class="bg-primary hover:bg-on-primary-fixed text-on-primary px-lg py-sm rounded-full font-label-md text-label-md transition-colors shadow-md flex items-center gap-sm">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                NEW FORECAST
+            </button>
+</div>
+</div>
+<!-- KPI Cards Row -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter mb-lg">
+<!-- KPI 1: Forecasted Demand -->
+<div class="bg-surface-container-lowest rounded-xl p-lg shadow-sm relative overflow-hidden group hover:shadow-md transition-all duration-300 transform hover:-translate-y-1">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary"></div>
+<div class="flex justify-between items-start mb-md">
+<span class="font-mono-label text-mono-label text-on-surface-variant uppercase tracking-wider">Forecasted Demand</span>
+<span class="material-symbols-outlined text-primary bg-primary-fixed-dim/20 p-xs rounded-lg">trending_up</span>
+</div>
+<div class="font-display-lg text-display-lg text-on-surface mb-sm">42.8k</div>
+<div class="flex items-center gap-xs text-primary font-label-md text-label-md">
+<span class="material-symbols-outlined text-[16px]">arrow_upward</span>
+<span class="">+12.4% vs last month</span>
+</div>
+</div>
+<!-- KPI 2: Available Stock -->
+<div class="bg-surface-container-lowest rounded-xl p-lg shadow-sm relative overflow-hidden group hover:shadow-md transition-all duration-300 transform hover:-translate-y-1">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-secondary"></div>
+<div class="flex justify-between items-start mb-md">
+<span class="font-mono-label text-mono-label text-on-surface-variant uppercase tracking-wider">Available Stock</span>
+<span class="material-symbols-outlined text-secondary bg-secondary-fixed/50 p-xs rounded-lg">inventory_2</span>
+</div>
+<div class="font-display-lg text-display-lg text-on-surface mb-sm">38.2k</div>
+<div class="flex items-center gap-xs text-secondary font-label-md text-label-md">
+<span class="material-symbols-outlined text-[16px]">arrow_downward</span>
+<span class="">-2.1% utilization gap</span>
+</div>
+</div>
+<!-- KPI 3: Active Alerts -->
+<div class="bg-surface-container-lowest rounded-xl p-lg shadow-sm relative overflow-hidden group hover:shadow-md transition-all duration-300 transform hover:-translate-y-1">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-[#10b981]"></div>
+<div class="flex justify-between items-start mb-md">
+<span class="font-mono-label text-mono-label text-on-surface-variant uppercase tracking-wider">Active Alerts</span>
+<span class="material-symbols-outlined text-[#10b981] bg-[#10b981]/10 p-xs rounded-lg">notifications_active</span>
+</div>
+<div class="font-display-lg text-display-lg text-on-surface mb-sm">3</div>
+<div class="flex items-center gap-xs text-on-surface-variant font-label-md text-label-md">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+<span class="">1 critical priority</span>
+</div>
+</div>
+<!-- KPI 4: Monthly Revenue -->
+<div class="bg-surface-container-lowest rounded-xl p-lg shadow-sm relative overflow-hidden group hover:shadow-md transition-all duration-300 transform hover:-translate-y-1">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-error"></div>
+<div class="flex justify-between items-start mb-md">
+<span class="font-mono-label text-mono-label text-on-surface-variant uppercase tracking-wider">Monthly Revenue</span>
+<span class="material-symbols-outlined text-error bg-error-container p-xs rounded-lg">payments</span>
+</div>
+<div class="font-display-lg text-display-lg text-on-surface mb-sm">$2.4M</div>
+<div class="flex items-center gap-xs text-primary font-label-md text-label-md">
+<span class="material-symbols-outlined text-[16px]">arrow_upward</span>
+<span class="">+8.2% vs target</span>
+</div>
+</div>
+</div>
+<!-- Main Content Area: Grid Layout -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-gutter mb-lg">
+<!-- Left Panel: Chart & Seasonality (Spans 8 columns) -->
+<div class="xl:col-span-8 flex flex-col gap-gutter">
+<!-- Main Chart Card -->
+<div class="bg-surface-container-lowest rounded-xl p-lg shadow-sm h-[500px] flex flex-col relative">
+<div class="flex justify-between items-center mb-xl">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Demand Forecast vs. Historical</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-xs">90-day projection based on current harvest yields</p>
+</div>
+<div class="flex items-center gap-md">
+<div class="flex items-center gap-xs">
+<span class="w-3 h-3 rounded-full bg-primary opacity-50"></span>
+<span class="font-label-md text-label-md text-on-surface-variant">Historical</span>
+</div>
+<div class="flex items-center gap-xs">
+<span class="w-3 h-3 rounded-full bg-primary"></span>
+<span class="font-label-md text-label-md text-on-surface-variant">Forecast</span>
+</div>
+<div class="flex items-center gap-xs">
+<span class="w-3 h-3 rounded-full bg-primary/20"></span>
+<span class="font-label-md text-label-md text-on-surface-variant">Confidence Band</span>
+</div>
+</div>
+</div>
+<!-- SVG Area Chart -->
+<div class="flex-1 w-full relative">
+<!-- Y-Axis Labels -->
+<div class="absolute left-0 top-0 bottom-8 flex flex-col justify-between text-on-surface-variant font-mono-label text-mono-label text-[10px] pb-[10px]">
+<span class="">50k</span>
+<span class="">40k</span>
+<span class="">30k</span>
+<span class="">20k</span>
+<span class="">10k</span>
+<span class="">0</span>
+</div>
+<!-- Chart Area -->
+<div class="absolute left-10 right-0 top-2 bottom-8">
+<!-- Grid Lines -->
+<div class="absolute inset-0 flex flex-col justify-between">
+<div class="w-full h-px bg-outline-variant/30"></div>
+<div class="w-full h-px bg-outline-variant/30"></div>
+<div class="w-full h-px bg-outline-variant/30"></div>
+<div class="w-full h-px bg-outline-variant/30"></div>
+<div class="w-full h-px bg-outline-variant/30"></div>
+<div class="w-full h-px bg-outline-variant/50"></div>
+</div>
+<!-- Today Indicator -->
+<div class="absolute left-[60%] top-0 bottom-0 border-l-2 border-dashed border-secondary z-10 flex flex-col items-center">
+<div class="bg-secondary text-on-secondary font-label-md text-label-md px-2 py-1 rounded-full -mt-3 shadow-sm whitespace-nowrap">TODAY</div>
+</div>
+<!-- The SVG Chart -->
+<svg class="w-full h-full overflow-visible" preserveAspectRatio="none" viewBox="0 0 1000 300">
+<!-- Confidence Band (Forecast) -->
+<path class="text-primary/10" d="M 600 150 L 700 120 L 800 90 L 900 110 L 1000 80 L 1000 220 L 900 240 L 800 260 L 700 240 L 600 200 Z" fill="currentColor"></path>
+<!-- Historical Line -->
+<path class="text-primary/50" d="M 0 250 Q 100 240, 200 200 T 400 180 T 600 150" fill="none" stroke="currentColor" stroke-width="3"></path>
+<!-- Historical Area Under Line -->
+<path class="text-primary/5" d="M 0 250 Q 100 240, 200 200 T 400 180 T 600 150 L 600 300 L 0 300 Z" fill="currentColor"></path>
+<!-- Forecast Line -->
+<path class="text-primary" d="M 600 150 Q 700 110, 800 130 T 1000 100" fill="none" stroke="currentColor" stroke-dasharray="8,8" stroke-width="4"></path>
+<!-- Data Points -->
+<circle class="text-primary/50" cx="200" cy="200" fill="currentColor" r="4"></circle>
+<circle class="text-primary/50" cx="400" cy="180" fill="currentColor" r="4"></circle>
+<circle class="text-primary" cx="600" cy="150" fill="currentColor" r="6"></circle>
+<circle class="text-primary" cx="800" cy="130" fill="currentColor" r="5"></circle>
+<circle class="text-primary" cx="1000" cy="100" fill="currentColor" r="5"></circle>
+</svg>
+</div>
+<!-- X-Axis Labels -->
+<div class="absolute left-10 right-0 bottom-0 flex justify-between text-on-surface-variant font-mono-label text-mono-label text-[10px] pt-sm border-t border-outline-variant/30">
+<span class="">Jan</span>
+<span class="">Feb</span>
+<span class="">Mar</span>
+<span class="">Apr</span>
+<span class="">May</span>
+<span class="font-bold text-primary">Jun</span>
+<span class="">Jul</span>
+<span class="">Aug</span>
+<span class="">Sep</span>
+</div>
+</div>
+</div>
+<!-- Seasonality Strip -->
+<div class="bg-surface-container-lowest rounded-xl p-md shadow-sm flex items-center gap-md">
+<div class="w-12 h-12 rounded-full bg-[#10b981]/10 flex flex-shrink-0 items-center justify-center">
+<span class="material-symbols-outlined text-[#10b981]">calendar_month</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-end mb-xs">
+<span class="font-headline-sm text-headline-sm text-on-surface">Peak Harvest Window</span>
+<span class="font-label-md text-label-md text-on-surface-variant">March - July</span>
+</div>
+<div class="w-full h-3 bg-surface-variant rounded-full overflow-hidden flex">
+<div class="h-full bg-transparent w-2/12"></div> <!-- Jan, Feb -->
+<div class="h-full bg-[#10b981] w-5/12 relative group cursor-pointer transition-all hover:bg-[#059669]"> <!-- Mar-Jul -->
+<div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-[shimmer_2s_infinite]"></div>
+</div>
+<div class="h-full bg-transparent w-5/12"></div> <!-- Aug-Dec -->
+</div>
+</div>
+</div>
+</div>
+<!-- Right Panel: Tables & Alerts (Spans 4 columns) -->
+<div class="xl:col-span-4 flex flex-col gap-gutter">
+<!-- Shared with Product Transformation Table -->
+<div class="bg-surface-container-lowest rounded-xl p-lg shadow-sm flex-1 flex flex-col">
+<div class="flex justify-between items-center mb-md">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Prod. Transformation</h3>
+<button class="text-primary hover:text-primary-fixed-variant transition-colors">
+<span class="material-symbols-outlined">open_in_new</span>
+</button>
+</div>
+<div class="overflow-x-auto flex-1">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-outline-variant/30 text-on-surface-variant font-label-md text-label-md uppercase">
+<th class="pb-sm font-semibold">Batch ID</th>
+<th class="pb-sm font-semibold">Stock</th>
+<th class="pb-sm font-semibold text-right">Status</th>
+</tr>
+</thead>
+<tbody class="font-body-sm text-body-sm text-on-surface divide-y divide-outline-variant/20">
+<tr class="hover:bg-surface-container/30 transition-colors group">
+<td class="py-md font-mono-label">#BT-8492</td>
+<td class="py-md">1,200 t</td>
+<td class="py-md text-right">
+<span class="inline-flex items-center px-2 py-1 rounded-md bg-[#10b981]/10 text-[#059669] font-label-md text-[10px] uppercase tracking-wider">Processed</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container/30 transition-colors group">
+<td class="py-md font-mono-label">#BT-8493</td>
+<td class="py-md">850 t</td>
+<td class="py-md text-right">
+<span class="inline-flex items-center px-2 py-1 rounded-md bg-secondary/10 text-secondary font-label-md text-[10px] uppercase tracking-wider">In Transit</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container/30 transition-colors group">
+<td class="py-md font-mono-label">#BT-8494</td>
+<td class="py-md">2,100 t</td>
+<td class="py-md text-right">
+<span class="inline-flex items-center px-2 py-1 rounded-md bg-primary/10 text-primary font-label-md text-[10px] uppercase tracking-wider">Scheduled</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container/30 transition-colors group">
+<td class="py-md font-mono-label text-error">#BT-8495</td>
+<td class="py-md">400 t</td>
+<td class="py-md text-right">
+<span class="inline-flex items-center px-2 py-1 rounded-md bg-error/10 text-error font-label-md text-[10px] uppercase tracking-wider">Delayed</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Active Alerts List -->
+<div class="bg-surface-container-lowest rounded-xl p-lg shadow-sm relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-error/5 rounded-bl-full -z-10"></div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-md flex items-center gap-sm">
+<span class="material-symbols-outlined text-error">warning</span>
+                    System Alerts
+                </h3>
+<div class="flex flex-col gap-md">
+<div class="flex items-start gap-md p-sm -mx-sm rounded-lg hover:bg-surface-container/50 transition-colors cursor-pointer border-l-2 border-error">
+<div class="w-8 h-8 rounded-full bg-error/10 flex items-center justify-center flex-shrink-0 mt-xs">
+<span class="material-symbols-outlined text-error text-[16px]">priority_high</span>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface">Supply Chain Bottleneck</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-xs line-clamp-2">Port congestion at primary export facility. Expect 3-day delay on outgoing shipments.</p>
+</div>
+</div>
+<div class="flex items-start gap-md p-sm -mx-sm rounded-lg hover:bg-surface-container/50 transition-colors cursor-pointer border-l-2 border-secondary">
+<div class="w-8 h-8 rounded-full bg-secondary/10 flex items-center justify-center flex-shrink-0 mt-xs">
+<span class="material-symbols-outlined text-secondary text-[16px]">schedule</span>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface">Model Recalibration Needed</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-xs line-clamp-2">Recent weather anomaly requires adjustment to Q3 yield projections.</p>
+</div>
+</div>
+</div>
+<button class="w-full mt-md py-sm text-center text-primary font-label-md text-label-md hover:bg-primary/5 rounded-lg transition-colors">
+                    VIEW ALL ALERTS
+                </button>
+</div>
+</div>
+</div>
+<!-- Bottom Feature Shortcuts -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter mt-auto">
+<div class="bg-surface-container-low rounded-xl p-md flex items-center gap-md cursor-pointer hover:bg-surface-container transition-colors group shadow-sm hover:shadow-md">
+<div class="w-12 h-12 rounded-lg bg-surface-container-highest flex items-center justify-center group-hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">history</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Historical Data</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Browse past performance</p>
+</div>
+<span class="material-symbols-outlined ml-auto text-on-surface-variant opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0 transition-all">chevron_right</span>
+</div>
+<div class="bg-surface-container-low rounded-xl p-md flex items-center gap-md cursor-pointer hover:bg-surface-container transition-colors group shadow-sm hover:shadow-md">
+<div class="w-12 h-12 rounded-lg bg-surface-container-highest flex items-center justify-center group-hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">settings_suggest</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Model Settings</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Configure AI parameters</p>
+</div>
+<span class="material-symbols-outlined ml-auto text-on-surface-variant opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0 transition-all">chevron_right</span>
+</div>
+<div class="bg-surface-container-low rounded-xl p-md flex items-center gap-md cursor-pointer hover:bg-surface-container transition-colors group shadow-sm hover:shadow-md">
+<div class="w-12 h-12 rounded-lg bg-surface-container-highest flex items-center justify-center group-hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">event_note</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Seasonal Planning</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Manage harvest cycles</p>
+</div>
+<span class="material-symbols-outlined ml-auto text-on-surface-variant opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0 transition-all">chevron_right</span>
+</div>
+</div>
+</div>
+<style>
+    @keyframes shimmer {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(100%); }
+    }
+</style></section>
+<section id="page-forecasting" class="page-section" data-page="forecasting" hidden ><div class="flex flex-col w-full">
+<div class="px-margin-desktop py-xl">
+<div class="flex items-end justify-between mb-xl">
+<div>
+<h2 class="font-display-lg text-display-lg text-primary uppercase">Demand Forecasting</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-sm">Predictive modeling for agricultural yield and supply chain capacity</p>
+</div>
+<div class="flex items-center gap-md">
+<div class="flex items-center gap-sm bg-surface-container-high px-md py-sm rounded-full">
+<span class="w-3 h-3 rounded-full bg-primary animate-pulse"></span>
+<span class="font-mono-label text-mono-label text-on-surface uppercase">Model: ARIMAX Active</span>
+</div>
+<button class="bg-primary text-on-primary font-label-md text-label-md px-lg py-md rounded-xl shadow-md hover:bg-on-primary-fixed-variant transition-colors flex items-center gap-sm uppercase tracking-wider">
+<span class="material-symbols-outlined text-[18px]">model_training</span>
+          Retrain Model
+        </button>
+</div>
+</div>
+<!-- Main Layout Grid -->
+<div class="grid grid-cols-12 gap-gutter mb-xl">
+<!-- Parameters Sidebar -->
+<div class="col-span-12 lg:col-span-3 flex flex-col gap-gutter">
+<div class="bg-surface-container-lowest rounded-xl p-lg shadow-sm">
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-lg flex items-center gap-sm border-b border-surface-variant pb-md">
+<span class="material-symbols-outlined text-primary">tune</span>
+            Model Parameters
+          </h3>
+<div class="flex flex-col gap-lg">
+<div>
+<label class="font-label-md text-label-md text-on-surface-variant mb-sm block uppercase tracking-wider">Crop Variety</label>
+<button class="w-full bg-surface-container flex items-center justify-between px-md py-md rounded-lg text-on-surface font-body-sm text-body-sm hover:bg-surface-container-high transition-colors">
+<span class="">Soybeans (Non-GMO)</span>
+<span class="material-symbols-outlined text-[18px]">expand_more</span>
+</button>
+</div>
+<div>
+<label class="font-label-md text-label-md text-on-surface-variant mb-sm block uppercase tracking-wider">Region</label>
+<button class="w-full bg-surface-container flex items-center justify-between px-md py-md rounded-lg text-on-surface font-body-sm text-body-sm hover:bg-surface-container-high transition-colors">
+<span class="">North America - Midwest</span>
+<span class="material-symbols-outlined text-[18px]">expand_more</span>
+</button>
+</div>
+<div>
+<div class="flex justify-between items-center mb-sm">
+<label class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Confidence Interval</label>
+<span class="font-mono-label text-mono-label text-primary">95%</span>
+</div>
+<div class="relative h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="absolute top-0 left-0 h-full bg-primary w-11/12 rounded-full"></div>
+</div>
+<div class="flex justify-between mt-sm text-on-surface-variant font-mono-label text-[10px]">
+<span class="">80%</span>
+<span class="">99%</span>
+</div>
+</div>
+<div>
+<label class="font-label-md text-label-md text-on-surface-variant mb-sm block uppercase tracking-wider">External Variables</label>
+<div class="space-y-sm">
+<label class="flex items-center gap-md cursor-pointer group">
+<div class="relative w-10 h-5 bg-primary rounded-full transition-colors flex-shrink-0">
+<div class="absolute left-1 top-1 w-3 h-3 bg-on-primary rounded-full transform translate-x-5 transition-transform"></div>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface group-hover:text-primary transition-colors">Weather Patterns</span>
+</label>
+<label class="flex items-center gap-md cursor-pointer group">
+<div class="relative w-10 h-5 bg-primary rounded-full transition-colors flex-shrink-0">
+<div class="absolute left-1 top-1 w-3 h-3 bg-on-primary rounded-full transform translate-x-5 transition-transform"></div>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface group-hover:text-primary transition-colors">Commodity Prices</span>
+</label>
+<label class="flex items-center gap-md cursor-pointer group">
+<div class="relative w-10 h-5 bg-surface-variant rounded-full transition-colors flex-shrink-0">
+<div class="absolute left-1 top-1 w-3 h-3 bg-surface rounded-full transition-transform"></div>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant group-hover:text-primary transition-colors">Geopolitical Index</span>
+</label>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-primary-container rounded-xl p-lg shadow-sm text-on-primary-container relative overflow-hidden group">
+<div class="absolute -right-12 -bottom-12 w-32 h-32 bg-on-primary-container opacity-5 rounded-full blur-xl group-hover:scale-150 transition-transform duration-700"></div>
+<h4 class="font-label-md text-label-md uppercase tracking-wider opacity-80 mb-sm">Forecast Accuracy</h4>
+<div class="flex items-baseline gap-xs">
+<span class="font-display-lg text-display-lg font-bold">92.4</span>
+<span class="font-headline-sm text-headline-sm opacity-80">%</span>
+</div>
+<p class="font-body-sm text-body-sm mt-md opacity-90 leading-relaxed">Based on mean absolute percentage error (MAPE) from previous 12 months cross-validation.</p>
+</div>
+</div>
+<!-- Main Chart Area -->
+<div class="col-span-12 lg:col-span-9 flex flex-col gap-gutter">
+<div class="bg-surface-container-lowest rounded-xl p-lg shadow-sm flex-1 flex flex-col min-h-[500px]">
+<div class="flex justify-between items-start mb-lg">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Demand Projection (Next 6 Months)</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Measured in Metric Tons (MT)</p>
+</div>
+<div class="flex gap-md">
+<div class="flex items-center gap-xs">
+<span class="w-3 h-3 rounded-full bg-surface-variant"></span>
+<span class="font-label-md text-label-md text-on-surface-variant uppercase">Historical</span>
+</div>
+<div class="flex items-center gap-xs">
+<span class="w-3 h-3 rounded-full bg-primary"></span>
+<span class="font-label-md text-label-md text-on-surface-variant uppercase">Forecast</span>
+</div>
+<div class="flex items-center gap-xs">
+<span class="w-3 h-3 rounded-full bg-primary opacity-20"></span>
+<span class="font-label-md text-label-md text-on-surface-variant uppercase">95% CI</span>
+</div>
+</div>
+</div>
+<!-- Abstract Chart Representation using SVG -->
+<div class="flex-1 relative w-full h-full bg-surface-container-low rounded-lg p-md">
+<svg class="w-full h-full" preserveAspectRatio="none" viewBox="0 0 1000 400">
+<!-- Grid lines -->
+<line class="text-surface-variant" stroke="currentColor" stroke-dasharray="4" x1="0" x2="1000" y1="50" y2="50"></line>
+<line class="text-surface-variant" stroke="currentColor" stroke-dasharray="4" x1="0" x2="1000" y1="150" y2="150"></line>
+<line class="text-surface-variant" stroke="currentColor" stroke-dasharray="4" x1="0" x2="1000" y1="250" y2="250"></line>
+<line class="text-surface-variant" stroke="currentColor" stroke-dasharray="4" x1="0" x2="1000" y1="350" y2="350"></line>
+<!-- Divider line (Today) -->
+<line class="text-outline" stroke="currentColor" stroke-dasharray="8" stroke-width="2" x1="600" x2="600" y1="0" y2="400"></line>
+<text class="font-mono-label text-[12px] fill-on-surface-variant" x="610" y="20">TODAY</text>
+<!-- Confidence Band (Forecast) -->
+<path class="text-primary opacity-10" d="M600,220 C700,200 800,150 900,100 L1000,80 L1000,180 L900,220 C800,260 700,280 600,250 Z" fill="currentColor"></path>
+<path class="text-primary opacity-5" d="M600,200 C700,170 800,120 900,60 L1000,30 L1000,230 L900,280 C800,320 700,310 600,270 Z" fill="currentColor"></path>
+<!-- Historical Data Line -->
+<path class="text-outline-variant" d="M0,320 C100,330 200,280 300,290 C400,300 500,240 600,235" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="4"></path>
+<!-- Forecast Data Line -->
+<path class="text-primary" d="M600,235 C700,210 800,170 900,120 C950,90 980,85 1000,80" fill="none" stroke="currentColor" stroke-dasharray="8" stroke-linecap="round" stroke-width="4"></path>
+<!-- Data Points (Historical) -->
+<circle class="text-on-surface-variant" cx="100" cy="325" fill="currentColor" r="4"></circle>
+<circle class="text-on-surface-variant" cx="300" cy="290" fill="currentColor" r="4"></circle>
+<circle class="text-on-surface-variant" cx="500" cy="245" fill="currentColor" r="4"></circle>
+<!-- Data Points (Forecast) -->
+<circle class="text-primary" cx="700" cy="210" fill="currentColor" r="5"></circle>
+<circle class="text-primary" cx="800" cy="170" fill="currentColor" r="5"></circle>
+<circle class="text-primary" cx="900" cy="120" fill="currentColor" r="5"></circle>
+</svg>
+<!-- X-Axis Labels -->
+<div class="absolute bottom-2 left-0 right-0 flex justify-between px-md font-mono-label text-[11px] text-on-surface-variant">
+<span class="">Oct (Past)</span>
+<span class="">Nov</span>
+<span class="">Dec</span>
+<span class="">Jan</span>
+<span class="text-primary font-bold">Feb (Today)</span>
+<span class="text-primary">Mar (Fcst)</span>
+<span class="text-primary">Apr</span>
+<span class="text-primary">May</span>
+<span class="text-primary">Jun</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Monthly Forecast Table -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden mb-xl">
+<div class="px-lg py-md border-b border-surface-variant bg-surface flex justify-between items-center">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Monthly Forecast Data</h3>
+<button class="flex items-center gap-xs text-primary font-label-md text-label-md hover:bg-surface-container px-md py-sm rounded-lg transition-colors">
+<span class="material-symbols-outlined text-[18px]">download</span>
+          EXPORT CSV
+        </button>
+</div>
+<div class="w-full overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">
+<th class="py-md px-lg font-semibold">Month</th>
+<th class="py-md px-lg font-semibold">Predicted Demand (MT)</th>
+<th class="py-md px-lg font-semibold">Lower Bound (95%)</th>
+<th class="py-md px-lg font-semibold">Upper Bound (95%)</th>
+<th class="py-md px-lg font-semibold">MoM Growth</th>
+<th class="py-md px-lg font-semibold">Capacity Risk</th>
+</tr>
+</thead>
+<tbody class="font-body-sm text-body-sm text-on-surface">
+<!-- Row 1 -->
+<tr class="border-b border-surface-variant hover:bg-surface-bright transition-colors">
+<td class="py-md px-lg font-mono-label">Mar 2024</td>
+<td class="py-md px-lg font-bold text-lg">14,250</td>
+<td class="py-md px-lg text-on-surface-variant">13,800</td>
+<td class="py-md px-lg text-on-surface-variant">14,700</td>
+<td class="py-md px-lg text-[#4caf50] flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">trending_up</span>
+                +4.2%
+              </td>
+<td class="py-md px-lg">
+<span class="bg-[#4caf50]/10 text-[#2e7d32] font-label-md text-[10px] px-sm py-xs rounded-full uppercase tracking-wider">Low Risk</span>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="border-b border-surface-variant hover:bg-surface-bright transition-colors bg-surface-container-lowest">
+<td class="py-md px-lg font-mono-label">Apr 2024</td>
+<td class="py-md px-lg font-bold text-lg">15,800</td>
+<td class="py-md px-lg text-on-surface-variant">15,100</td>
+<td class="py-md px-lg text-on-surface-variant">16,500</td>
+<td class="py-md px-lg text-[#4caf50] flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">trending_up</span>
+                +10.8%
+              </td>
+<td class="py-md px-lg">
+<span class="bg-[#ef6c00]/10 text-[#e65100] font-label-md text-[10px] px-sm py-xs rounded-full uppercase tracking-wider">Medium Risk</span>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="border-b border-surface-variant hover:bg-surface-bright transition-colors">
+<td class="py-md px-lg font-mono-label">May 2024</td>
+<td class="py-md px-lg font-bold text-lg">18,450</td>
+<td class="py-md px-lg text-on-surface-variant">17,200</td>
+<td class="py-md px-lg text-on-surface-variant">19,700</td>
+<td class="py-md px-lg text-[#4caf50] flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">trending_up</span>
+                +16.7%
+              </td>
+<td class="py-md px-lg">
+<span class="bg-[#c62828]/10 text-[#b71c1c] font-label-md text-[10px] px-sm py-xs rounded-full uppercase tracking-wider">High Risk</span>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-bright transition-colors bg-surface-container-lowest">
+<td class="py-md px-lg font-mono-label">Jun 2024</td>
+<td class="py-md px-lg font-bold text-lg">22,100</td>
+<td class="py-md px-lg text-on-surface-variant">20,500</td>
+<td class="py-md px-lg text-on-surface-variant">23,700</td>
+<td class="py-md px-lg text-[#4caf50] flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">trending_up</span>
+                +19.7%
+              </td>
+<td class="py-md px-lg">
+<span class="bg-[#c62828]/10 text-[#b71c1c] font-label-md text-[10px] px-sm py-xs rounded-full uppercase tracking-wider">High Risk</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div></section>
+<section id="page-crm" class="page-section" data-page="crm" hidden ><div class="flex flex-col w-full h-full relative">
+<!-- Desktop Header Area (Title, Search, Actions) -->
+<div class="px-margin-desktop py-xl flex flex-col md:flex-row md:items-end justify-between gap-lg relative z-10">
+<div class="flex flex-col gap-sm">
+<span class="font-mono-label text-mono-label text-primary uppercase tracking-widest">[ CRM_MODULE ]</span>
+<h2 class="font-display-lg text-display-lg text-on-surface">Customers</h2>
+</div>
+<div class="flex flex-col sm:flex-row items-center gap-md w-full md:w-auto">
+<!-- Search Input -->
+<div class="relative w-full sm:w-80 group">
+<span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-on-surface-variant z-10 transition-colors group-focus-within:text-primary">search</span>
+<input class="w-full h-12 pl-12 pr-md bg-surface-container-lowest text-on-surface font-body-md text-body-md rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-outline" placeholder="Search by name, ID or region..." type="text">
+</div>
+<!-- Filter Button -->
+<button class="h-12 px-lg bg-surface-container-low text-primary hover:bg-primary-container hover:text-on-primary-container font-label-md text-label-md rounded-lg shadow-sm transition-colors flex items-center gap-sm shrink-0">
+<span class="material-symbols-outlined text-[20px]">filter_list</span>
+        FILTERS
+      </button>
+<!-- Add Customer Button -->
+<button class="h-12 px-xl bg-primary text-on-primary hover:bg-primary-fixed-variant font-label-md text-label-md rounded-lg shadow-md hover:shadow-lg transition-all flex items-center gap-sm shrink-0">
+<span class="material-symbols-outlined text-[20px]">add</span>
+        ADD CUSTOMER
+      </button>
+</div>
+</div>
+<!-- Ambient Decorative Element -->
+<div class="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-bl from-primary/5 via-primary/2 to-transparent rounded-full blur-3xl pointer-events-none -z-10 translate-x-1/4 -translate-y-1/4"></div>
+<!-- Main Content Area: Bento Grid Layout -->
+<div class="px-margin-desktop pb-xxl grid grid-cols-12 gap-gutter relative z-10">
+<!-- Top Stats Row (Spanning full width) -->
+<div class="col-span-12 grid grid-cols-1 md:grid-cols-4 gap-gutter mb-lg">
+<!-- Stat Card 1 -->
+<div class="bg-surface-container-lowest rounded-xl p-lg shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+<div class="absolute -right-xl -top-xl w-32 h-32 bg-surface-container rounded-full opacity-50 group-hover:scale-110 transition-transform duration-500"></div>
+<div class="flex items-start justify-between relative z-10">
+<div class="flex flex-col gap-unit">
+<span class="font-mono-label text-mono-label text-on-surface-variant uppercase">Total Active</span>
+<span class="font-headline-lg text-headline-lg text-on-surface">1,284</span>
+</div>
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">groups</span>
+</div>
+</div>
+<div class="mt-md flex items-center gap-xs text-primary relative z-10">
+<span class="material-symbols-outlined text-[16px]">arrow_upward</span>
+<span class="font-label-md text-label-md">12% vs last month</span>
+</div>
+</div>
+<!-- Stat Card 2 -->
+<div class="bg-surface-container-lowest rounded-xl p-lg shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+<div class="absolute -right-xl -top-xl w-32 h-32 bg-surface-container rounded-full opacity-50 group-hover:scale-110 transition-transform duration-500"></div>
+<div class="flex items-start justify-between relative z-10">
+<div class="flex flex-col gap-unit">
+<span class="font-mono-label text-mono-label text-on-surface-variant uppercase">New Onboarded</span>
+<span class="font-headline-lg text-headline-lg text-on-surface">42</span>
+</div>
+<div class="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary">person_add</span>
+</div>
+</div>
+<div class="mt-md flex items-center gap-xs text-primary relative z-10">
+<span class="material-symbols-outlined text-[16px]">arrow_upward</span>
+<span class="font-label-md text-label-md">5% vs last month</span>
+</div>
+</div>
+<!-- Quick Insights Text Card (Spanning 2 cols) -->
+<div class="col-span-1 md:col-span-2 bg-primary rounded-xl p-lg shadow-sm text-on-primary flex flex-col justify-between relative overflow-hidden">
+<div class="absolute right-0 bottom-0 translate-x-1/4 translate-y-1/4 opacity-10 pointer-events-none">
+<svg fill="currentColor" height="200" viewBox="0 0 24 24" width="200">
+<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-2h2v2zm0-4h-2V7h2v6z"></path>
+</svg>
+</div>
+<div class="flex items-center gap-sm mb-md relative z-10">
+<span class="material-symbols-outlined">insights</span>
+<span class="font-label-md text-label-md uppercase tracking-wider">AI Insight</span>
+</div>
+<p class="font-body-lg text-body-lg text-on-primary/90 relative z-10">
+          "Engagement in the <span class="font-headline-sm text-headline-sm text-on-primary">Bavaria Region</span> has dropped 8% this week. Consider prioritizing check-in calls for Tier 1 agricultural suppliers."
+        </p>
+</div>
+</div>
+<!-- Customer List/Table Area (Spanning 8 columns on desktop) -->
+<div class="col-span-12 lg:col-span-8 bg-surface-container-lowest rounded-xl shadow-sm flex flex-col overflow-hidden relative">
+<!-- Table Header (Custom designed, no borders) -->
+<div class="bg-surface-container-low px-lg py-md grid grid-cols-12 gap-md items-center sticky top-0 z-20">
+<div class="col-span-4 flex items-center gap-sm">
+<span class="font-mono-label text-mono-label text-on-surface-variant uppercase">Customer / ID</span>
+<span class="material-symbols-outlined text-[16px] text-outline cursor-pointer">unfold_more</span>
+</div>
+<div class="col-span-2 hidden sm:block">
+<span class="font-mono-label text-mono-label text-on-surface-variant uppercase">Region</span>
+</div>
+<div class="col-span-3 hidden md:block">
+<span class="font-mono-label text-mono-label text-on-surface-variant uppercase">Order Vol (YTD)</span>
+</div>
+<div class="col-span-2 hidden sm:block text-right">
+<span class="font-mono-label text-mono-label text-on-surface-variant uppercase">Status</span>
+</div>
+<div class="col-span-8 sm:col-span-1 md:col-span-1 text-right">
+<span class="font-mono-label text-mono-label text-on-surface-variant uppercase">Action</span>
+</div>
+</div>
+<!-- List Items (Simulating Table Rows with Cards) -->
+<div class="flex flex-col w-full h-[600px] overflow-y-auto" style="scrollbar-width: none;">
+<!-- Row 1 -->
+<div class="grid grid-cols-12 gap-md px-lg py-md items-center group hover:bg-surface transition-colors cursor-pointer border-b border-surface-container/50">
+<!-- Customer Info -->
+<div class="col-span-11 sm:col-span-4 flex items-center gap-md min-w-0">
+<div class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shrink-0 font-headline-sm text-headline-sm">
+                A
+             </div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-on-surface truncate">AgriTech Solutions GmbH</span>
+<span class="font-mono-label text-mono-label text-outline truncate">ID: CUST-8892-GER</span>
+</div>
+</div>
+<!-- Region -->
+<div class="col-span-2 hidden sm:flex items-center gap-sm">
+<span class="text-xl leading-none" title="Germany">🇩🇪</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Bavaria</span>
+</div>
+<!-- Order Vol (Sparkline + Value) -->
+<div class="col-span-3 hidden md:flex items-center gap-sm">
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface">€1.4M</span>
+<div class="flex items-center gap-xs text-primary">
+<span class="material-symbols-outlined text-[14px]">trending_up</span>
+<span class="font-label-md text-label-md">14%</span>
+</div>
+</div>
+<!-- Inline SVG Sparkline -->
+<svg class="ml-auto text-primary stroke-current fill-none" height="24" viewBox="0 0 60 24" width="60">
+<path d="M0,20 L10,15 L20,18 L30,8 L40,12 L50,4 L60,8" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<!-- Status -->
+<div class="col-span-2 hidden sm:flex justify-end">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-[#E6F4EA] text-[#137333] font-label-md text-label-md">Active</span>
+</div>
+<!-- Actions -->
+<div class="col-span-1 flex justify-end">
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Row 2 -->
+<div class="grid grid-cols-12 gap-md px-lg py-md items-center group hover:bg-surface transition-colors cursor-pointer border-b border-surface-container/50">
+<div class="col-span-11 sm:col-span-4 flex items-center gap-md min-w-0">
+<div class="w-10 h-10 rounded-full bg-surface-container text-on-surface flex items-center justify-center shrink-0 font-headline-sm text-headline-sm">
+                F
+             </div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-on-surface truncate">Farming Co-op Rhein</span>
+<span class="font-mono-label text-mono-label text-outline truncate">ID: CUST-4421-GER</span>
+</div>
+</div>
+<div class="col-span-2 hidden sm:flex items-center gap-sm">
+<span class="text-xl leading-none" title="Germany">🇩🇪</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Rhineland</span>
+</div>
+<div class="col-span-3 hidden md:flex items-center gap-sm">
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface">€890K</span>
+<div class="flex items-center gap-xs text-error">
+<span class="material-symbols-outlined text-[14px]">trending_down</span>
+<span class="font-label-md text-label-md">3%</span>
+</div>
+</div>
+<svg class="ml-auto text-error stroke-current fill-none" height="24" viewBox="0 0 60 24" width="60">
+<path d="M0,5 L10,8 L20,5 L30,12 L40,10 L50,18 L60,15" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<div class="col-span-2 hidden sm:flex justify-end">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-[#E6F4EA] text-[#137333] font-label-md text-label-md">Active</span>
+</div>
+<div class="col-span-1 flex justify-end">
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Row 3 -->
+<div class="grid grid-cols-12 gap-md px-lg py-md items-center group hover:bg-surface transition-colors cursor-pointer border-b border-surface-container/50 bg-error-container/20">
+<div class="col-span-11 sm:col-span-4 flex items-center gap-md min-w-0">
+<div class="w-10 h-10 rounded-full bg-surface-container text-on-surface flex items-center justify-center shrink-0 font-headline-sm text-headline-sm relative">
+                B
+                <span class="absolute top-0 right-0 w-3 h-3 bg-error rounded-full border-2 border-surface-container-lowest"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-on-surface truncate">BioProduce Network</span>
+<span class="font-mono-label text-mono-label text-outline truncate">ID: CUST-1109-GER</span>
+</div>
+</div>
+<div class="col-span-2 hidden sm:flex items-center gap-sm">
+<span class="text-xl leading-none" title="Germany">🇩🇪</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Saxony</span>
+</div>
+<div class="col-span-3 hidden md:flex items-center gap-sm">
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface opacity-50">€0</span>
+<div class="flex items-center gap-xs text-outline">
+<span class="font-label-md text-label-md">No recent orders</span>
+</div>
+</div>
+<svg class="ml-auto text-outline stroke-current fill-none" height="24" viewBox="0 0 60 24" width="60">
+<path d="M0,12 L60,12" stroke-dasharray="4 4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<div class="col-span-2 hidden sm:flex justify-end">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-[#FCE8E6] text-[#C5221F] font-label-md text-label-md">Inactive</span>
+</div>
+<div class="col-span-1 flex justify-end">
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Row 4 -->
+<div class="grid grid-cols-12 gap-md px-lg py-md items-center group hover:bg-surface transition-colors cursor-pointer border-b border-surface-container/50">
+<div class="col-span-11 sm:col-span-4 flex items-center gap-md min-w-0">
+<div class="w-10 h-10 rounded-full bg-surface-container text-on-surface flex items-center justify-center shrink-0 overflow-hidden relative">
+<img class="w-full h-full object-cover mix-blend-multiply opacity-80" data-alt="Corporate logo mark for a German agricultural supply company, minimalist icon, teal and orange colors, white background, high quality vector style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-DuWlskozNSs0FZyh_YighUlUgcfyGjJPJ1XAoMeJkpEHgmriTlXGlS-MWwcUs4cXZmYmIIsa1uc4djWDBKvroMxO4fIwJs6ika2OVWf2WwhfGF_SUMKN69yI4eLzMA1a3d7L2SKpeCAGYBzQHADdZn93Fm1DoGkRNk0tqRSMutt8BYllNzk0hhwZY1QiNLElleUVZcZqflrR-iuPDi2g63DD67N1bx04izh7GxRNJMGFR1-jRbmJ">
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-on-surface truncate">Müller Agrarbedarf</span>
+<span class="font-mono-label text-mono-label text-outline truncate">ID: CUST-7734-GER</span>
+</div>
+</div>
+<div class="col-span-2 hidden sm:flex items-center gap-sm">
+<span class="text-xl leading-none" title="Germany">🇩🇪</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Hesse</span>
+</div>
+<div class="col-span-3 hidden md:flex items-center gap-sm">
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface">€3.2M</span>
+<div class="flex items-center gap-xs text-primary">
+<span class="material-symbols-outlined text-[14px]">trending_up</span>
+<span class="font-label-md text-label-md">8%</span>
+</div>
+</div>
+<svg class="ml-auto text-primary stroke-current fill-none" height="24" viewBox="0 0 60 24" width="60">
+<path d="M0,22 L15,18 L30,10 L45,14 L60,2" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<div class="col-span-2 hidden sm:flex justify-end">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-[#E6F4EA] text-[#137333] font-label-md text-label-md">Active</span>
+</div>
+<div class="col-span-1 flex justify-end">
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+<!-- List Footer Pagination (Simple) -->
+<div class="bg-surface-container-lowest px-lg py-md flex items-center justify-between border-t border-surface-container/50 mt-auto">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Showing 1-4 of 1,284</span>
+<div class="flex items-center gap-sm">
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container transition-colors disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined text-[20px]">chevron_left</span>
+</button>
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[20px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Right Side Context Panel (Spanning 4 columns on desktop) -->
+<div class="col-span-12 lg:col-span-4 flex flex-col gap-gutter">
+<!-- Selected Customer Overview Card -->
+<div class="bg-surface-container-lowest rounded-xl shadow-md p-lg flex flex-col relative overflow-hidden h-[400px]">
+<!-- Decorative Background Graphic -->
+<div class="absolute right-0 top-0 w-48 h-48 bg-primary/5 rounded-bl-full pointer-events-none -z-0"></div>
+<div class="flex items-start justify-between relative z-10 mb-xl">
+<div class="w-16 h-16 rounded-2xl bg-primary text-on-primary flex items-center justify-center font-display-lg text-display-lg shadow-sm">
+             A
+           </div>
+<button class="text-primary hover:bg-primary/10 px-md py-xs rounded-full font-label-md text-label-md transition-colors flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">edit</span>
+             EDIT
+           </button>
+</div>
+<div class="relative z-10 mb-lg">
+<h3 class="font-headline-lg text-headline-lg text-on-surface mb-xs">AgriTech Solutions GmbH</h3>
+<p class="font-body-md text-body-md text-on-surface-variant flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+             Munich, Bavaria, Germany
+           </p>
+</div>
+<!-- Contact Details List -->
+<div class="flex flex-col gap-md relative z-10 mt-auto">
+<div class="flex items-center gap-md">
+<div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-surface-variant text-[16px]">person</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-body-sm text-body-sm text-on-surface truncate">Hans Weber (Primary)</span>
+<span class="font-label-md text-label-md text-primary uppercase">Procurement Lead</span>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-surface-variant text-[16px]">mail</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-body-sm text-body-sm text-on-surface truncate">h.weber@agritech-gmbh.de</span>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-surface-variant text-[16px]">call</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-mono-label text-mono-label text-on-surface truncate">+49 89 1234 5678</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Recent Activity / Map Widget -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden flex flex-col h-[280px]">
+<div class="px-lg py-md flex items-center justify-between border-b border-surface-container/50">
+<span class="font-headline-sm text-headline-sm text-on-surface">Logistics Hub</span>
+<span class="material-symbols-outlined text-on-surface-variant">local_shipping</span>
+</div>
+<!-- Static Map Data Attribute Element -->
+<div class="w-full flex-1 bg-surface-variant relative" data-location="Munich, Germany">
+<!-- Placeholder image if map generation fails or as fallback -->
+<div class="absolute inset-0 bg-cover bg-center mix-blend-luminosity opacity-80" data-alt="Stylized map showing southern Germany, specifically the region around Munich, minimalist cartography, teal location pin, clean professional aesthetic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCdzyBuOs41VqgnR7KtckWRpmdf8cvjvxFy-8_cxwfEULsaP_vcPpVJW49lLZZtOTqnsSvL_KFOYTV0zmV9EL3z4t6YY4-gVn6TjaD3EUf-dRL-T2bVlXXdwPjg1Y5TNWr9lx-NUxGgfe9nOEu0doLqb7jpmYfFPKI1DYWkC0-1lwUTxiC4A7ohqLZ3YgYyKsghwHYk3xKwanUUen5WYGhkYujt45XBcJyve8j0qlHSKfMopljBSXeR')"></div>
+<!-- Overlay Pin -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
+<div class="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center animate-pulse">
+<div class="w-4 h-4 bg-primary rounded-full shadow-lg"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div></section>
+<section id="page-sales-channels" class="page-section" data-page="sales-channels" hidden ><div class="flex flex-col w-full h-full min-h-[calc(100vh-80px)]">
+<!-- Header Section -->
+<div class="px-margin-desktop pt-xl pb-lg flex flex-col md:flex-row justify-between items-start md:items-end gap-md">
+<div>
+<h2 class="font-display-lg text-display-lg text-primary">Sales Channels</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mt-sm max-w-2xl">
+                Real-time performance metrics across all distribution networks. 
+             </p>
+</div>
+<div class="flex items-center gap-md">
+<div class="flex items-center gap-sm bg-surface-container-high px-md py-sm rounded-full">
+<span class="w-3 h-3 rounded-full bg-primary animate-pulse"></span>
+<span class="font-mono-label text-mono-label text-on-surface uppercase">Live Sync Active</span>
+</div>
+<button class="bg-primary text-on-primary px-lg py-sm rounded-full font-label-md text-label-md uppercase tracking-wider hover:bg-primary-fixed-variant transition-colors shadow-sm">
+                Generate Report
+            </button>
+</div>
+</div>
+<!-- Main Grid Content -->
+<div class="px-margin-desktop pb-xxl flex flex-col gap-xl">
+<!-- Channels Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter">
+<!-- Online Store Card -->
+<div class="bg-surface-container-lowest rounded-xl p-lg shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+<div class="absolute -right-12 -top-12 w-32 h-32 bg-primary/5 rounded-full blur-2xl group-hover:bg-primary/10 transition-colors"></div>
+<div class="flex justify-between items-start mb-xl relative z-10">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined">language</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Online Store</h3>
+</div>
+<span class="material-symbols-outlined text-primary">trending_up</span>
+</div>
+<div class="flex flex-col gap-md relative z-10">
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest opacity-80 mb-xs">Volume (MT)</p>
+<p class="font-headline-lg text-headline-lg text-on-surface">12,450</p>
+</div>
+<div class="w-full h-px bg-outline-variant/30"></div>
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest opacity-80 mb-xs">Revenue</p>
+<div class="flex items-baseline gap-sm">
+<p class="font-headline-md text-headline-md text-primary">€4.2M</p>
+<span class="font-mono-label text-mono-label text-primary-fixed-variant bg-primary-fixed/30 px-xs py-xs rounded-sm">+14.2%</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Distributors Card -->
+<div class="bg-surface-container-lowest rounded-xl p-lg shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+<div class="absolute -right-12 -top-12 w-32 h-32 bg-secondary/5 rounded-full blur-2xl group-hover:bg-secondary/10 transition-colors"></div>
+<div class="flex justify-between items-start mb-xl relative z-10">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined">hub</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Distributors</h3>
+</div>
+<span class="material-symbols-outlined text-primary">trending_up</span>
+</div>
+<div class="flex flex-col gap-md relative z-10">
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest opacity-80 mb-xs">Volume (MT)</p>
+<p class="font-headline-lg text-headline-lg text-on-surface">45,120</p>
+</div>
+<div class="w-full h-px bg-outline-variant/30"></div>
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest opacity-80 mb-xs">Revenue</p>
+<div class="flex items-baseline gap-sm">
+<p class="font-headline-md text-headline-md text-primary">€12.8M</p>
+<span class="font-mono-label text-mono-label text-primary-fixed-variant bg-primary-fixed/30 px-xs py-xs rounded-sm">+5.8%</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Retail Partners Card -->
+<div class="bg-surface-container-lowest rounded-xl p-lg shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+<div class="absolute -right-12 -top-12 w-32 h-32 bg-error/5 rounded-full blur-2xl group-hover:bg-error/10 transition-colors"></div>
+<div class="flex justify-between items-start mb-xl relative z-10">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded-full bg-tertiary-container text-on-tertiary-container flex items-center justify-center">
+<span class="material-symbols-outlined">storefront</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Retail Partners</h3>
+</div>
+<span class="material-symbols-outlined text-error">trending_down</span>
+</div>
+<div class="flex flex-col gap-md relative z-10">
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest opacity-80 mb-xs">Volume (MT)</p>
+<p class="font-headline-lg text-headline-lg text-on-surface">8,930</p>
+</div>
+<div class="w-full h-px bg-outline-variant/30"></div>
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest opacity-80 mb-xs">Revenue</p>
+<div class="flex items-baseline gap-sm">
+<p class="font-headline-md text-headline-md text-on-surface">€2.9M</p>
+<span class="font-mono-label text-mono-label text-error bg-error-container/50 px-xs py-xs rounded-sm">-2.1%</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Export Direct Card -->
+<div class="bg-surface-container-lowest rounded-xl p-lg shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+<div class="absolute -right-12 -top-12 w-32 h-32 bg-primary-fixed/10 rounded-full blur-2xl group-hover:bg-primary-fixed/20 transition-colors"></div>
+<div class="flex justify-between items-start mb-xl relative z-10">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center">
+<span class="material-symbols-outlined">flight_takeoff</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Export Direct</h3>
+</div>
+<span class="material-symbols-outlined text-primary">trending_up</span>
+</div>
+<div class="flex flex-col gap-md relative z-10">
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest opacity-80 mb-xs">Volume (MT)</p>
+<p class="font-headline-lg text-headline-lg text-on-surface">22,600</p>
+</div>
+<div class="w-full h-px bg-outline-variant/30"></div>
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest opacity-80 mb-xs">Revenue</p>
+<div class="flex items-baseline gap-sm">
+<p class="font-headline-md text-headline-md text-primary">€9.4M</p>
+<span class="font-mono-label text-mono-label text-primary-fixed-variant bg-primary-fixed/30 px-xs py-xs rounded-sm">+18.5%</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Performance Comparison Section -->
+<div class="bg-surface-container-lowest rounded-xl p-xl shadow-sm mt-md">
+<div class="flex justify-between items-center mb-xl border-b border-outline-variant/30 pb-lg">
+<h3 class="font-headline-md text-headline-md text-on-surface">Channel Performance Comparison</h3>
+<div class="flex gap-md">
+<div class="flex items-center gap-xs">
+<div class="w-3 h-3 rounded-sm bg-primary"></div>
+<span class="font-label-md text-label-md text-on-surface-variant">Revenue Target</span>
+</div>
+<div class="flex items-center gap-xs">
+<div class="w-3 h-3 rounded-sm bg-secondary"></div>
+<span class="font-label-md text-label-md text-on-surface-variant">Actual Revenue</span>
+</div>
+</div>
+</div>
+<div class="h-64 w-full relative flex items-end justify-between px-lg gap-gutter">
+<!-- Grid Lines -->
+<div class="absolute inset-0 flex flex-col justify-between z-0 pointer-events-none pb-8">
+<div class="w-full h-px bg-outline-variant/20"></div>
+<div class="w-full h-px bg-outline-variant/20"></div>
+<div class="w-full h-px bg-outline-variant/20"></div>
+<div class="w-full h-px bg-outline-variant/20"></div>
+<div class="w-full h-px bg-outline-variant/40"></div>
+</div>
+<!-- Y-Axis Labels -->
+<div class="absolute left-0 top-0 bottom-8 flex flex-col justify-between text-on-surface-variant font-mono-label text-[10px] -ml-6 pb-2 z-10 pointer-events-none opacity-50">
+<span class="">15M</span>
+<span class="">10M</span>
+<span class="">5M</span>
+<span class="">0</span>
+</div>
+<!-- Bar 1: Online -->
+<div class="relative z-10 flex-1 flex flex-col justify-end items-center h-full pb-8 group">
+<div class="w-full max-w-[64px] flex items-end gap-1 h-[calc(100%-2rem)]">
+<div class="flex-1 bg-primary/20 h-[40%] rounded-t-sm group-hover:bg-primary/40 transition-colors"></div>
+<div class="flex-1 bg-secondary h-[42%] rounded-t-sm shadow-[0_0_12px_rgba(156,68,0,0.3)]"></div>
+</div>
+<span class="absolute bottom-0 font-label-md text-label-md text-on-surface-variant w-full text-center truncate">Online</span>
+</div>
+<!-- Bar 2: Distributors -->
+<div class="relative z-10 flex-1 flex flex-col justify-end items-center h-full pb-8 group">
+<div class="w-full max-w-[64px] flex items-end gap-1 h-[calc(100%-2rem)]">
+<div class="flex-1 bg-primary/20 h-[100%] rounded-t-sm group-hover:bg-primary/40 transition-colors"></div>
+<div class="flex-1 bg-secondary h-[85%] rounded-t-sm shadow-[0_0_12px_rgba(156,68,0,0.3)]"></div>
+</div>
+<span class="absolute bottom-0 font-label-md text-label-md text-on-surface-variant w-full text-center truncate">Distributors</span>
+</div>
+<!-- Bar 3: Retail -->
+<div class="relative z-10 flex-1 flex flex-col justify-end items-center h-full pb-8 group">
+<div class="w-full max-w-[64px] flex items-end gap-1 h-[calc(100%-2rem)]">
+<div class="flex-1 bg-primary/20 h-[35%] rounded-t-sm group-hover:bg-primary/40 transition-colors"></div>
+<div class="flex-1 bg-secondary h-[29%] rounded-t-sm shadow-[0_0_12px_rgba(156,68,0,0.3)]"></div>
+</div>
+<span class="absolute bottom-0 font-label-md text-label-md text-on-surface-variant w-full text-center truncate">Retail</span>
+</div>
+<!-- Bar 4: Export -->
+<div class="relative z-10 flex-1 flex flex-col justify-end items-center h-full pb-8 group">
+<div class="w-full max-w-[64px] flex items-end gap-1 h-[calc(100%-2rem)]">
+<div class="flex-1 bg-primary/20 h-[80%] rounded-t-sm group-hover:bg-primary/40 transition-colors"></div>
+<div class="flex-1 bg-secondary h-[94%] rounded-t-sm shadow-[0_0_12px_rgba(156,68,0,0.3)]"></div>
+</div>
+<span class="absolute bottom-0 font-label-md text-label-md text-on-surface-variant w-full text-center truncate">Export</span>
+</div>
+</div>
+</div>
+</div>
+</div></section>
+<section id="page-pricing" class="page-section" data-page="pricing" hidden ><div class="flex flex-col w-full relative">
+<div class="flex flex-col lg:flex-row gap-gutter p-margin-mobile lg:p-margin-desktop min-h-[calc(100vh-80px)] items-start">
+<!-- Left Column: Primary Metrics & History -->
+<div class="w-full lg:w-5/12 flex flex-col gap-gutter">
+<!-- Current Price Hero Card -->
+<div class="bg-surface-container-lowest rounded-xl shadow-md p-lg flex flex-col relative overflow-hidden group hover:-translate-y-1 transition-transform duration-300">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-110"></div>
+<div class="flex items-center gap-xs mb-sm">
+<span class="material-symbols-outlined text-primary text-[20px]">sell</span>
+<span class="font-label-md text-label-md text-primary uppercase tracking-wider">Dynamic Pricing Engine</span>
+</div>
+<div class="mt-md">
+<span class="font-body-sm text-body-sm text-on-surface-variant mb-unit block">Current Market Price (FOB)</span>
+<div class="flex items-baseline gap-sm">
+<span class="font-display-lg text-display-lg text-primary">€4.28</span>
+<span class="font-body-md text-body-md text-on-surface-variant">/ kg</span>
+</div>
+</div>
+<div class="flex items-center gap-sm mt-md bg-surface-container-low w-fit px-md py-sm rounded-full">
+<span class="material-symbols-outlined text-secondary text-[18px]">trending_up</span>
+<span class="font-label-md text-label-md text-secondary">+0.12 (2.8%)</span>
+<span class="font-mono-label text-mono-label text-on-surface-variant opacity-70 ml-xs">vs last week</span>
+</div>
+</div>
+<!-- Price History Chart Card -->
+<div class="bg-surface-container-lowest rounded-xl shadow-md p-lg flex-1 min-h-[300px] flex flex-col">
+<div class="flex justify-between items-center mb-md">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">30-Day Price Trend</h2>
+<div class="flex gap-xs">
+<span class="w-2 h-2 rounded-full bg-primary mt-1"></span>
+<span class="font-label-md text-label-md text-on-surface-variant">Avg Price</span>
+</div>
+</div>
+<div class="relative flex-1 w-full flex items-end pt-xl">
+<!-- Y-axis labels -->
+<div class="absolute left-0 top-0 bottom-0 flex flex-col justify-between text-on-surface-variant font-mono-label text-mono-label opacity-60 pb-md">
+<span class="">€4.50</span>
+<span class="">€4.00</span>
+<span class="">€3.50</span>
+</div>
+<!-- Chart area with SVG line -->
+<div class="ml-12 flex-1 h-full relative">
+<!-- Grid lines -->
+<div class="absolute inset-0 flex flex-col justify-between pb-md">
+<div class="h-px w-full bg-surface-container-highest"></div>
+<div class="h-px w-full bg-surface-container-highest"></div>
+<div class="h-px w-full bg-surface-container-highest"></div>
+</div>
+<!-- SVG Line Chart -->
+<svg class="absolute inset-0 w-full h-[calc(100%-16px)] drop-shadow-md" preserveAspectRatio="none" viewBox="0 0 100 100">
+<path class="text-primary" d="M0,80 C10,75 20,90 30,70 C40,50 50,60 60,40 C70,20 80,30 100,10" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="3" vector-effect="non-scaling-stroke"></path>
+<path d="M0,100 L0,80 C10,75 20,90 30,70 C40,50 50,60 60,40 C70,20 80,30 100,10 L100,100 Z" fill="url(#gradient)" stroke="none" vector-effect="non-scaling-stroke"></path>
+<defs>
+<linearGradient id="gradient" x1="0" x2="0" y1="0" y2="1">
+<stop class="text-primary" offset="0%" stop-color="currentColor" stop-opacity="0.2"></stop>
+<stop class="text-primary" offset="100%" stop-color="currentColor" stop-opacity="0"></stop>
+</linearGradient>
+</defs>
+</svg>
+<!-- X-axis labels -->
+<div class="absolute bottom-0 left-0 right-0 flex justify-between font-mono-label text-mono-label text-on-surface-variant opacity-60">
+<span class="">-30d</span>
+<span class="">-15d</span>
+<span class="">Today</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Recommended Action Mini Card -->
+<div class="bg-primary text-on-primary rounded-xl shadow-lg p-lg relative overflow-hidden">
+<div class="absolute -right-4 -bottom-4 w-24 h-24 bg-on-primary/10 rounded-full blur-xl"></div>
+<div class="flex items-start gap-md relative z-10">
+<span class="material-symbols-outlined text-[24px]">lightbulb</span>
+<div>
+<h3 class="font-label-md text-label-md uppercase tracking-wider mb-xs">Engine Recommendation</h3>
+<p class="font-body-sm text-body-sm opacity-90">Demand is projected to surge in the next 7 days. Consider a +0.05 margin increase to optimize yield.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Control Panel -->
+<div class="w-full lg:w-7/12 flex flex-col gap-gutter">
+<div class="bg-surface-container-lowest rounded-xl shadow-md p-lg lg:p-xl flex flex-col">
+<h2 class="font-headline-sm text-headline-sm text-on-surface mb-lg">Pricing Model Variables</h2>
+<div class="flex flex-col gap-xl">
+<!-- Variable 1: Harvest Season Impact -->
+<div class="group">
+<div class="flex justify-between items-center mb-sm">
+<label class="font-label-md text-label-md text-on-surface flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px] text-primary">eco</span>
+                Harvest Season Impact
+              </label>
+<span class="font-mono-label text-mono-label text-primary" id="harvest-val">Mid-Season</span>
+</div>
+<div class="relative w-full h-2 bg-surface-container-highest rounded-full">
+<div class="absolute left-0 top-0 h-full w-[60%] bg-primary rounded-full transition-all duration-300"></div>
+<input class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" max="100" min="1" oninput="document.getElementById('harvest-val').innerText = this.value &gt; 80 ? 'Peak' : this.value &gt; 40 ? 'Mid-Season' : 'Early'" type="range" value="60">
+<div class="absolute left-[60%] top-1/2 -translate-y-1/2 -translate-x-1/2 w-4 h-4 bg-surface-container-lowest rounded-full shadow-[0_1px_3px_rgba(10,130,118,0.4)] pointer-events-none group-hover:scale-110 transition-transform"></div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant opacity-70 mt-xs">Current yield volume applying downward pressure.</p>
+</div>
+<!-- Variable 2: Stock Levels -->
+<div class="group">
+<div class="flex justify-between items-center mb-sm">
+<label class="font-label-md text-label-md text-on-surface flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px] text-primary">inventory_2</span>
+                Current Stock Level (Tons)
+              </label>
+<span class="font-mono-label text-mono-label text-primary" id="stock-val">4,250 T</span>
+</div>
+<div class="relative w-full h-2 bg-surface-container-highest rounded-full">
+<div class="absolute left-0 top-0 h-full w-[35%] bg-secondary rounded-full transition-all duration-300"></div>
+<input class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" max="10000" min="1000" oninput="document.getElementById('stock-val').innerText = this.value + ' T'" type="range" value="4250">
+<div class="absolute left-[35%] top-1/2 -translate-y-1/2 -translate-x-1/2 w-4 h-4 bg-surface-container-lowest rounded-full shadow-[0_1px_3px_rgba(156,68,0,0.4)] pointer-events-none group-hover:scale-110 transition-transform"></div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant opacity-70 mt-xs">Stock is below target 5,000T threshold.</p>
+</div>
+<!-- Variable 3: Demand Forecast -->
+<div class="group">
+<div class="flex justify-between items-center mb-sm">
+<label class="font-label-md text-label-md text-on-surface flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px] text-primary">monitoring</span>
+                Forward Demand Index
+              </label>
+<span class="font-mono-label text-mono-label text-primary" id="demand-val">1.15 (High)</span>
+</div>
+<div class="relative w-full h-2 bg-surface-container-highest rounded-full">
+<div class="absolute left-0 top-0 h-full w-[75%] bg-primary rounded-full transition-all duration-300"></div>
+<input class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" max="150" min="50" oninput="document.getElementById('demand-val').innerText = (this.value/100).toFixed(2) + (this.value &gt; 105 ? ' (High)' : ' (Norm)')" type="range" value="115">
+<div class="absolute left-[75%] top-1/2 -translate-y-1/2 -translate-x-1/2 w-4 h-4 bg-surface-container-lowest rounded-full shadow-[0_1px_3px_rgba(10,130,118,0.4)] pointer-events-none group-hover:scale-110 transition-transform"></div>
+</div>
+</div>
+<!-- Variable 4: Competitor Pricing -->
+<div class="pt-md mt-sm border-t border-surface-container-highest relative">
+<div class="absolute -left-lg w-[calc(100%+48px)] h-px bg-surface-container-highest top-0"></div>
+<label class="font-label-md text-label-md text-on-surface flex items-center gap-xs mb-md">
+<span class="material-symbols-outlined text-[16px] text-primary">compare_arrows</span>
+                Competitor Baseline Shift (€)
+            </label>
+<div class="grid grid-cols-3 gap-md">
+<div class="bg-surface p-sm rounded-lg flex flex-col items-center justify-center border border-surface-container-highest hover:border-primary/50 cursor-pointer transition-colors">
+<span class="font-mono-label text-mono-label text-on-surface-variant mb-xs">Comp A</span>
+<span class="font-body-md text-body-md text-secondary">€4.15</span>
+</div>
+<div class="bg-primary/5 p-sm rounded-lg flex flex-col items-center justify-center border border-primary relative cursor-pointer">
+<div class="absolute -top-2 -right-2 w-4 h-4 bg-primary text-on-primary rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-[10px]">check</span>
+</div>
+<span class="font-mono-label text-mono-label text-primary mb-xs">Comp B (Target)</span>
+<span class="font-body-md text-body-md text-primary">€4.30</span>
+</div>
+<div class="bg-surface p-sm rounded-lg flex flex-col items-center justify-center border border-surface-container-highest hover:border-primary/50 cursor-pointer transition-colors">
+<span class="font-mono-label text-mono-label text-on-surface-variant mb-xs">Comp C</span>
+<span class="font-body-md text-body-md text-on-surface">€4.42</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Action Area -->
+<div class="mt-xxl pt-lg border-t border-surface-container-highest flex flex-col sm:flex-row items-center justify-between gap-lg relative">
+<div class="absolute -left-lg w-[calc(100%+48px)] h-px bg-surface-container-highest top-0"></div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase">Proposed Price</span>
+<div class="flex items-baseline gap-sm">
+<span class="font-headline-lg text-headline-lg text-primary">€4.33</span>
+<span class="font-body-sm text-body-sm text-secondary font-medium">+€0.05</span>
+</div>
+</div>
+<button class="bg-primary text-on-primary font-headline-sm text-headline-sm px-xl py-md rounded-xl hover:bg-primary-fixed-variant transition-colors shadow-md hover:shadow-lg w-full sm:w-auto flex items-center justify-center gap-sm">
+<span class="material-symbols-outlined">publish</span>
+              Apply New Pricing
+           </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Decorative blur element in background -->
+<div class="absolute top-1/4 right-0 w-[40vw] h-[40vw] bg-tertiary-fixed-dim/20 rounded-full blur-[100px] pointer-events-none -z-10 -mr-[20vw]"></div>
+</div></section>
+<section id="page-campaigns" class="page-section" data-page="campaigns" hidden ><div class="flex flex-col w-full h-full p-xxl gap-xxl">
+<!-- Header Section -->
+<div class="flex justify-between items-end relative z-10 w-full mb-md">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-unit">Campaign Hub</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">
+        Monitor active initiatives and plan upcoming promotions across all sales channels.
+      </p>
+</div>
+<button class="bg-primary text-on-primary font-label-md text-label-md px-lg py-sm rounded-lg flex items-center gap-xs hover:bg-primary-fixed hover:text-on-primary-fixed transition-colors shadow-sm hover:shadow-md">
+<span class="material-symbols-outlined text-[18px]">add</span>
+      NEW CAMPAIGN
+    </button>
+</div>
+<!-- Top Section: Active Campaign Highlight & Performance -->
+<div class="grid grid-cols-12 gap-gutter w-full relative z-10">
+<!-- Active Campaign Card -->
+<div class="col-span-12 md:col-span-4 bg-surface-container rounded-xl shadow-sm p-lg flex flex-col relative overflow-hidden group">
+<!-- Decorative blurred element -->
+<div class="absolute -right-12 -top-12 w-48 h-48 bg-primary/10 rounded-full blur-3xl pointer-events-none transition-transform group-hover:scale-110 duration-700"></div>
+<div class="flex items-start justify-between mb-lg relative z-10">
+<span class="bg-primary-container/10 text-primary-container px-sm py-xs rounded font-label-md text-[10px] tracking-widest">ACTIVE NOW</span>
+<button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined">more_horiz</span></button>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-xs relative z-10 leading-tight">Q3 Harvest Drive</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-xl relative z-10">Multi-channel push focusing on early grain contracts.</p>
+<div class="grid grid-cols-2 gap-md mt-auto relative z-10">
+<div>
+<p class="font-label-md text-[10px] text-on-surface-variant uppercase tracking-wider mb-unit">Budget Spent</p>
+<p class="font-headline-sm text-headline-sm text-on-surface">$45,200 <span class="font-body-sm text-body-sm text-on-surface-variant">/ 80k</span></p>
+</div>
+<div>
+<p class="font-label-md text-[10px] text-on-surface-variant uppercase tracking-wider mb-unit">Est. Reach</p>
+<p class="font-headline-sm text-headline-sm text-on-surface">142,000</p>
+</div>
+</div>
+<!-- Mini Progress bar -->
+<div class="w-full bg-outline-variant/30 h-1 mt-md rounded-full relative z-10">
+<div class="bg-primary h-full rounded-full" style="width: 56%;"></div>
+</div>
+</div>
+<!-- Performance Chart -->
+<div class="col-span-12 md:col-span-8 bg-surface-container rounded-xl shadow-sm p-lg flex flex-col relative">
+<div class="flex justify-between items-center mb-xl">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Conversion Trajectory</h3>
+<div class="flex items-center gap-sm">
+<span class="flex items-center gap-xs font-label-md text-label-md text-on-surface-variant"><span class="w-2 h-2 rounded-full bg-primary"></span> Click-through</span>
+<span class="flex items-center gap-xs font-label-md text-label-md text-on-surface-variant"><span class="w-2 h-2 rounded-full bg-secondary"></span> Sign-ups</span>
+</div>
+</div>
+<div class="flex-1 w-full h-full min-h-[200px] relative">
+<!-- SVG Line Chart Placeholder -->
+<svg class="w-full h-full absolute inset-0 preserve-3d" preserveAspectRatio="none" viewBox="0 0 800 200">
+<defs>
+<linearGradient id="grad1" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop class="text-primary" offset="0%" style="stop-color:currentColor;stop-opacity:0.2"></stop>
+<stop class="text-primary" offset="100%" style="stop-color:currentColor;stop-opacity:0"></stop>
+</linearGradient>
+</defs>
+<!-- Grid lines -->
+<line class="text-on-surface" stroke="currentColor" stroke-opacity="0.1" stroke-width="1" x1="0" x2="800" y1="50" y2="50"></line>
+<line class="text-on-surface" stroke="currentColor" stroke-opacity="0.1" stroke-width="1" x1="0" x2="800" y1="100" y2="100"></line>
+<line class="text-on-surface" stroke="currentColor" stroke-opacity="0.1" stroke-width="1" x1="0" x2="800" y1="150" y2="150"></line>
+<!-- Area under primary -->
+<path d="M0,180 L100,160 L200,120 L300,140 L400,90 L500,110 L600,60 L700,70 L800,20 L800,200 L0,200 Z" fill="url(#grad1)"></path>
+<!-- Secondary Line -->
+<path class="text-secondary opacity-70" d="M0,190 L100,185 L200,170 L300,175 L400,150 L500,155 L600,130 L700,135 L800,100" fill="none" stroke="currentColor" stroke-dasharray="4 4" stroke-width="2"></path>
+<!-- Primary Line -->
+<path class="text-primary" d="M0,180 L100,160 L200,120 L300,140 L400,90 L500,110 L600,60 L700,70 L800,20" fill="none" stroke="currentColor" stroke-width="3"></path>
+<!-- Data Points (Primary) -->
+<circle class="text-surface-container stroke-primary stroke-2" cx="200" cy="120" fill="currentColor" r="4"></circle>
+<circle class="text-surface-container stroke-primary stroke-2" cx="400" cy="90" fill="currentColor" r="4"></circle>
+<circle class="text-surface-container stroke-primary stroke-2" cx="600" cy="60" fill="currentColor" r="4"></circle>
+<circle class="text-primary shadow-lg" cx="800" cy="20" fill="currentColor" r="5"></circle>
+</svg>
+</div>
+</div>
+</div>
+<!-- Campaign List Section -->
+<div class="w-full relative z-10 flex flex-col gap-md">
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-sm flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary text-[20px]">view_list</span>
+        All Campaigns
+     </h3>
+<div class="grid grid-cols-12 gap-gutter w-full">
+<!-- Campaign Card 1 (Active) -->
+<div class="col-span-12 lg:col-span-6 xl:col-span-4 bg-surface-container rounded-xl p-md flex items-center gap-md hover:shadow-md transition-shadow cursor-pointer">
+<div class="w-16 h-16 rounded-lg bg-surface flex-shrink-0 overflow-hidden relative">
+<img class="w-full h-full object-cover mix-blend-multiply opacity-80" data-alt="A minimalist overhead shot of a vibrant green crop field divided by a straight dirt path, bathed in warm, early morning sunlight, casting long shadows. Clean, precise, and agricultural." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuTjKMkgXfIM9dTXmEbLshFRrmCfwY--hiECSrdrazHY1jrRIy801H7qEpnE2tH3lDB9ymKSP8Xz6Hv6UrqSy1HMK1MAPo7OYxFsf4_Wmj_lcXfKGoJEc9gjCJb36UZNSc-cBLGtAWJCCeHdq9DOk91_8iB1Odlj6n47kY6nCEpzkuG-9gYzKrN9GLwOKnZ9P2fpI1B5rzLjZ44fRoJE3HKtRFPCPjEx9NyQb8oDUR-x6A7igE34Of">
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-sm mb-xs">
+<span class="w-2 h-2 rounded-full bg-[#008000]"></span> <!-- Hardcoded green per generic request, but avoiding blue. Actually, using inline style for specific green status if needed, but let's stick to theme if possible. Let's use a themed green approach if possible, but no green in theme. Wait, primary is green-ish teal. Let's use primary for active. -->
+<p class="font-label-md text-[10px] text-primary tracking-wider uppercase">Active</p>
+</div>
+<h4 class="font-body-md text-body-md font-semibold text-on-surface truncate">Q3 Harvest Drive</h4>
+<p class="font-body-sm text-[12px] text-on-surface-variant truncate">Jul 1 - Sep 30</p>
+</div>
+<div class="text-right flex-shrink-0">
+<p class="font-body-md text-body-md font-medium text-on-surface">$45.2k</p>
+<p class="font-body-sm text-[11px] text-on-surface-variant">Budget</p>
+</div>
+</div>
+<!-- Campaign Card 2 (Scheduled) -->
+<div class="col-span-12 lg:col-span-6 xl:col-span-4 bg-surface-container rounded-xl p-md flex items-center gap-md hover:shadow-md transition-shadow cursor-pointer opacity-90">
+<div class="w-16 h-16 rounded-lg bg-surface flex-shrink-0 overflow-hidden relative">
+<img class="w-full h-full object-cover mix-blend-multiply opacity-80 grayscale-[30%]" data-alt="Abstract macro photography of stacked wooden shipping pallets, showing strong geometric lines and warm orange-brown wood tones under diffuse studio lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpqVe-6kzL3j7pX5ptnwwBgzGgOyXxb0E3gBOK5PoXRjZ5q4C2XGKA_4FBt0Rp3H2WlpEAGX2osUWXm_hVqKZ20YYWTyI1UHgja6Uv6_1aWP6iCrlmAeJcrp110WHrTHW2XXzUIHDGZ5FgPqWkN6mWc_niK-9MKT_OIv0IxOy2LsaxIVSW9ms1DFLTucej7BfKC6v5S2GYUkInE9EACdqqWSjkbdxMWanF8ZhJjuBl-PYDbB9-MtG8">
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-sm mb-xs">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<p class="font-label-md text-[10px] text-secondary tracking-wider uppercase">Scheduled</p>
+</div>
+<h4 class="font-body-md text-body-md font-semibold text-on-surface truncate">Winter Logistics Promo</h4>
+<p class="font-body-sm text-[12px] text-on-surface-variant truncate">Oct 15 - Dec 20</p>
+</div>
+<div class="text-right flex-shrink-0">
+<p class="font-body-md text-body-md font-medium text-on-surface">$120k</p>
+<p class="font-body-sm text-[11px] text-on-surface-variant">Budget</p>
+</div>
+</div>
+<!-- Campaign Card 3 (Ended) -->
+<div class="col-span-12 lg:col-span-6 xl:col-span-4 bg-surface-container rounded-xl p-md flex items-center gap-md hover:shadow-md transition-shadow cursor-pointer opacity-60">
+<div class="w-16 h-16 rounded-lg bg-outline-variant/20 flex-shrink-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-outline-variant">inventory_2</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-sm mb-xs">
+<span class="w-2 h-2 rounded-full bg-outline-variant"></span>
+<p class="font-label-md text-[10px] text-on-surface-variant tracking-wider uppercase">Ended</p>
+</div>
+<h4 class="font-body-md text-body-md font-semibold text-on-surface truncate">Spring Seed Pre-sale</h4>
+<p class="font-body-sm text-[12px] text-on-surface-variant truncate">Feb 1 - Apr 30</p>
+</div>
+<div class="text-right flex-shrink-0">
+<p class="font-body-md text-body-md font-medium text-on-surface">$32.5k</p>
+<p class="font-body-sm text-[11px] text-on-surface-variant">Spent</p>
+</div>
+</div>
+<!-- Campaign Card 4 (Draft) -->
+<div class="col-span-12 lg:col-span-6 xl:col-span-4 bg-surface-container rounded-xl p-md flex items-center gap-md hover:shadow-md transition-shadow cursor-pointer border border-dashed border-outline-variant bg-transparent">
+<div class="w-16 h-16 rounded-lg bg-surface flex-shrink-0 flex items-center justify-center border border-dashed border-outline-variant">
+<span class="material-symbols-outlined text-outline-variant">edit</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-sm mb-xs">
+<span class="w-2 h-2 rounded-full border border-outline-variant"></span>
+<p class="font-label-md text-[10px] text-on-surface-variant tracking-wider uppercase">Draft</p>
+</div>
+<h4 class="font-body-md text-body-md font-semibold text-on-surface truncate italic">Q1 Expansion Push</h4>
+<p class="font-body-sm text-[12px] text-on-surface-variant truncate">TBD</p>
+</div>
+<div class="text-right flex-shrink-0 opacity-50">
+<p class="font-body-md text-body-md font-medium text-on-surface">--</p>
+<p class="font-body-sm text-[11px] text-on-surface-variant">Budget</p>
+</div>
+</div>
+</div>
+</div>
+</div></section>
+<section id="page-delivery" class="page-section" data-page="delivery" hidden ><div class="flex flex-col w-full h-full relative">
+<div class="px-margin-desktop py-xl">
+<h2 class="font-headline-lg text-headline-lg text-primary mb-xs">Delivery Tracking</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">Monitor real-time global shipment statuses, predict delays, and optimize route efficiency across all supply chain channels.</p>
+</div>
+<div class="px-margin-desktop pb-xxl flex-1 flex flex-col xl:flex-row gap-lg h-full">
+<!-- Tracking Sidebar List -->
+<div class="w-full xl:w-[400px] flex-shrink-0 flex flex-col gap-md">
+<div class="flex items-center justify-between bg-surface-container rounded-xl p-md shadow-sm">
+<div class="relative flex-1 mr-md">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full bg-surface-container-lowest font-body-sm text-body-sm text-on-surface rounded-lg pl-xl pr-md py-sm focus:outline-none focus:ring-1 focus:ring-primary shadow-sm transition-shadow" placeholder="Search by ID or destination..." type="text">
+</div>
+<button class="w-10 h-10 rounded-lg bg-surface-container-lowest flex items-center justify-center text-on-surface hover:text-primary transition-colors shadow-sm">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+</div>
+<!-- Shipment Card 1 (Active) -->
+<button class="w-full text-left bg-surface-container-lowest rounded-xl p-md shadow-md border-l-4 border-primary relative overflow-hidden group hover:-translate-y-1 transition-transform duration-300">
+<div class="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="relative z-10 flex flex-col gap-sm">
+<div class="flex justify-between items-start">
+<span class="font-mono-label text-mono-label text-on-surface-variant">SHP-992-BFA-GER</span>
+<div class="bg-primary/10 rounded-full px-sm py-1 flex items-center gap-xs">
+<div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+<span class="font-label-md text-label-md text-primary">IN TRANSIT</span>
+</div>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Ouagadougou <span class="material-symbols-outlined text-[16px] text-outline mx-xs align-middle">arrow_forward</span> Hamburg</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Vessel: Maersk Atlantic (V-294)</p>
+</div>
+<div class="pt-sm mt-sm border-t border-outline-variant/30 flex justify-between items-center">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase">ETA</span>
+<span class="font-body-md text-body-md text-on-surface font-semibold">Oct 12, 14:00 CET</span>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">chevron_right</span>
+</div>
+</div>
+</button>
+<!-- Shipment Card 2 -->
+<button class="w-full text-left bg-surface-container rounded-xl p-md shadow-sm border-l-4 border-transparent hover:border-outline-variant relative overflow-hidden group transition-all duration-300">
+<div class="relative z-10 flex flex-col gap-sm">
+<div class="flex justify-between items-start">
+<span class="font-mono-label text-mono-label text-on-surface-variant">SHP-814-CIV-USA</span>
+<div class="bg-secondary-container/10 rounded-full px-sm py-1 flex items-center gap-xs">
+<span class="material-symbols-outlined text-[12px] text-secondary-container">warning</span>
+<span class="font-label-md text-label-md text-secondary-container">DELAYED</span>
+</div>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Abidjan <span class="material-symbols-outlined text-[16px] text-outline mx-xs align-middle">arrow_forward</span> New York</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Port Congestion (Est +48h)</p>
+</div>
+<div class="pt-sm mt-sm border-t border-outline-variant/30 flex justify-between items-center">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase">Updated ETA</span>
+<span class="font-body-md text-body-md text-on-surface font-semibold">Oct 18, 09:00 EST</span>
+</div>
+</div>
+</div>
+</button>
+<!-- Shipment Card 3 -->
+<button class="w-full text-left bg-surface-container rounded-xl p-md shadow-sm border-l-4 border-transparent hover:border-outline-variant relative overflow-hidden group transition-all duration-300">
+<div class="relative z-10 flex flex-col gap-sm">
+<div class="flex justify-between items-start">
+<span class="font-mono-label text-mono-label text-on-surface-variant">SHP-775-GHA-UK</span>
+<div class="bg-[#1b5e20]/10 rounded-full px-sm py-1 flex items-center gap-xs">
+<span class="material-symbols-outlined text-[12px] text-[#1b5e20]">check_circle</span>
+<span class="font-label-md text-label-md text-[#1b5e20]">DELIVERED</span>
+</div>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Accra <span class="material-symbols-outlined text-[16px] text-outline mx-xs align-middle">arrow_forward</span> London</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Signed by: J. Smith (Warehouse 4)</p>
+</div>
+</div>
+</button>
+<button class="font-label-md text-label-md text-primary uppercase text-center mt-sm hover:underline">View All 42 Shipments</button>
+</div>
+<!-- Main Content Area: Map & Detail -->
+<div class="flex-1 flex flex-col gap-lg min-h-[600px]">
+<!-- Map Container -->
+<div class="w-full h-[50%] lg:h-[60%] rounded-xl shadow-md overflow-hidden relative bg-surface-container-high group">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-[10s] group-hover:scale-105" data-location="Burkina Faso to Germany shipping route" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBIm-zErSziwUiSSJzhvrKgcrj-IuZDfCZDbfSqbQlcrHwsnfJ7L0Z0wkyOcxg6ImSv_Y8emrvLdoTY8GlsnffE1E9sGLd0GAPYlbtFbPAqkyOJ0uneLb0yk5bSveVBNCYxQmkp18mnvtX48wrd5g8urh2nDoDops0PXBsMRNgeTzdMkesfMfOOXeNFy1LE7ayoz9DPfmYE1u6p9p2Xq0cNqxz_PlbtH4nTKslKW4FMdSDLAPNcOZMw')"></div>
+<!-- Map Overlay Gradient for Readability -->
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/90 via-surface-container-lowest/20 to-transparent pointer-events-none"></div>
+<!-- Floating Info Panel over Map -->
+<div class="absolute bottom-md left-md right-md bg-surface-container-lowest/95 backdrop-blur-md rounded-xl p-md shadow-lg flex flex-col md:flex-row gap-lg justify-between items-center">
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[24px]">directions_boat</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Current Location</p>
+<p class="font-headline-sm text-headline-sm text-on-surface">North Atlantic Ocean</p>
+<p class="font-body-sm text-body-sm text-outline">Lat 45.123, Lon -12.456 • Speed: 18 kts</p>
+</div>
+</div>
+<div class="flex gap-md">
+<div class="text-right">
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Distance Remaining</p>
+<p class="font-headline-md text-headline-md text-primary">1,240 NM</p>
+</div>
+<div class="w-px h-10 bg-outline-variant/50 self-center"></div>
+<div class="text-right">
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Est. Arrival</p>
+<p class="font-headline-md text-headline-md text-on-surface">2 Days</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Detail Timeline & Stats -->
+<div class="w-full bg-surface-container-lowest rounded-xl shadow-md p-lg flex flex-col lg:flex-row gap-xl flex-1">
+<!-- Timeline -->
+<div class="flex-1">
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-lg">Shipment Timeline</h3>
+<div class="relative pl-6 space-y-6">
+<!-- Vertical Line -->
+<div class="absolute left-[11px] top-2 bottom-6 w-0.5 bg-outline-variant/40"></div>
+<!-- Step 1: Packed -->
+<div class="relative">
+<div class="absolute -left-[30px] top-0 w-6 h-6 rounded-full bg-primary flex items-center justify-center shadow-[0_0_0_4px_rgba(255,255,255,1)]">
+<span class="material-symbols-outlined text-on-primary text-[14px]">check</span>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<p class="font-body-md text-body-md text-on-surface font-semibold">Packed &amp; Sealed</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Origin Facility, Bobo-Dioulasso</p>
+</div>
+<span class="font-mono-label text-mono-label text-on-surface-variant text-right">Oct 02<br>08:30</span>
+</div>
+</div>
+<!-- Step 2: Shipped / Port -->
+<div class="relative">
+<div class="absolute -left-[30px] top-0 w-6 h-6 rounded-full bg-primary flex items-center justify-center shadow-[0_0_0_4px_rgba(255,255,255,1)]">
+<span class="material-symbols-outlined text-on-primary text-[14px]">check</span>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<p class="font-body-md text-body-md text-on-surface font-semibold">Arrived at Port of Departure</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Abidjan Terminal, Customs Cleared</p>
+</div>
+<span class="font-mono-label text-mono-label text-on-surface-variant text-right">Oct 05<br>14:15</span>
+</div>
+</div>
+<!-- Step 3: In Transit -->
+<div class="relative">
+<div class="absolute -left-[30px] top-0 w-6 h-6 rounded-full bg-surface-container-lowest border-2 border-primary flex items-center justify-center shadow-[0_0_0_4px_rgba(255,255,255,1)]">
+<div class="w-2 h-2 rounded-full bg-primary animate-ping"></div>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<p class="font-body-md text-body-md text-primary font-semibold">In Transit</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Vessel departed, en route to Hamburg</p>
+</div>
+<span class="font-mono-label text-mono-label text-primary text-right">Oct 07<br>06:00</span>
+</div>
+</div>
+<!-- Step 4: Delivered (Pending) -->
+<div class="relative opacity-50">
+<div class="absolute -left-[30px] top-0 w-6 h-6 rounded-full bg-surface-container-lowest border-2 border-outline-variant flex items-center justify-center shadow-[0_0_0_4px_rgba(255,255,255,1)]">
+</div>
+<div class="flex justify-between items-start">
+<div>
+<p class="font-body-md text-body-md text-on-surface font-semibold">Final Delivery</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Destination Facility, Berlin</p>
+</div>
+<span class="font-mono-label text-mono-label text-on-surface-variant text-right">Est. Oct 14</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Stats / Cargo Details -->
+<div class="w-full lg:w-1/3 bg-surface rounded-xl p-md border border-outline-variant/30 flex flex-col gap-md">
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Cargo Details</h4>
+<div class="flex flex-col gap-1">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase">Commodity</span>
+<span class="font-body-md text-body-md text-on-surface">Organic Shea Butter, Raw</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase">Volume / Weight</span>
+<span class="font-body-md text-body-md text-on-surface">2 x 40ft HC / 42,000 kg</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase">Condition Monitoring</span>
+<div class="mt-xs bg-surface-container-highest rounded-lg p-sm flex items-center justify-between">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary text-[20px]">device_thermostat</span>
+<span class="font-mono-label text-mono-label text-on-surface">18.5°C</span>
+</div>
+<span class="font-label-md text-label-md text-primary bg-primary/10 px-2 py-1 rounded-full">OPTIMAL</span>
+</div>
+</div>
+<button class="mt-auto w-full py-sm bg-primary text-on-primary font-label-md text-label-md uppercase tracking-wide rounded-lg hover:bg-primary-fixed-variant transition-colors shadow-sm">Download Manifest</button>
+</div>
+</div>
+</div>
+</div>
+</div></section>
+</main>
+</div>
+
+<script>
+(function(){
+  var links = document.querySelectorAll('aside nav a[data-path]');
+  var sections = document.querySelectorAll('.page-section');
+  function activate(path){
+    sections.forEach(function(s){
+      s.hidden = (s.getAttribute('data-page') !== path);
+    });
+    links.forEach(function(l){
+      var isActive = l.getAttribute('data-path') === path;
+      l.classList.toggle('bg-primary-fixed-dim', isActive);
+      l.classList.toggle('text-on-primary-fixed', isActive);
+      l.classList.toggle('font-bold', isActive);
+      if(isActive){ l.setAttribute('aria-current','page'); }
+      else { l.removeAttribute('aria-current'); }
+    });
+  }
+  links.forEach(function(l){
+    l.addEventListener('click', function(e){
+      e.preventDefault();
+      var path = l.getAttribute('data-path');
+      if(path === 'logout'){ return; }
+      activate(path);
+      window.scrollTo({top:0, behavior:'instant'});
+    });
+  });
+  activate('dashboard');
+})();
+</script>
+
+</body>
+</html>
