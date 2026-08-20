@@ -27,17 +27,17 @@
           card: { DEFAULT: "#ffffff", foreground: "#1a2422" },
           popover: { DEFAULT: "#ffffff", foreground: "#1a2422" },
           primary: { DEFAULT: "#0a8276", foreground: "#ffffff" },
-          secondary: { DEFAULT: "#c62828", foreground: "#ffffff" },
+          secondary: { DEFAULT: "#4caf50", foreground: "#ffffff" },
           muted: { DEFAULT: "#eef2f1", foreground: "#5c6b68" },
           accent: { DEFAULT: "#e3efed", foreground: "#0a8276" },
-          destructive: "#c62828",
-          warning: { DEFAULT: "#d97706", foreground: "#ffffff" },
-          success: { DEFAULT: "#0a8276", foreground: "#ffffff" },
+          destructive: { DEFAULT: "#c62828", foreground: "#ffffff" },
+          warning: { DEFAULT: "#ef6c00", foreground: "#ffffff" },
+          success: { DEFAULT: "#4caf50", foreground: "#ffffff" },
           border: "#dbe3e1",
           input: "#dbe3e1",
           ring: "#0a8276",
           "chart-1": "#0a8276",
-          "chart-2": "#d97706",
+          "chart-2": "#ef6c00",
           "chart-3": "#c62828",
           "chart-4": "#4a9d93",
           "chart-5": "#7fb8b1",
@@ -83,7 +83,7 @@
   <!-- Sidebar -->
   <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 flex w-64 -translate-x-full flex-col bg-sidebar text-sidebar-foreground transition-transform lg:static lg:translate-x-0">
     <div class="flex items-center gap-3 border-b border-sidebar-border px-5 py-4">
-      <div class="size-14 shrink-0 rounded-md bg-center bg-no-repeat" style="background-image:url('https://imgur.com/h9Kg1h7.png'); background-size: 220%;"></div>
+      <div class="size-24 shrink-0 rounded-md bg-center bg-no-repeat" style="background-image:url('logo-removebg-preview (1).png'); background-size: 150%;"></div>
       <div class="min-w-0">
         <p class="font-heading text-sm font-bold uppercase tracking-[0.05em] text-white">CropCore</p>
         <p class="truncate text-xs text-sidebar-foreground/70">Module 05 · Energy</p>
@@ -99,7 +99,7 @@
         <li><button data-tab="generator" class="nav-btn group flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-left text-sm font-medium transition-colors"><i data-lucide="fuel" class="size-[18px] shrink-0"></i><span class="flex-1 truncate">Generator Backup</span></button></li>
         <li><button data-tab="carbon" class="nav-btn group flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-left text-sm font-medium transition-colors"><i data-lucide="leaf" class="size-[18px] shrink-0"></i><span class="flex-1 truncate">Carbon Footprint</span></button></li>
         <li><button data-tab="scenario" class="nav-btn group flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-left text-sm font-medium transition-colors"><i data-lucide="sliders-horizontal" class="size-[18px] shrink-0"></i><span class="flex-1 truncate">What-If Analysis</span></button></li>
-        <li><button data-tab="alerts" class="nav-btn group flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-left text-sm font-medium transition-colors"><i data-lucide="alert-triangle" class="size-[18px] shrink-0"></i><span class="flex-1 truncate">Alerts &amp; Notifications</span><span class="inline-flex min-w-5 items-center justify-center rounded-full bg-secondary px-1.5 py-0.5 text-[10px] font-bold text-secondary-foreground">4</span></button></li>
+        <li><button data-tab="alerts" class="nav-btn group flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-left text-sm font-medium transition-colors"><i data-lucide="alert-triangle" class="size-[18px] shrink-0"></i><span class="flex-1 truncate">Alerts &amp; Notifications</span><span class="inline-flex min-w-5 items-center justify-center rounded-full bg-destructive px-1.5 py-0.5 text-[10px] font-bold text-destructive-foreground">4</span></button></li>
       </ul>
     </nav>
 
@@ -365,6 +365,17 @@
           <div class="rounded-lg border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary"><p class="text-xs font-medium uppercase tracking-[0.05em] text-muted-foreground">New CO₂ Reduction</p><p id="sumReduction" class="mt-2 font-heading text-2xl font-bold tracking-tight text-foreground">89%</p></div>
           <div class="rounded-lg border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary"><p class="text-xs font-medium uppercase tracking-[0.05em] text-muted-foreground">New System Capacity</p><p id="sumCapacity" class="mt-2 font-heading text-2xl font-bold tracking-tight text-foreground">108.4 kWp</p></div>
         </div>
+
+        <div class="mt-6 grid gap-6 xl:grid-cols-5">
+          <div class="rounded-lg border border-border bg-card shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary xl:col-span-2">
+            <div class="flex items-center justify-between gap-3 border-b border-border px-5 py-3.5"><h2 class="font-heading text-sm font-bold uppercase tracking-[0.05em] text-foreground">Impact Comparison</h2></div>
+            <div class="p-5" id="comparisonBars"></div>
+          </div>
+          <div class="rounded-lg border border-border bg-card shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary xl:col-span-3">
+            <div class="flex items-center justify-between gap-3 border-b border-border px-5 py-3.5"><h2 class="font-heading text-sm font-bold uppercase tracking-[0.05em] text-foreground">Projected CO₂ Trajectory</h2></div>
+            <div class="p-5"><div id="scenarioLineChart"></div></div>
+          </div>
+        </div>
       </section>
 
       <!-- ========================= ALERTS ========================= -->
@@ -475,23 +486,23 @@ const statusBadge = (status) => {
   const map = {
     operational: ["bg-primary/10 text-primary ring-primary/20", "bg-primary", "Operational"],
     warning: ["bg-warning/10 text-warning ring-warning/25", "bg-warning", "Warning"],
-    critical: ["bg-secondary/10 text-secondary ring-secondary/20", "bg-secondary", "Critical"],
+    critical: ["bg-destructive/10 text-destructive ring-destructive/20", "bg-destructive", "Critical"],
     standby: ["bg-muted-foreground/10 text-muted-foreground ring-muted-foreground/20", "bg-muted-foreground", "Standby"],
   };
   const [cls, dot, label] = map[status];
   return `<span class="inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-semibold ring-1 ring-inset ${cls}"><span class="size-1.5 rounded-full ${dot}"></span>${label}</span>`;
 };
 const priorityBadge = (p) => {
-  const map = { High: "bg-secondary/10 text-secondary ring-secondary/20", Medium: "bg-warning/10 text-warning ring-warning/25", Low: "bg-muted-foreground/10 text-muted-foreground ring-muted-foreground/20" };
+  const map = { High: "bg-destructive/10 text-destructive ring-destructive/20", Medium: "bg-warning/10 text-warning ring-warning/25", Low: "bg-muted-foreground/10 text-muted-foreground ring-muted-foreground/20" };
   return `<span class="inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold ring-1 ring-inset ${map[p]}">${p}</span>`;
 };
 const severityBadge = (s) => {
-  const map = { Critical: "bg-secondary/10 text-secondary ring-secondary/20", Warning: "bg-warning/10 text-warning ring-warning/25", Info: "bg-primary/10 text-primary ring-primary/20" };
+  const map = { Critical: "bg-destructive/10 text-destructive ring-destructive/20", Warning: "bg-warning/10 text-warning ring-warning/25", Info: "bg-primary/10 text-primary ring-primary/20" };
   return `<span class="inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold ring-1 ring-inset ${map[s]}">${s}</span>`;
 };
 const trendArrow = (t) => {
-  if (t === "up") return `<span class="inline-flex items-center gap-1 text-xs font-semibold text-secondary"><i data-lucide="arrow-up-right" class="size-4"></i> Up</span>`;
-  if (t === "down") return `<span class="inline-flex items-center gap-1 text-xs font-semibold text-primary"><i data-lucide="arrow-down-right" class="size-4"></i> Down</span>`;
+  if (t === "up") return `<span class="inline-flex items-center gap-1 text-xs font-semibold text-destructive"><i data-lucide="arrow-up-right" class="size-4"></i> Up</span>`;
+  if (t === "down") return `<span class="inline-flex items-center gap-1 text-xs font-semibold text-secondary"><i data-lucide="arrow-down-right" class="size-4"></i> Down</span>`;
   return `<span class="inline-flex items-center gap-1 text-xs font-semibold text-muted-foreground"><i data-lucide="minus" class="size-4"></i> Flat</span>`;
 };
 const td = 'border-b border-border px-5 py-3 align-middle text-foreground';
@@ -517,7 +528,7 @@ function renderBarChart() {
 
 function renderDonut() {
   const total = consumptionByCategory.reduce((s, d) => s + d.daily, 0);
-  const colors = ["#0a8276", "#d97706", "#c62828", "#4a9d93", "#7fb8b1", "#5c6b68"];
+  const colors = ["#0a8276", "#ef6c00", "#c62828", "#4a9d93", "#7fb8b1", "#5c6b68"];
   const radius = 70, stroke = 26, circ = 2 * Math.PI * radius;
   let offset = 0;
   let circles = "", legend = "";
@@ -574,7 +585,7 @@ function renderLine() {
 /* ------------------------------ Tables ------------------------------ */
 function renderTables() {
   document.getElementById("solarBody").innerHTML = solarArrays.map(a => {
-    const barColor = a.efficiency >= 90 ? "bg-primary" : a.efficiency >= 70 ? "bg-warning" : "bg-secondary";
+    const barColor = a.efficiency >= 90 ? "bg-primary" : a.efficiency >= 70 ? "bg-warning" : "bg-destructive";
     return `<tr class="transition-colors hover:bg-muted/40">
       <td class="${td} font-semibold">${a.id}</td>
       <td class="${td} text-muted-foreground">${a.zone}</td>
@@ -628,7 +639,7 @@ function renderAlerts() {
     body.innerHTML = `<tr><td class="${td} py-8 text-center text-muted-foreground" colspan="6">No alerts match this filter.</td></tr>`;
   } else {
     body.innerHTML = rows.map(a => {
-      const statusCls = a.status === "Open" ? "bg-secondary/10 text-secondary ring-secondary/20" : "bg-primary/10 text-primary ring-primary/20";
+      const statusCls = a.status === "Open" ? "bg-destructive/10 text-destructive ring-destructive/20" : "bg-secondary/10 text-secondary ring-secondary/20";
       return `<tr class="transition-colors hover:bg-muted/40">
         <td class="${td} font-semibold">${a.id}</td>
         <td class="${td}">${severityBadge(a.severity)}</td>
@@ -651,6 +662,108 @@ document.getElementById("alertFilter").addEventListener("click", (e) => {
   alertFilterValue = btn.dataset.filter;
   renderAlerts();
 });
+
+/* ------------------------------ Scenario Charts ------------------------------ */
+const comparisonMetrics = [
+  { key: "capacity", label: "System Capacity", unit: "kWp", max: 200, current: scenarioBaseline.systemCapacity, decimals: 1 },
+  { key: "reduction", label: "CO₂ Reduction vs Baseline", unit: "%", max: 100, current: scenarioBaseline.co2Reduction, decimals: 0 },
+  { key: "payback", label: "Payback Period", unit: " yrs", max: 8, current: scenarioBaseline.paybackYears, decimals: 1, lowerIsBetter: true },
+];
+
+function renderComparisonBars() {
+  const wrap = document.getElementById("comparisonBars");
+  const groups = comparisonMetrics.map(m => `
+    <div class="flex flex-col items-center">
+      <div class="flex items-end gap-1.5" style="height:170px">
+        <div id="bar-${m.key}-current" class="w-7 rounded-t-md bg-primary transition-all duration-500 ease-out sm:w-9" style="height:4%" title="Current"></div>
+        <div id="bar-${m.key}-proposed" class="w-7 rounded-t-md bg-chart-2 transition-all duration-500 ease-out sm:w-9" style="height:4%" title="Proposed"></div>
+      </div>
+    </div>`).join("");
+
+  const labels = comparisonMetrics.map(m => `
+    <div class="flex w-[68px] flex-col items-center gap-0.5 text-center sm:w-[82px]">
+      <span class="text-[11px] font-semibold uppercase leading-tight tracking-[0.02em] text-muted-foreground">${m.label}</span>
+      <span id="val-${m.key}-current" class="text-[11px] font-bold tabular-nums text-primary"></span>
+      <span id="val-${m.key}-proposed" class="text-[11px] font-bold tabular-nums text-chart-2"></span>
+    </div>`).join("");
+
+  wrap.innerHTML = `
+    <div class="flex items-end justify-center gap-8 sm:gap-10">${groups}</div>
+    <div class="mt-3 flex items-start justify-center gap-8 sm:gap-10">${labels}</div>
+    <div class="mt-5 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+      <span class="flex items-center gap-2 text-xs font-medium text-muted-foreground"><span class="size-3 rounded-sm bg-primary"></span>Current</span>
+      <span class="flex items-center gap-2 text-xs font-medium text-muted-foreground"><span class="size-3 rounded-sm bg-chart-2"></span>Proposed</span>
+    </div>`;
+}
+
+function updateComparisonBars(proposed) {
+  comparisonMetrics.forEach(m => {
+    const curVal = m.current;
+    const propVal = proposed[m.key];
+    const curPct = Math.min(100, Math.max(4, (curVal / m.max) * 100));
+    const propPct = Math.min(100, Math.max(4, (propVal / m.max) * 100));
+    document.getElementById(`bar-${m.key}-current`).style.height = curPct + "%";
+    document.getElementById(`bar-${m.key}-proposed`).style.height = propPct + "%";
+    document.getElementById(`val-${m.key}-current`).textContent = curVal.toFixed(m.decimals) + m.unit;
+    document.getElementById(`val-${m.key}-proposed`).textContent = propVal.toFixed(m.decimals) + m.unit;
+  });
+}
+
+function renderScenarioLine(newReductionPct) {
+  const data = co2Cumulative; // actuals Jan..Aug
+  const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  const lastActual = data[data.length - 1].value;
+  const avgMonthly = data[data.length - 1].value - data[data.length - 2].value;
+  const projectedMonthly = avgMonthly * (newReductionPct / scenarioBaseline.co2Reduction);
+
+  const projectedValues = [lastActual];
+  for (let i = 0; i < 4; i++) projectedValues.push(projectedValues[projectedValues.length - 1] + projectedMonthly);
+
+  const n = months.length;
+  const w = 640, h = 240, pad = { top: 16, right: 16, bottom: 28, left: 48 };
+  const innerW = w - pad.left - pad.right, innerH = h - pad.top - pad.bottom;
+  const allVals = data.map(d => d.value).concat(projectedValues);
+  const max = Math.max(...allVals) * 1.08;
+  const x = i => pad.left + (i / (n - 1)) * innerW;
+  const y = v => pad.top + innerH - (v / max) * innerH;
+
+  const actualLine = data.map((d, i) => `${i === 0 ? "M" : "L"} ${x(i)} ${y(d.value)}`).join(" ");
+  const projLine = projectedValues.map((v, i) => `${i === 0 ? "M" : "L"} ${x(data.length - 1 + i)} ${y(v)}`).join(" ");
+
+  const ticks = 4;
+  let grid = "";
+  for (let t = 0; t <= ticks; t++) {
+    const gy = pad.top + (t / ticks) * innerH;
+    const val = Math.round((max * (ticks - t)) / ticks);
+    grid += `<line x1="${pad.left}" x2="${w-pad.right}" y1="${gy}" y2="${gy}" stroke="#dbe3e1" stroke-width="1"></line><text x="${pad.left-8}" y="${gy+4}" text-anchor="end" font-size="10" fill="#5c6b68">${val>=1000?(val/1000).toFixed(0)+'k':val}</text>`;
+  }
+  let xlabels = "";
+  months.forEach((mn, i) => { xlabels += `<text x="${x(i)}" y="${h-8}" text-anchor="middle" font-size="10" fill="#5c6b68">${mn}</text>`; });
+
+  let dots = "";
+  data.forEach((d, i) => { dots += `<circle cx="${x(i)}" cy="${y(d.value)}" r="3.5" fill="#0a8276" stroke="#ffffff" stroke-width="1.5"></circle>`; });
+  projectedValues.slice(1).forEach((v, i) => { dots += `<circle cx="${x(data.length + i)}" cy="${y(v)}" r="3.5" fill="#ef6c00" stroke="#ffffff" stroke-width="1.5"></circle>`; });
+
+  const finalProjected = Math.round(projectedValues[projectedValues.length - 1]);
+
+  document.getElementById("scenarioLineChart").innerHTML = `
+    <div class="w-full overflow-x-auto">
+      <svg viewBox="0 0 ${w} ${h}" class="h-auto w-full min-w-[560px]" role="img" aria-label="Projected CO2 trajectory under the proposed scenario">
+        ${grid}
+        <path d="${actualLine}" fill="none" stroke="#0a8276" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"></path>
+        <path d="${projLine}" fill="none" stroke="#ef6c00" stroke-width="2.5" stroke-dasharray="6 4" stroke-linejoin="round" stroke-linecap="round"></path>
+        ${dots}
+        ${xlabels}
+      </svg>
+      <div class="mt-2 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex flex-wrap items-center gap-x-6 gap-y-2">
+          <span class="flex items-center gap-2 text-xs font-medium text-muted-foreground"><span class="h-0.5 w-4 rounded-full bg-primary"></span>Actual cumulative CO₂ avoided (kg)</span>
+          <span class="flex items-center gap-2 text-xs font-medium text-muted-foreground"><span class="h-0.5 w-4 rounded-full border-t-2 border-dashed border-warning"></span>Projected under proposed scenario</span>
+        </div>
+        <span class="text-xs font-semibold text-warning">Dec projection: ${finalProjected.toLocaleString()} kg</span>
+      </div>
+    </div>`;
+}
 
 /* ------------------------------ Scenario ------------------------------ */
 function recalcScenario() {
@@ -684,6 +797,9 @@ function recalcScenario() {
   document.getElementById("sumPayback").textContent = paybackStr;
   document.getElementById("sumReduction").textContent = reductionStr;
   document.getElementById("sumCapacity").textContent = capacityStr;
+
+  updateComparisonBars({ capacity: newCapacity, reduction: newReduction, payback: newPayback });
+  renderScenarioLine(newReduction);
 }
 ["panels", "battery", "production"].forEach(id => document.getElementById(id).addEventListener("input", recalcScenario));
 document.getElementById("resetBtn").addEventListener("click", () => {
@@ -709,7 +825,7 @@ function activateNav(tab) {
     const base = "nav-btn group flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-left text-sm font-medium transition-colors ";
     btn.className = base + (active ? "bg-sidebar-primary text-sidebar-primary-foreground shadow-sm" : "text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-white");
     const badge = btn.querySelector("span.rounded-full");
-    if (badge) badge.className = "inline-flex min-w-5 items-center justify-center rounded-full px-1.5 py-0.5 text-[10px] font-bold " + (active ? "bg-white/20 text-white" : "bg-secondary text-secondary-foreground");
+    if (badge) badge.className = "inline-flex min-w-5 items-center justify-center rounded-full px-1.5 py-0.5 text-[10px] font-bold " + (active ? "bg-white/20 text-white" : "bg-destructive text-destructive-foreground");
   });
 }
 function switchTab(tab) {
@@ -740,6 +856,7 @@ renderDonut();
 renderLine();
 renderTables();
 renderAlerts();
+renderComparisonBars();
 recalcScenario();
 switchTab("dashboard");
 lucide.createIcons();
