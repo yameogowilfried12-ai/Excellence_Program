@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="bg-[#eef2f1]">
+<html lang="en" class="bg-[#f5f7fa]">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,7 +10,7 @@
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
 <!-- Tailwind Play CDN -->
 <script src="https://cdn.tailwindcss.com"></script>
@@ -22,7 +22,7 @@
     theme: {
       extend: {
         colors: {
-          background: "#eef2f1",
+          background: "#f5f7fa",
           foreground: "#1a2422",
           card: { DEFAULT: "#ffffff", foreground: "#1a2422" },
           popover: { DEFAULT: "#ffffff", foreground: "#1a2422" },
@@ -42,19 +42,19 @@
           "chart-4": "#4a9d93",
           "chart-5": "#7fb8b1",
           sidebar: {
-            DEFAULT: "#0c2725",
-            foreground: "#c7d4d1",
+            DEFAULT: "#0a8276",
+            foreground: "#ffffff",
             primary: "#0a8276",
             "primary-foreground": "#ffffff",
-            accent: "#123b37",
+            accent: "#0c9a8c",
             "accent-foreground": "#ffffff",
-            border: "#1c433e",
-            ring: "#0a8276",
+            border: "#0c9a8c",
+            ring: "#ffffff",
           },
         },
         fontFamily: {
-          sans: ["Roboto", "ui-sans-serif", "system-ui", "sans-serif"],
-          heading: ["Montserrat", "Roboto", "sans-serif"],
+          sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
+          heading: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
         },
         borderRadius: { lg: "0.5rem" },
       },
@@ -64,8 +64,8 @@
 
 <style>
   :root { --border: #dbe3e1; --primary: #0a8276; --card: #ffffff; }
-  body { font-family: "Roboto", ui-sans-serif, system-ui, sans-serif; }
-  .font-heading { font-family: "Montserrat", "Roboto", sans-serif; }
+  body { font-family: "Inter", ui-sans-serif, system-ui, sans-serif; }
+  .font-heading { font-family: "Inter", ui-sans-serif, system-ui, sans-serif; }
   input[type="range"] { accent-color: #0a8276; }
   ::-webkit-scrollbar { width: 10px; height: 10px; }
   ::-webkit-scrollbar-thumb { background: #cbd6d3; border-radius: 8px; }
@@ -81,9 +81,11 @@
   <button id="overlay" aria-label="Close navigation" class="fixed inset-0 z-30 hidden bg-black/50 lg:hidden"></button>
 
   <!-- Sidebar -->
-  <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 flex w-64 -translate-x-full flex-col bg-sidebar text-sidebar-foreground transition-transform lg:static lg:translate-x-0">
-    <div class="flex items-center gap-3 border-b border-sidebar-border px-5 py-4">
-      <div class="size-24 shrink-0 rounded-md bg-center bg-no-repeat" style="background-image:url('logo-removebg-preview (1).png'); background-size: 150%;"></div>
+  <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 flex w-[240px] -translate-x-full flex-col bg-sidebar text-sidebar-foreground transition-transform lg:static lg:translate-x-0">
+    <div class="flex flex-col items-center gap-2 border-b border-sidebar-border px-5 py-5 text-center">
+      <div class="shrink-0 flex items-center justify-center overflow-hidden rounded-full bg-white" style="width:100px;height:100px;">
+        <img src="logo-bg-white.png" alt="CropCore logo" style="max-height:250px;max-width:250px;width:auto;object-fit:contain;" />
+      </div>
       <div class="min-w-0">
         <p class="font-heading text-sm font-bold uppercase tracking-[0.05em] text-white">CropCore</p>
         <p class="truncate text-xs text-sidebar-foreground/70">Module 05 · Energy</p>
@@ -91,7 +93,7 @@
     </div>
 
     <nav class="flex-1 overflow-y-auto px-3 py-4">
-      <p class="px-3 pb-2 text-[10px] font-semibold uppercase tracking-[0.1em] text-sidebar-foreground/50">Navigation</p>
+      <p class="px-3 pb-2 text-[12px] font-semibold uppercase tracking-[0.1em] text-sidebar-foreground/50">Navigation</p>
       <ul id="nav" class="grid gap-1">
         <li><button data-tab="dashboard" class="nav-btn group flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-left text-sm font-medium transition-colors"><i data-lucide="layout-dashboard" class="size-[18px] shrink-0"></i><span class="flex-1 truncate">Dashboard</span></button></li>
         <li><button data-tab="solar" class="nav-btn group flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-left text-sm font-medium transition-colors"><i data-lucide="sun" class="size-[18px] shrink-0"></i><span class="flex-1 truncate">Solar &amp; Generation</span></button></li>
@@ -99,12 +101,12 @@
         <li><button data-tab="generator" class="nav-btn group flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-left text-sm font-medium transition-colors"><i data-lucide="fuel" class="size-[18px] shrink-0"></i><span class="flex-1 truncate">Generator Backup</span></button></li>
         <li><button data-tab="carbon" class="nav-btn group flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-left text-sm font-medium transition-colors"><i data-lucide="leaf" class="size-[18px] shrink-0"></i><span class="flex-1 truncate">Carbon Footprint</span></button></li>
         <li><button data-tab="scenario" class="nav-btn group flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-left text-sm font-medium transition-colors"><i data-lucide="sliders-horizontal" class="size-[18px] shrink-0"></i><span class="flex-1 truncate">What-If Analysis</span></button></li>
-        <li><button data-tab="alerts" class="nav-btn group flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-left text-sm font-medium transition-colors"><i data-lucide="alert-triangle" class="size-[18px] shrink-0"></i><span class="flex-1 truncate">Alerts &amp; Notifications</span><span class="inline-flex min-w-5 items-center justify-center rounded-full bg-destructive px-1.5 py-0.5 text-[10px] font-bold text-destructive-foreground">4</span></button></li>
+        <li><button data-tab="alerts" class="nav-btn group flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-left text-sm font-medium transition-colors"><i data-lucide="alert-triangle" class="size-[18px] shrink-0"></i><span class="flex-1 truncate">Alerts &amp; Notifications</span><span class="inline-flex min-w-5 items-center justify-center rounded-full bg-destructive px-1.5 py-0.5 text-[12px] font-bold text-destructive-foreground">4</span></button></li>
       </ul>
     </nav>
 
     <div class="border-t border-sidebar-border px-5 py-4">
-      <div class="flex items-center gap-2 text-xs text-sidebar-foreground/70"><span class="size-2 rounded-full bg-primary"></span>System online · Burkina Faso</div>
+      <div class="flex items-center gap-2 text-xs text-sidebar-foreground/70"><span class="size-2 rounded-full bg-white"></span>System online · Burkina Faso</div>
     </div>
   </aside>
 
@@ -114,8 +116,8 @@
     <header class="sticky top-0 z-20 flex items-center gap-4 border-b border-border bg-card px-4 py-3 md:px-6">
       <button id="menuBtn" aria-label="Open navigation" class="rounded-md p-2 text-muted-foreground hover:bg-muted lg:hidden"><i data-lucide="menu" class="size-5"></i></button>
       <div class="min-w-0 flex-1">
-        <p class="text-[11px] font-semibold uppercase tracking-[0.1em] text-primary">Energy Supply Systems</p>
-        <h1 id="headerTitle" class="truncate font-heading text-base font-bold uppercase tracking-[0.04em] text-foreground md:text-lg">System Overview</h1>
+        <p class="text-[12px] font-semibold uppercase tracking-[0.1em] text-primary">Energy Supply Systems</p>
+        <h1 id="headerTitle" class="truncate font-heading text-[18px] font-bold uppercase tracking-[0.04em] text-foreground">System Overview</h1>
       </div>
       <div class="flex items-center gap-3">
         <div class="hidden text-right sm:block">
@@ -131,24 +133,24 @@
       <!-- ========================= DASHBOARD ========================= -->
       <section id="tab-dashboard" class="tab-panel">
         <div class="mb-5">
-          <h1 class="font-heading text-xl font-bold uppercase tracking-[0.05em] text-foreground md:text-2xl">System Overview</h1>
+          <h1 class="font-heading text-[24px] font-bold uppercase tracking-[0.05em] text-foreground">System Overview</h1>
           <p class="mt-1 text-sm leading-relaxed text-muted-foreground">Real-time snapshot of the farm's energy supply — solar generation, consumption, backup, and emissions.</p>
         </div>
         <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          <div class="rounded-lg border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary"><div class="flex items-start justify-between gap-3"><div class="min-w-0"><p class="text-xs font-medium uppercase tracking-[0.05em] text-muted-foreground">Total PV Capacity</p><p class="mt-2 font-heading text-3xl font-bold tracking-tight text-foreground">86.4<span class="ml-1 text-base font-semibold text-muted-foreground">kWp</span></p></div><div class="flex size-10 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary"><i data-lucide="cloud-sun" class="size-5"></i></div></div></div>
-          <div class="rounded-lg border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary"><div class="flex items-start justify-between gap-3"><div class="min-w-0"><p class="text-xs font-medium uppercase tracking-[0.05em] text-muted-foreground">Daily Consumption</p><p class="mt-2 font-heading text-3xl font-bold tracking-tight text-foreground">312<span class="ml-1 text-base font-semibold text-muted-foreground">kWh/day</span></p></div><div class="flex size-10 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary"><i data-lucide="gauge" class="size-5"></i></div></div></div>
-          <div class="rounded-lg border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-border"><div class="flex items-start justify-between gap-3"><div class="min-w-0"><p class="text-xs font-medium uppercase tracking-[0.05em] text-muted-foreground">Generator Status</p><p class="mt-2 font-heading text-3xl font-bold tracking-tight text-foreground"><span class="inline-flex items-center gap-1.5 rounded-full bg-muted-foreground/10 px-2.5 py-0.5 text-xs font-semibold text-muted-foreground ring-1 ring-inset ring-muted-foreground/20"><span class="size-1.5 rounded-full bg-muted-foreground"></span>Standby</span></p></div><div class="flex size-10 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary"><i data-lucide="zap" class="size-5"></i></div></div></div>
-          <div class="rounded-lg border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary"><div class="flex items-start justify-between gap-3"><div class="min-w-0"><p class="text-xs font-medium uppercase tracking-[0.05em] text-muted-foreground">CO₂ Avoided (Month)</p><p class="mt-2 font-heading text-3xl font-bold tracking-tight text-foreground">4,180<span class="ml-1 text-base font-semibold text-muted-foreground">kg</span></p></div><div class="flex size-10 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary"><i data-lucide="leaf" class="size-5"></i></div></div></div>
+          <div class="rounded-lg border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary"><div class="flex items-start justify-between gap-3"><div class="min-w-0"><p class="text-xs font-medium uppercase tracking-[0.05em] text-muted-foreground">Total PV Capacity</p><p class="mt-2 font-heading text-[20px] font-bold tracking-tight text-foreground">86.4<span class="ml-1 text-base font-semibold text-muted-foreground">kWp</span></p></div><div class="flex size-10 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary"><i data-lucide="cloud-sun" class="size-5"></i></div></div></div>
+          <div class="rounded-lg border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary"><div class="flex items-start justify-between gap-3"><div class="min-w-0"><p class="text-xs font-medium uppercase tracking-[0.05em] text-muted-foreground">Daily Consumption</p><p class="mt-2 font-heading text-[20px] font-bold tracking-tight text-foreground">312<span class="ml-1 text-base font-semibold text-muted-foreground">kWh/day</span></p></div><div class="flex size-10 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary"><i data-lucide="gauge" class="size-5"></i></div></div></div>
+          <div class="rounded-lg border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-border"><div class="flex items-start justify-between gap-3"><div class="min-w-0"><p class="text-xs font-medium uppercase tracking-[0.05em] text-muted-foreground">Generator Status</p><p class="mt-2 font-heading text-[20px] font-bold tracking-tight text-foreground"><span class="inline-flex items-center gap-1.5 rounded-full bg-muted-foreground/10 px-2.5 py-0.5 text-xs font-semibold text-muted-foreground ring-1 ring-inset ring-muted-foreground/20"><span class="size-1.5 rounded-full bg-muted-foreground"></span>Standby</span></p></div><div class="flex size-10 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary"><i data-lucide="zap" class="size-5"></i></div></div></div>
+          <div class="rounded-lg border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary"><div class="flex items-start justify-between gap-3"><div class="min-w-0"><p class="text-xs font-medium uppercase tracking-[0.05em] text-muted-foreground">CO₂ Avoided (Month)</p><p class="mt-2 font-heading text-[20px] font-bold tracking-tight text-foreground">4,180<span class="ml-1 text-base font-semibold text-muted-foreground">kg</span></p></div><div class="flex size-10 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary"><i data-lucide="leaf" class="size-5"></i></div></div></div>
         </div>
 
         <div class="mt-6 grid gap-6 xl:grid-cols-5">
           <div class="rounded-lg border border-border bg-card shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary xl:col-span-3">
-            <div class="flex items-center justify-between gap-3 border-b border-border px-5 py-3.5"><h2 class="font-heading text-sm font-bold uppercase tracking-[0.05em] text-foreground">Solar Production vs Consumption · Last 7 Days</h2></div>
+            <div class="flex items-center justify-between gap-3 border-b border-border px-5 py-3.5"><h2 class="font-heading text-[13px] font-bold uppercase tracking-[0.05em] text-foreground">Solar Production vs Consumption · Last 7 Days</h2></div>
             <div class="p-5"><div id="barChart"></div></div>
           </div>
           <div class="rounded-lg border border-border bg-card shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary xl:col-span-2">
-            <div class="flex items-center justify-between gap-3 border-b border-border px-5 py-3.5"><h2 class="font-heading text-sm font-bold uppercase tracking-[0.05em] text-foreground">System Status Overview</h2></div>
-            <div class="overflow-x-auto"><table class="w-full border-collapse text-sm">
+            <div class="flex items-center justify-between gap-3 border-b border-border px-5 py-3.5"><h2 class="font-heading text-[13px] font-bold uppercase tracking-[0.05em] text-foreground">System Status Overview</h2></div>
+            <div class="overflow-x-auto"><table class="w-full border-collapse text-[13px]">
               <thead><tr>
                 <th class="border-b border-border bg-muted/50 px-5 py-3 text-left text-xs font-bold uppercase tracking-[0.04em] text-muted-foreground">Component</th>
                 <th class="border-b border-border bg-muted/50 px-5 py-3 text-left text-xs font-bold uppercase tracking-[0.04em] text-muted-foreground">Value</th>
@@ -168,18 +170,18 @@
       <!-- ========================= SOLAR ========================= -->
       <section id="tab-solar" class="tab-panel">
         <div class="mb-5">
-          <h1 class="font-heading text-xl font-bold uppercase tracking-[0.05em] text-foreground md:text-2xl">Solar &amp; Generation Monitoring</h1>
+          <h1 class="font-heading text-[24px] font-bold uppercase tracking-[0.05em] text-foreground">Solar &amp; Generation Monitoring</h1>
           <p class="mt-1 text-sm leading-relaxed text-muted-foreground">Live output and efficiency across all PV arrays serving the mango-drying operation.</p>
         </div>
         <div class="grid gap-4 sm:grid-cols-3">
-          <div class="rounded-lg border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary"><div class="flex items-start justify-between gap-3"><div class="min-w-0"><p class="text-xs font-medium uppercase tracking-[0.05em] text-muted-foreground">Total Installed Capacity</p><p class="mt-2 font-heading text-3xl font-bold tracking-tight text-foreground">86.4<span class="ml-1 text-base font-semibold text-muted-foreground">kWp</span></p></div><div class="flex size-10 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary"><i data-lucide="sun" class="size-5"></i></div></div></div>
-          <div class="rounded-lg border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary"><div class="flex items-start justify-between gap-3"><div class="min-w-0"><p class="text-xs font-medium uppercase tracking-[0.05em] text-muted-foreground">Today's Peak Output</p><p class="mt-2 font-heading text-3xl font-bold tracking-tight text-foreground">71.8<span class="ml-1 text-base font-semibold text-muted-foreground">kW</span></p></div><div class="flex size-10 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary"><i data-lucide="zap" class="size-5"></i></div></div></div>
-          <div class="rounded-lg border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary"><div class="flex items-start justify-between gap-3"><div class="min-w-0"><p class="text-xs font-medium uppercase tracking-[0.05em] text-muted-foreground">Average Daily Yield</p><p class="mt-2 font-heading text-3xl font-bold tracking-tight text-foreground">364<span class="ml-1 text-base font-semibold text-muted-foreground">kWh</span></p></div><div class="flex size-10 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary"><i data-lucide="trending-up" class="size-5"></i></div></div></div>
+          <div class="rounded-lg border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary"><div class="flex items-start justify-between gap-3"><div class="min-w-0"><p class="text-xs font-medium uppercase tracking-[0.05em] text-muted-foreground">Total Installed Capacity</p><p class="mt-2 font-heading text-[20px] font-bold tracking-tight text-foreground">86.4<span class="ml-1 text-base font-semibold text-muted-foreground">kWp</span></p></div><div class="flex size-10 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary"><i data-lucide="sun" class="size-5"></i></div></div></div>
+          <div class="rounded-lg border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary"><div class="flex items-start justify-between gap-3"><div class="min-w-0"><p class="text-xs font-medium uppercase tracking-[0.05em] text-muted-foreground">Today's Peak Output</p><p class="mt-2 font-heading text-[20px] font-bold tracking-tight text-foreground">71.8<span class="ml-1 text-base font-semibold text-muted-foreground">kW</span></p></div><div class="flex size-10 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary"><i data-lucide="zap" class="size-5"></i></div></div></div>
+          <div class="rounded-lg border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary"><div class="flex items-start justify-between gap-3"><div class="min-w-0"><p class="text-xs font-medium uppercase tracking-[0.05em] text-muted-foreground">Average Daily Yield</p><p class="mt-2 font-heading text-[20px] font-bold tracking-tight text-foreground">364<span class="ml-1 text-base font-semibold text-muted-foreground">kWh</span></p></div><div class="flex size-10 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary"><i data-lucide="trending-up" class="size-5"></i></div></div></div>
         </div>
 
         <div class="mt-6 rounded-lg border border-border bg-card shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary">
-          <div class="flex items-center justify-between gap-3 border-b border-border px-5 py-3.5"><h2 class="font-heading text-sm font-bold uppercase tracking-[0.05em] text-foreground">Solar Array Monitoring</h2></div>
-          <div class="overflow-x-auto"><table class="w-full border-collapse text-sm">
+          <div class="flex items-center justify-between gap-3 border-b border-border px-5 py-3.5"><h2 class="font-heading text-[13px] font-bold uppercase tracking-[0.05em] text-foreground">Solar Array Monitoring</h2></div>
+          <div class="overflow-x-auto"><table class="w-full border-collapse text-[13px]">
             <thead><tr>
               <th class="border-b border-border bg-muted/50 px-5 py-3 text-left text-xs font-bold uppercase tracking-[0.04em] text-muted-foreground">Array ID</th>
               <th class="border-b border-border bg-muted/50 px-5 py-3 text-left text-xs font-bold uppercase tracking-[0.04em] text-muted-foreground">Location / Zone</th>
@@ -198,19 +200,19 @@
       <!-- ========================= CONSUMPTION ========================= -->
       <section id="tab-consumption" class="tab-panel">
         <div class="mb-5">
-          <h1 class="font-heading text-xl font-bold uppercase tracking-[0.05em] text-foreground md:text-2xl">Energy Consumption Tracking</h1>
+          <h1 class="font-heading text-[24px] font-bold uppercase tracking-[0.05em] text-foreground">Energy Consumption Tracking</h1>
           <p class="mt-1 text-sm leading-relaxed text-muted-foreground">Where the farm's electricity goes each day, broken down by load category and per kilogram of product.</p>
         </div>
         <div class="grid gap-4 sm:grid-cols-3">
-          <div class="rounded-lg border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary"><div class="flex items-start justify-between gap-3"><div class="min-w-0"><p class="text-xs font-medium uppercase tracking-[0.05em] text-muted-foreground">Total Daily Consumption</p><p class="mt-2 font-heading text-3xl font-bold tracking-tight text-foreground">312<span class="ml-1 text-base font-semibold text-muted-foreground">kWh</span></p></div><div class="flex size-10 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary"><i data-lucide="gauge" class="size-5"></i></div></div></div>
-          <div class="rounded-lg border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-warning"><div class="flex items-start justify-between gap-3"><div class="min-w-0"><p class="text-xs font-medium uppercase tracking-[0.05em] text-muted-foreground">Peak Demand</p><p class="mt-2 font-heading text-3xl font-bold tracking-tight text-foreground">58.4<span class="ml-1 text-base font-semibold text-muted-foreground">kW</span></p></div><div class="flex size-10 shrink-0 items-center justify-center rounded-md bg-warning/10 text-warning"><i data-lucide="activity" class="size-5"></i></div></div></div>
-          <div class="rounded-lg border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary"><div class="flex items-start justify-between gap-3"><div class="min-w-0"><p class="text-xs font-medium uppercase tracking-[0.05em] text-muted-foreground">Per kg Dried Mango</p><p class="mt-2 font-heading text-3xl font-bold tracking-tight text-foreground">1.56<span class="ml-1 text-base font-semibold text-muted-foreground">kWh/kg</span></p></div><div class="flex size-10 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary"><i data-lucide="package" class="size-5"></i></div></div><div class="mt-3 text-xs text-muted-foreground">Based on 200 kg/day output</div></div>
+          <div class="rounded-lg border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary"><div class="flex items-start justify-between gap-3"><div class="min-w-0"><p class="text-xs font-medium uppercase tracking-[0.05em] text-muted-foreground">Total Daily Consumption</p><p class="mt-2 font-heading text-[20px] font-bold tracking-tight text-foreground">312<span class="ml-1 text-base font-semibold text-muted-foreground">kWh</span></p></div><div class="flex size-10 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary"><i data-lucide="gauge" class="size-5"></i></div></div></div>
+          <div class="rounded-lg border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-warning"><div class="flex items-start justify-between gap-3"><div class="min-w-0"><p class="text-xs font-medium uppercase tracking-[0.05em] text-muted-foreground">Peak Demand</p><p class="mt-2 font-heading text-[20px] font-bold tracking-tight text-foreground">58.4<span class="ml-1 text-base font-semibold text-muted-foreground">kW</span></p></div><div class="flex size-10 shrink-0 items-center justify-center rounded-md bg-warning/10 text-warning"><i data-lucide="activity" class="size-5"></i></div></div></div>
+          <div class="rounded-lg border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary"><div class="flex items-start justify-between gap-3"><div class="min-w-0"><p class="text-xs font-medium uppercase tracking-[0.05em] text-muted-foreground">Per kg Dried Mango</p><p class="mt-2 font-heading text-[20px] font-bold tracking-tight text-foreground">1.56<span class="ml-1 text-base font-semibold text-muted-foreground">kWh/kg</span></p></div><div class="flex size-10 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary"><i data-lucide="package" class="size-5"></i></div></div><div class="mt-3 text-xs text-muted-foreground">Based on 200 kg/day output</div></div>
         </div>
 
         <div class="mt-6 grid gap-6 xl:grid-cols-5">
           <div class="rounded-lg border border-border bg-card shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary xl:col-span-3">
-            <div class="flex items-center justify-between gap-3 border-b border-border px-5 py-3.5"><h2 class="font-heading text-sm font-bold uppercase tracking-[0.05em] text-foreground">Consumption by Load Category</h2></div>
-            <div class="overflow-x-auto"><table class="w-full border-collapse text-sm">
+            <div class="flex items-center justify-between gap-3 border-b border-border px-5 py-3.5"><h2 class="font-heading text-[13px] font-bold uppercase tracking-[0.05em] text-foreground">Consumption by Load Category</h2></div>
+            <div class="overflow-x-auto"><table class="w-full border-collapse text-[13px]">
               <thead><tr>
                 <th class="border-b border-border bg-muted/50 px-5 py-3 text-left text-xs font-bold uppercase tracking-[0.04em] text-muted-foreground">Category</th>
                 <th class="border-b border-border bg-muted/50 px-5 py-3 text-left text-xs font-bold uppercase tracking-[0.04em] text-muted-foreground">Daily (kWh)</th>
@@ -221,7 +223,7 @@
             </table></div>
           </div>
           <div class="rounded-lg border border-border bg-card shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary xl:col-span-2">
-            <div class="flex items-center justify-between gap-3 border-b border-border px-5 py-3.5"><h2 class="font-heading text-sm font-bold uppercase tracking-[0.05em] text-foreground">Load Breakdown</h2></div>
+            <div class="flex items-center justify-between gap-3 border-b border-border px-5 py-3.5"><h2 class="font-heading text-[13px] font-bold uppercase tracking-[0.05em] text-foreground">Load Breakdown</h2></div>
             <div class="p-5"><div id="donutChart"></div></div>
           </div>
         </div>
@@ -230,20 +232,20 @@
       <!-- ========================= GENERATOR ========================= -->
       <section id="tab-generator" class="tab-panel">
         <div class="mb-5">
-          <h1 class="font-heading text-xl font-bold uppercase tracking-[0.05em] text-foreground md:text-2xl">Generator Backup Management</h1>
+          <h1 class="font-heading text-[24px] font-bold uppercase tracking-[0.05em] text-foreground">Generator Backup Management</h1>
           <p class="mt-1 text-sm leading-relaxed text-muted-foreground">Diesel backup readiness, run-time history, and the critical loads it protects during grid outages.</p>
         </div>
         <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          <div class="rounded-lg border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary"><div class="flex items-start justify-between gap-3"><div class="min-w-0"><p class="text-xs font-medium uppercase tracking-[0.05em] text-muted-foreground">Generator Capacity</p><p class="mt-2 font-heading text-3xl font-bold tracking-tight text-foreground">40<span class="ml-1 text-base font-semibold text-muted-foreground">kW</span></p></div><div class="flex size-10 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary"><i data-lucide="power" class="size-5"></i></div></div></div>
-          <div class="rounded-lg border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-border"><div class="flex items-start justify-between gap-3"><div class="min-w-0"><p class="text-xs font-medium uppercase tracking-[0.05em] text-muted-foreground">Current Status</p><p class="mt-2 font-heading text-3xl font-bold tracking-tight text-foreground"><span class="inline-flex items-center gap-1.5 rounded-full bg-muted-foreground/10 px-2.5 py-0.5 text-xs font-semibold text-muted-foreground ring-1 ring-inset ring-muted-foreground/20"><span class="size-1.5 rounded-full bg-muted-foreground"></span>Standby</span></p></div><div class="flex size-10 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary"><i data-lucide="power" class="size-5"></i></div></div></div>
-          <div class="rounded-lg border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary"><div class="flex items-start justify-between gap-3"><div class="min-w-0"><p class="text-xs font-medium uppercase tracking-[0.05em] text-muted-foreground">Runtime (This Month)</p><p class="mt-2 font-heading text-3xl font-bold tracking-tight text-foreground">46.5<span class="ml-1 text-base font-semibold text-muted-foreground">hrs</span></p></div><div class="flex size-10 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary"><i data-lucide="clock" class="size-5"></i></div></div></div>
-          <div class="rounded-lg border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary"><div class="flex items-start justify-between gap-3"><div class="min-w-0"><p class="text-xs font-medium uppercase tracking-[0.05em] text-muted-foreground">Fuel Level</p><p class="mt-2 font-heading text-3xl font-bold tracking-tight text-foreground">62<span class="ml-1 text-base font-semibold text-muted-foreground">%</span></p></div><div class="flex size-10 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary"><i data-lucide="fuel" class="size-5"></i></div></div><div class="mt-3 text-xs text-muted-foreground"><div class="mt-1 h-1.5 w-full overflow-hidden rounded-full bg-muted"><div class="h-full rounded-full bg-primary" style="width:62%"></div></div></div></div>
+          <div class="rounded-lg border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary"><div class="flex items-start justify-between gap-3"><div class="min-w-0"><p class="text-xs font-medium uppercase tracking-[0.05em] text-muted-foreground">Generator Capacity</p><p class="mt-2 font-heading text-[20px] font-bold tracking-tight text-foreground">40<span class="ml-1 text-base font-semibold text-muted-foreground">kW</span></p></div><div class="flex size-10 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary"><i data-lucide="power" class="size-5"></i></div></div></div>
+          <div class="rounded-lg border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-border"><div class="flex items-start justify-between gap-3"><div class="min-w-0"><p class="text-xs font-medium uppercase tracking-[0.05em] text-muted-foreground">Current Status</p><p class="mt-2 font-heading text-[20px] font-bold tracking-tight text-foreground"><span class="inline-flex items-center gap-1.5 rounded-full bg-muted-foreground/10 px-2.5 py-0.5 text-xs font-semibold text-muted-foreground ring-1 ring-inset ring-muted-foreground/20"><span class="size-1.5 rounded-full bg-muted-foreground"></span>Standby</span></p></div><div class="flex size-10 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary"><i data-lucide="power" class="size-5"></i></div></div></div>
+          <div class="rounded-lg border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary"><div class="flex items-start justify-between gap-3"><div class="min-w-0"><p class="text-xs font-medium uppercase tracking-[0.05em] text-muted-foreground">Runtime (This Month)</p><p class="mt-2 font-heading text-[20px] font-bold tracking-tight text-foreground">46.5<span class="ml-1 text-base font-semibold text-muted-foreground">hrs</span></p></div><div class="flex size-10 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary"><i data-lucide="clock" class="size-5"></i></div></div></div>
+          <div class="rounded-lg border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary"><div class="flex items-start justify-between gap-3"><div class="min-w-0"><p class="text-xs font-medium uppercase tracking-[0.05em] text-muted-foreground">Fuel Level</p><p class="mt-2 font-heading text-[20px] font-bold tracking-tight text-foreground">62<span class="ml-1 text-base font-semibold text-muted-foreground">%</span></p></div><div class="flex size-10 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary"><i data-lucide="fuel" class="size-5"></i></div></div><div class="mt-3 text-xs text-muted-foreground"><div class="mt-1 h-1.5 w-full overflow-hidden rounded-full bg-muted"><div class="h-full rounded-full bg-primary" style="width:62%"></div></div></div></div>
         </div>
 
         <div class="mt-6 grid gap-6 xl:grid-cols-3">
           <div class="rounded-lg border border-border bg-card shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary xl:col-span-2">
-            <div class="flex items-center justify-between gap-3 border-b border-border px-5 py-3.5"><h2 class="font-heading text-sm font-bold uppercase tracking-[0.05em] text-foreground">Backup Events Log</h2></div>
-            <div class="overflow-x-auto"><table class="w-full border-collapse text-sm">
+            <div class="flex items-center justify-between gap-3 border-b border-border px-5 py-3.5"><h2 class="font-heading text-[13px] font-bold uppercase tracking-[0.05em] text-foreground">Backup Events Log</h2></div>
+            <div class="overflow-x-auto"><table class="w-full border-collapse text-[13px]">
               <thead><tr>
                 <th class="border-b border-border bg-muted/50 px-5 py-3 text-left text-xs font-bold uppercase tracking-[0.04em] text-muted-foreground">Event ID</th>
                 <th class="border-b border-border bg-muted/50 px-5 py-3 text-left text-xs font-bold uppercase tracking-[0.04em] text-muted-foreground">Date</th>
@@ -260,13 +262,13 @@
             <div class="rounded-lg border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary">
               <div class="flex items-center gap-3">
                 <div class="flex size-10 items-center justify-center rounded-md bg-primary/10 text-primary"><i data-lucide="timer-reset" class="size-5"></i></div>
-                <div><p class="text-xs font-medium uppercase tracking-[0.05em] text-muted-foreground">Payback vs Full Diesel</p><p class="font-heading text-3xl font-bold text-foreground">4.3<span class="ml-1 text-base font-semibold text-muted-foreground">years</span></p></div>
+                <div><p class="text-xs font-medium uppercase tracking-[0.05em] text-muted-foreground">Payback vs Full Diesel</p><p class="font-heading text-[20px] font-bold text-foreground">4.3<span class="ml-1 text-base font-semibold text-muted-foreground">years</span></p></div>
               </div>
               <p class="mt-3 text-xs leading-relaxed text-muted-foreground">Estimated time for solar + battery savings to offset the capital cost, versus running the diesel generator full-time.</p>
             </div>
             <div class="rounded-lg border border-border bg-card shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary">
-              <div class="flex items-center justify-between gap-3 border-b border-border px-5 py-3.5"><h2 class="font-heading text-sm font-bold uppercase tracking-[0.05em] text-foreground">Critical Loads Covered</h2></div>
-              <div class="overflow-x-auto"><table class="w-full border-collapse text-sm">
+              <div class="flex items-center justify-between gap-3 border-b border-border px-5 py-3.5"><h2 class="font-heading text-[13px] font-bold uppercase tracking-[0.05em] text-foreground">Critical Loads Covered</h2></div>
+              <div class="overflow-x-auto"><table class="w-full border-collapse text-[13px]">
                 <thead><tr>
                   <th class="border-b border-border bg-muted/50 px-5 py-3 text-left text-xs font-bold uppercase tracking-[0.04em] text-muted-foreground">Load</th>
                   <th class="border-b border-border bg-muted/50 px-5 py-3 text-left text-xs font-bold uppercase tracking-[0.04em] text-muted-foreground">Priority</th>
@@ -282,24 +284,24 @@
       <!-- ========================= CARBON ========================= -->
       <section id="tab-carbon" class="tab-panel">
         <div class="mb-5">
-          <h1 class="font-heading text-xl font-bold uppercase tracking-[0.05em] text-foreground md:text-2xl">Carbon Footprint</h1>
+          <h1 class="font-heading text-[24px] font-bold uppercase tracking-[0.05em] text-foreground">Carbon Footprint</h1>
           <p class="mt-1 text-sm leading-relaxed text-muted-foreground">Emissions avoided by running the farm on solar instead of the grid or diesel generator.</p>
         </div>
         <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          <div class="rounded-lg border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary"><div class="flex items-start justify-between gap-3"><div class="min-w-0"><p class="text-xs font-medium uppercase tracking-[0.05em] text-muted-foreground">CO₂ Avoided (Month)</p><p class="mt-2 font-heading text-3xl font-bold tracking-tight text-foreground">4,180<span class="ml-1 text-base font-semibold text-muted-foreground">kg</span></p></div><div class="flex size-10 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary"><i data-lucide="leaf" class="size-5"></i></div></div></div>
-          <div class="rounded-lg border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary"><div class="flex items-start justify-between gap-3"><div class="min-w-0"><p class="text-xs font-medium uppercase tracking-[0.05em] text-muted-foreground">CO₂ Avoided (YTD)</p><p class="mt-2 font-heading text-3xl font-bold tracking-tight text-foreground">29,640<span class="ml-1 text-base font-semibold text-muted-foreground">kg</span></p></div><div class="flex size-10 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary"><i data-lucide="calendar-range" class="size-5"></i></div></div></div>
-          <div class="rounded-lg border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary"><div class="flex items-start justify-between gap-3"><div class="min-w-0"><p class="text-xs font-medium uppercase tracking-[0.05em] text-muted-foreground">Equivalent Trees Planted</p><p class="mt-2 font-heading text-3xl font-bold tracking-tight text-foreground">1,348</p></div><div class="flex size-10 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary"><i data-lucide="trees" class="size-5"></i></div></div></div>
-          <div class="rounded-lg border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary"><div class="flex items-start justify-between gap-3"><div class="min-w-0"><p class="text-xs font-medium uppercase tracking-[0.05em] text-muted-foreground">Reduction vs Baseline</p><p class="mt-2 font-heading text-3xl font-bold tracking-tight text-foreground">82<span class="ml-1 text-base font-semibold text-muted-foreground">%</span></p></div><div class="flex size-10 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary"><i data-lucide="percent" class="size-5"></i></div></div></div>
+          <div class="rounded-lg border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary"><div class="flex items-start justify-between gap-3"><div class="min-w-0"><p class="text-xs font-medium uppercase tracking-[0.05em] text-muted-foreground">CO₂ Avoided (Month)</p><p class="mt-2 font-heading text-[20px] font-bold tracking-tight text-foreground">4,180<span class="ml-1 text-base font-semibold text-muted-foreground">kg</span></p></div><div class="flex size-10 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary"><i data-lucide="leaf" class="size-5"></i></div></div></div>
+          <div class="rounded-lg border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary"><div class="flex items-start justify-between gap-3"><div class="min-w-0"><p class="text-xs font-medium uppercase tracking-[0.05em] text-muted-foreground">CO₂ Avoided (YTD)</p><p class="mt-2 font-heading text-[20px] font-bold tracking-tight text-foreground">29,640<span class="ml-1 text-base font-semibold text-muted-foreground">kg</span></p></div><div class="flex size-10 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary"><i data-lucide="calendar-range" class="size-5"></i></div></div></div>
+          <div class="rounded-lg border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary"><div class="flex items-start justify-between gap-3"><div class="min-w-0"><p class="text-xs font-medium uppercase tracking-[0.05em] text-muted-foreground">Equivalent Trees Planted</p><p class="mt-2 font-heading text-[20px] font-bold tracking-tight text-foreground">1,348</p></div><div class="flex size-10 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary"><i data-lucide="trees" class="size-5"></i></div></div></div>
+          <div class="rounded-lg border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary"><div class="flex items-start justify-between gap-3"><div class="min-w-0"><p class="text-xs font-medium uppercase tracking-[0.05em] text-muted-foreground">Reduction vs Baseline</p><p class="mt-2 font-heading text-[20px] font-bold tracking-tight text-foreground">82<span class="ml-1 text-base font-semibold text-muted-foreground">%</span></p></div><div class="flex size-10 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary"><i data-lucide="percent" class="size-5"></i></div></div></div>
         </div>
 
         <div class="mt-6 grid gap-6 xl:grid-cols-5">
           <div class="rounded-lg border border-border bg-card shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary xl:col-span-3">
-            <div class="flex items-center justify-between gap-3 border-b border-border px-5 py-3.5"><h2 class="font-heading text-sm font-bold uppercase tracking-[0.05em] text-foreground">Cumulative CO₂ Avoided</h2></div>
+            <div class="flex items-center justify-between gap-3 border-b border-border px-5 py-3.5"><h2 class="font-heading text-[13px] font-bold uppercase tracking-[0.05em] text-foreground">Cumulative CO₂ Avoided</h2></div>
             <div class="p-5"><div id="lineChart"></div></div>
           </div>
           <div class="rounded-lg border border-border bg-card shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary xl:col-span-2">
-            <div class="flex items-center justify-between gap-3 border-b border-border px-5 py-3.5"><h2 class="font-heading text-sm font-bold uppercase tracking-[0.05em] text-foreground">Emission Factors Reference</h2></div>
-            <div class="overflow-x-auto"><table class="w-full border-collapse text-sm">
+            <div class="flex items-center justify-between gap-3 border-b border-border px-5 py-3.5"><h2 class="font-heading text-[13px] font-bold uppercase tracking-[0.05em] text-foreground">Emission Factors Reference</h2></div>
+            <div class="overflow-x-auto"><table class="w-full border-collapse text-[13px]">
               <thead><tr>
                 <th class="border-b border-border bg-muted/50 px-5 py-3 text-left text-xs font-bold uppercase tracking-[0.04em] text-muted-foreground">Source</th>
                 <th class="border-b border-border bg-muted/50 px-5 py-3 text-left text-xs font-bold uppercase tracking-[0.04em] text-muted-foreground">kg CO₂ / kWh</th>
@@ -313,37 +315,37 @@
       <!-- ========================= SCENARIO ========================= -->
       <section id="tab-scenario" class="tab-panel">
         <div class="mb-5">
-          <h1 class="font-heading text-xl font-bold uppercase tracking-[0.05em] text-foreground md:text-2xl">What-If Scenario Analysis</h1>
+          <h1 class="font-heading text-[24px] font-bold uppercase tracking-[0.05em] text-foreground">What-If Scenario Analysis</h1>
           <p class="mt-1 text-sm leading-relaxed text-muted-foreground">Model an expansion of the energy system and compare the proposed setup against the current baseline.</p>
         </div>
 
         <div class="grid gap-6 lg:grid-cols-5">
           <div class="rounded-lg border border-border bg-card shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary lg:col-span-2">
             <div class="flex items-center justify-between gap-3 border-b border-border px-5 py-3.5">
-              <h2 class="font-heading text-sm font-bold uppercase tracking-[0.05em] text-foreground">Scenario Inputs</h2>
+              <h2 class="font-heading text-[13px] font-bold uppercase tracking-[0.05em] text-foreground">Scenario Inputs</h2>
               <button id="resetBtn" class="inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-semibold text-primary transition-colors hover:bg-primary/10"><i data-lucide="rotate-ccw" class="size-3.5"></i>Reset</button>
             </div>
             <div class="grid gap-7 p-5">
               <div>
                 <div class="flex items-center justify-between"><label class="text-sm font-medium text-foreground">Additional solar panels</label><span id="panelsVal" class="font-heading text-sm font-bold text-primary tabular-nums">40 panels</span></div>
                 <input id="panels" type="range" min="0" max="200" step="5" value="40" class="mt-3 h-2 w-full cursor-pointer appearance-none rounded-full bg-muted" />
-                <div class="mt-1 flex justify-between text-[10px] text-muted-foreground"><span>0 panels</span><span>200 panels</span></div>
+                <div class="mt-1 flex justify-between text-[12px] text-muted-foreground"><span>0 panels</span><span>200 panels</span></div>
               </div>
               <div>
                 <div class="flex items-center justify-between"><label class="text-sm font-medium text-foreground">Additional battery capacity</label><span id="batteryVal" class="font-heading text-sm font-bold text-primary tabular-nums">80 kWh</span></div>
                 <input id="battery" type="range" min="0" max="400" step="10" value="80" class="mt-3 h-2 w-full cursor-pointer appearance-none rounded-full bg-muted" />
-                <div class="mt-1 flex justify-between text-[10px] text-muted-foreground"><span>0 kWh</span><span>400 kWh</span></div>
+                <div class="mt-1 flex justify-between text-[12px] text-muted-foreground"><span>0 kWh</span><span>400 kWh</span></div>
               </div>
               <div>
                 <div class="flex items-center justify-between"><label class="text-sm font-medium text-foreground">Production scale-up</label><span id="productionVal" class="font-heading text-sm font-bold text-primary tabular-nums">500 kg/day</span></div>
                 <input id="production" type="range" min="50" max="1000" step="50" value="500" class="mt-3 h-2 w-full cursor-pointer appearance-none rounded-full bg-muted" />
-                <div class="mt-1 flex justify-between text-[10px] text-muted-foreground"><span>50 kg/day</span><span>1000 kg/day</span></div>
+                <div class="mt-1 flex justify-between text-[12px] text-muted-foreground"><span>50 kg/day</span><span>1000 kg/day</span></div>
               </div>
             </div>
           </div>
 
           <div class="rounded-lg border border-border bg-card shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary lg:col-span-3">
-            <div class="flex items-center justify-between gap-3 border-b border-border px-5 py-3.5"><h2 class="font-heading text-sm font-bold uppercase tracking-[0.05em] text-foreground">Current vs Proposed</h2></div>
+            <div class="flex items-center justify-between gap-3 border-b border-border px-5 py-3.5"><h2 class="font-heading text-[13px] font-bold uppercase tracking-[0.05em] text-foreground">Current vs Proposed</h2></div>
             <div class="p-5">
               <div class="grid grid-cols-3 gap-2 border-b-2 border-border pb-2">
                 <span class="text-xs font-bold uppercase tracking-[0.04em] text-muted-foreground">Metric</span>
@@ -360,19 +362,19 @@
         </div>
 
         <div class="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          <div class="rounded-lg border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-warning"><p class="text-xs font-medium uppercase tracking-[0.05em] text-muted-foreground">Additional CAPEX</p><p id="sumCapex" class="mt-2 font-heading text-2xl font-bold tracking-tight text-foreground">€35,600</p></div>
-          <div class="rounded-lg border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary"><p class="text-xs font-medium uppercase tracking-[0.05em] text-muted-foreground">New Payback Period</p><p id="sumPayback" class="mt-2 font-heading text-2xl font-bold tracking-tight text-foreground">4.3 yrs</p></div>
-          <div class="rounded-lg border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary"><p class="text-xs font-medium uppercase tracking-[0.05em] text-muted-foreground">New CO₂ Reduction</p><p id="sumReduction" class="mt-2 font-heading text-2xl font-bold tracking-tight text-foreground">89%</p></div>
-          <div class="rounded-lg border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary"><p class="text-xs font-medium uppercase tracking-[0.05em] text-muted-foreground">New System Capacity</p><p id="sumCapacity" class="mt-2 font-heading text-2xl font-bold tracking-tight text-foreground">108.4 kWp</p></div>
+          <div class="rounded-lg border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-warning"><p class="text-xs font-medium uppercase tracking-[0.05em] text-muted-foreground">Additional CAPEX</p><p id="sumCapex" class="mt-2 font-heading text-[20px] font-bold tracking-tight text-foreground">€35,600</p></div>
+          <div class="rounded-lg border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary"><p class="text-xs font-medium uppercase tracking-[0.05em] text-muted-foreground">New Payback Period</p><p id="sumPayback" class="mt-2 font-heading text-[20px] font-bold tracking-tight text-foreground">4.3 yrs</p></div>
+          <div class="rounded-lg border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary"><p class="text-xs font-medium uppercase tracking-[0.05em] text-muted-foreground">New CO₂ Reduction</p><p id="sumReduction" class="mt-2 font-heading text-[20px] font-bold tracking-tight text-foreground">89%</p></div>
+          <div class="rounded-lg border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary"><p class="text-xs font-medium uppercase tracking-[0.05em] text-muted-foreground">New System Capacity</p><p id="sumCapacity" class="mt-2 font-heading text-[20px] font-bold tracking-tight text-foreground">108.4 kWp</p></div>
         </div>
 
         <div class="mt-6 grid gap-6 xl:grid-cols-5">
           <div class="rounded-lg border border-border bg-card shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary xl:col-span-2">
-            <div class="flex items-center justify-between gap-3 border-b border-border px-5 py-3.5"><h2 class="font-heading text-sm font-bold uppercase tracking-[0.05em] text-foreground">Impact Comparison</h2></div>
+            <div class="flex items-center justify-between gap-3 border-b border-border px-5 py-3.5"><h2 class="font-heading text-[13px] font-bold uppercase tracking-[0.05em] text-foreground">Impact Comparison</h2></div>
             <div class="p-5" id="comparisonBars"></div>
           </div>
           <div class="rounded-lg border border-border bg-card shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary xl:col-span-3">
-            <div class="flex items-center justify-between gap-3 border-b border-border px-5 py-3.5"><h2 class="font-heading text-sm font-bold uppercase tracking-[0.05em] text-foreground">Projected CO₂ Trajectory</h2></div>
+            <div class="flex items-center justify-between gap-3 border-b border-border px-5 py-3.5"><h2 class="font-heading text-[13px] font-bold uppercase tracking-[0.05em] text-foreground">Projected CO₂ Trajectory</h2></div>
             <div class="p-5"><div id="scenarioLineChart"></div></div>
           </div>
         </div>
@@ -381,19 +383,19 @@
       <!-- ========================= ALERTS ========================= -->
       <section id="tab-alerts" class="tab-panel">
         <div class="mb-5">
-          <h1 class="font-heading text-xl font-bold uppercase tracking-[0.05em] text-foreground md:text-2xl">Alerts &amp; Notifications</h1>
+          <h1 class="font-heading text-[24px] font-bold uppercase tracking-[0.05em] text-foreground">Alerts &amp; Notifications</h1>
           <p class="mt-1 text-sm leading-relaxed text-muted-foreground">4 open · 2 critical requiring attention across the energy system.</p>
         </div>
         <div class="rounded-lg border border-border bg-card shadow-sm transition-shadow hover:shadow-md border-t-[3px] border-t-primary">
           <div class="flex items-center justify-between gap-3 border-b border-border px-5 py-3.5">
-            <h2 class="font-heading text-sm font-bold uppercase tracking-[0.05em] text-foreground">System Alerts</h2>
+            <h2 class="font-heading text-[13px] font-bold uppercase tracking-[0.05em] text-foreground">System Alerts</h2>
             <div id="alertFilter" class="flex items-center gap-1 rounded-md bg-muted p-0.5">
               <button data-filter="All" class="filter-btn rounded px-3 py-1 text-xs font-semibold transition-colors">All</button>
               <button data-filter="Open" class="filter-btn rounded px-3 py-1 text-xs font-semibold transition-colors">Open</button>
               <button data-filter="Resolved" class="filter-btn rounded px-3 py-1 text-xs font-semibold transition-colors">Resolved</button>
             </div>
           </div>
-          <div class="overflow-x-auto"><table class="w-full border-collapse text-sm">
+          <div class="overflow-x-auto"><table class="w-full border-collapse text-[13px]">
             <thead><tr>
               <th class="border-b border-border bg-muted/50 px-5 py-3 text-left text-xs font-bold uppercase tracking-[0.04em] text-muted-foreground">Alert ID</th>
               <th class="border-b border-border bg-muted/50 px-5 py-3 text-left text-xs font-bold uppercase tracking-[0.04em] text-muted-foreground">Severity</th>
@@ -682,9 +684,9 @@ function renderComparisonBars() {
 
   const labels = comparisonMetrics.map(m => `
     <div class="flex w-[68px] flex-col items-center gap-0.5 text-center sm:w-[82px]">
-      <span class="text-[11px] font-semibold uppercase leading-tight tracking-[0.02em] text-muted-foreground">${m.label}</span>
-      <span id="val-${m.key}-current" class="text-[11px] font-bold tabular-nums text-primary"></span>
-      <span id="val-${m.key}-proposed" class="text-[11px] font-bold tabular-nums text-chart-2"></span>
+      <span class="text-[12px] font-semibold uppercase leading-tight tracking-[0.02em] text-muted-foreground">${m.label}</span>
+      <span id="val-${m.key}-current" class="text-[12px] font-bold tabular-nums text-primary"></span>
+      <span id="val-${m.key}-proposed" class="text-[12px] font-bold tabular-nums text-chart-2"></span>
     </div>`).join("");
 
   wrap.innerHTML = `
@@ -823,9 +825,9 @@ function activateNav(tab) {
   document.querySelectorAll(".nav-btn").forEach(btn => {
     const active = btn.dataset.tab === tab;
     const base = "nav-btn group flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-left text-sm font-medium transition-colors ";
-    btn.className = base + (active ? "bg-sidebar-primary text-sidebar-primary-foreground shadow-sm" : "text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-white");
+    btn.className = base + (active ? "bg-white/15 text-white shadow-sm" : "text-sidebar-foreground/85 hover:bg-white/10 hover:text-white");
     const badge = btn.querySelector("span.rounded-full");
-    if (badge) badge.className = "inline-flex min-w-5 items-center justify-center rounded-full px-1.5 py-0.5 text-[10px] font-bold " + (active ? "bg-white/20 text-white" : "bg-destructive text-destructive-foreground");
+    if (badge) badge.className = "inline-flex min-w-5 items-center justify-center rounded-full px-1.5 py-0.5 text-[12px] font-bold " + (active ? "bg-white/25 text-white" : "bg-destructive text-destructive-foreground");
   });
 }
 function switchTab(tab) {
