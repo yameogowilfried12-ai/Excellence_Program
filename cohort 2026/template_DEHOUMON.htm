@@ -25,6 +25,24 @@
     font-size:16px;
   }
 
+    /* Clickable progress image */
+  .weekly-visuals{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:10px;
+  }
+  .weekly-visuals img{
+    max-width:100%;
+  }
+  .weekly-progress-image{
+    cursor:zoom-in;
+    transition:transform 0.2s ease;
+  }
+  .weekly-progress-image:hover{
+    transform:scale(1.04);
+  }
+
   /* ---- Profile header ---- */
   .profile{
     display:flex;
@@ -170,6 +188,55 @@
       <h1>Name : Christelle Alvine DEHOUMON</h1>
       <p>Title: Computer Science</p>
       <p>Email : <a href="mailto:dhmchristelle@gmail.com">dhmchristelle@gmail.com</a></p>
+    </div>
+  </div>
+
+
+     <!-- ===== CW 09/11/2026 ===== -->
+  <div class="week">
+    <h2>CW: 09/11/2026</h2>
+
+    <div class="card">
+      <div class="head task">Project/Task</div>
+      <div class="head purpose">Purpose</div>
+      <div class="head logos">Logos</div>
+      <div class="head updates">Updates</div>
+      <div class="head links">Links</div>
+
+      <div class="task-cell">Crop Storage</div>
+
+      <div class="purpose-cell">
+        Grow the Crop Storage backend: storage zones, sensors and sensor
+        readings, completing the data model behind the monitoring features.
+      </div>
+
+      <div class="logos-cell">
+        <div class="weekly-visuals">
+          
+          <a href="template_DEHOUMON_files/cw_2026_09_11_backend.png" target="_blank" title="Open in full size">
+            <img class="weekly-progress-image" src="template_DEHOUMON_files/cw_2026_09_11_backend.png" alt="Crop Storage backend: StorageZone, Sensor and SensorReading">
+          </a>
+        </div>
+      </div>
+
+      <div class="updates-cell">
+        <ul>
+          <li><strong>Last week:</strong> Set up and verified the environment (Docker, Docker Compose v2, Git), cloned the monorepo on the Crop Storage branch and implemented the first end-to-end Batch flow (POST/GET /api/batches).</li>
+
+          <li><strong>Feedback:</strong> Share best practices and lessons learned when learning something, and reach out to Anar for any stack question. The last presentation was very well received.</li>
+
+          <li><strong>This week:</strong> Completed the StorageZone module and linked batches to zones (foreign key verified in PostgreSQL). Implemented the Sensor module (entity, repository, service, controller) with POST/GET /api/sensors, and created the SensorReading entity linked to sensors. Updated the Miro board and wrote a Crop Storage module evolution summary.</li>
+
+          <li><strong>Next week:</strong> Complete the SensorReading module, start the stock movement (IN/OUT/TRANSFER) and FIFO logic, and begin the React dashboard.</li>
+        </ul>
+      </div>
+
+      <div class="links-cell">
+        <a href="https://github.com/infineon-sustainable-farm/sustainable-farm">Shared repository</a>
+        <a href="https://github.com/infineon-sustainable-farm/sustainable-farm/tree/feature/cropstorage/init">Crop Storage branch</a>
+        <a href="https://miro.com/app/board/uXjVJJDl_nA=/">Updated Miro board</a>
+        <a href="template_DEHOUMON_files/Crop_storage_evolution.pdf" target="_blank">Module evolution (PDF)</a>
+      </div>
     </div>
   </div>
 
