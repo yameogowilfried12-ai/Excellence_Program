@@ -192,6 +192,55 @@
   </div>
 
 
+
+    <!-- ===== CW 10/02/2026 ===== -->
+  <div class="week">
+    <h2>CW: 10/02/2026</h2>
+
+    <div class="card">
+      <div class="head task">Project/Task</div>
+      <div class="head purpose">Purpose</div>
+      <div class="head logos">Logos</div>
+      <div class="head updates">Updates</div>
+      <div class="head links">Links</div>
+
+      <div class="task-cell">Crop Storage</div>
+
+      <div class="purpose-cell">
+        Deliver the Crop Storage backend v1 (inventory, monitoring, FIFO,
+        loss tracking, capacity) and align its interfaces with the Plants,
+        Product Transformation and Sales &amp; Marketing modules.
+      </div>
+
+      <div class="logos-cell">
+        <div class="weekly-visuals">
+          <a href="template_DEHOUMON_files/cw_2026_10_02_backend.png" target="_blank" title="Open in full size">
+            <img class="weekly-progress-image" src="template_DEHOUMON_files/cw_2026_10_02_backend.png" alt="Crop Storage backend v1: automatic alerts, FIFO and multi-unit valuation on mangoes">
+          </a>
+        </div>
+      </div>
+
+      <div class="updates-cell">
+        <ul>
+          <li><strong>Last week:</strong> Absent for health reasons (sick leave); no update posted during that period.</li>
+
+          <li><strong>Feedback:</strong> Wilfried suggested catching up on the missed tasks and summarizing the absence period in this week's update rather than creating separate updates for the missed weeks - applied here.</li>
+
+          <li><strong>This week:</strong> Exchanged with the other module owners to find common ground: Plants (harvestId stored on my batches, one harvest = one batch, block codes A/B/C), Product Transformation (storage-entry contract API-005 under confirmation, field naming raised for the team), Sales &amp; Marketing (inventory and expiry data). Completed and pushed the backend v1: FIFO with customer priority, zone capacity enforcement with 409, loss tracking, multi-unit valuation (kg, tonne, lb, m3, FCFA, EUR, USD) and automatic alerts when temperature or humidity crosses zone thresholds; PR #27 open against develop with CI green; Javadoc added to the core services and controllers; Friday progress presentation prepared.</li>
+
+          <li><strong>Next week:</strong> Implement the Product Transformation storage-entry endpoint and the harvestId traceability field, start the Crop Storage pages in the shared React frontend, and raise the project-wide field naming standard at the team meeting.</li>
+        </ul>
+      </div>
+
+      <div class="links-cell">
+        <a href="https://github.com/infineon-sustainable-farm/sustainable-farm">Shared repository</a>
+        <a href="https://github.com/infineon-sustainable-farm/sustainable-farm/tree/feature/cropstorage/init">Crop Storage branch</a>
+        <a href="https://github.com/infineon-sustainable-farm/sustainable-farm/pull/27">PR #27 - backend v1</a>
+        <a href="https://miro.com/app/board/uXjVJJDl_nA=/">Updated Miro board</a>
+      </div>
+    </div>
+  </div>
+
      <!-- ===== CW 09/11/2026 ===== -->
   <div class="week">
     <h2>CW: 09/11/2026</h2>
