@@ -191,6 +191,153 @@
     </div>
   </div>
 
+    <!-- ===== CW 10/16/2026 ===== -->
+  <div class="week">
+    <h2>CW: 10/16/2026</h2>
+
+    <div class="card">
+      <div class="head task">Project/Task</div>
+      <div class="head purpose">Purpose</div>
+      <div class="head logos">Logos</div>
+      <div class="head updates">Updates</div>
+      <div class="head links">Links</div>
+
+      <div class="task-cell">Crop Storage</div>
+
+      <div class="purpose-cell">
+        Finish the Crop Storage backend and connect it to the
+        Product Transformation module.
+      </div>
+
+      <div class="logos-cell">
+        <div class="weekly-visuals">
+          <a href="template_DEHOUMON_files/cw_2026_10_16_backend.png" target="_blank" title="Open in full size">
+            <img class="weekly-progress-image" src="template_DEHOUMON_files/cw_2026_10_16_backend.png" alt="Crop Storage backend at 90 percent">
+          </a>
+        </div>
+      </div>
+
+      <div class="updates-cell">
+        <ul>
+          <li><strong>Last week:</strong> Fixed the backend errors raised in the PR review (404, 409, 422 instead of 500) and pushed the corrections.</li>
+
+          <li><strong>Feedback:</strong> Keep progressing without waiting for feedback - applied.</li>
+
+          <li><strong>This week:</strong> Finish the remaining backend fixes (batch priority, alert deduplication, locking, harvestId) and deliver the storage-entry endpoint for Product Transformation.</li>
+
+          <li><strong>Next week:</strong> Remaining tests, then start the Crop Storage React pages.</li>
+        </ul>
+      </div>
+
+      <div class="links-cell">
+        <a href="https://github.com/infineon-sustainable-farm/sustainable-farm">Shared repository</a>
+        <a href="https://github.com/infineon-sustainable-farm/sustainable-farm/tree/feature/cropstorage/init">Crop Storage branch</a>
+        <a href="https://github.com/infineon-sustainable-farm/sustainable-farm/pull/27">PR #27 - backend v1</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CW 10/09/2026 ===== -->
+  <div class="week">
+    <h2>CW: 10/09/2026</h2>
+
+    <div class="card">
+      <div class="head task">Project/Task</div>
+      <div class="head purpose">Purpose</div>
+      <div class="head logos">Logos</div>
+      <div class="head updates">Updates</div>
+      <div class="head links">Links</div>
+
+      <div class="task-cell">Crop Storage</div>
+
+      <div class="purpose-cell">
+        Harden the Crop Storage backend after the PR #27 review and deliver
+        the first cross-module integration: the Product Transformation
+        storage entry with harvest traceability.
+      </div>
+
+             <div class="logos-cell">
+        <div class="weekly-visuals">
+          <a href="template_DEHOUMON_files/cw_2026_10_16_backend.png" target="_blank" title="Open in full size">
+            <img class="weekly-progress-image" src="template_DEHOUMON_files/cw_2026_10_16_backend.png" alt="Backend at 90 percent: CRUD, FIFO, error handling, alerts and Product Transformation link checked; tests and React pages next">
+          </a>
+        </div>
+      </div>
+      <div class="updates-cell">
+        <ul>
+          <li><strong>Last week:</strong> Presented the backend v1 demo on Friday; received the PR #27 review and the quality-gate report.</li>
+
+          <li><strong>Feedback:</strong> Management: keep progressing without depending on feedback - applied by chaining the fixes as one ordered plan instead of waiting for another review.</li>
+
+          <li><strong>This week:</strong> Mapped business errors to 404/409/422 instead of 500; stabilized FIFO on PostgreSQL (customerPriority NOT NULL DEFAULT 0); deduplicated threshold alerts; added @Version locking and fetch = LAZY. Then the 10/02 commitments: harvestId on batches, and the Product Transformation storage-entry endpoint (batch + IN movement, capacity 409, response with entry, zone, timestamp, remaining capacity, status), per API-005.</li>
+
+          <li><strong>Next week:</strong> Remaining DTOs and review tests; Crop Storage React pages; naming standard at the team meeting.</li>
+        </ul>
+      </div>
+
+      <div class="links-cell">
+        <a href="https://github.com/infineon-sustainable-farm/sustainable-farm">Shared repository</a>
+        <a href="https://github.com/infineon-sustainable-farm/sustainable-farm/tree/feature/cropstorage/init">Crop Storage branch</a>
+        <a href="https://github.com/infineon-sustainable-farm/sustainable-farm/pull/27">PR #27 - backend v1</a>
+        <a href="https://github.com/infineon-sustainable-farm/sustainable-farm/blob/develop/docs/CI-AUTO-REVIEW.md">Quality-gate rules</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CW 10/02/2026 ===== -->
+  <div class="week">
+    <h2>CW: 10/02/2026</h2>
+
+    <div class="card">
+      <div class="head task">Project/Task</div>
+      <div class="head purpose">Purpose</div>
+      <div class="head logos">Logos</div>
+      <div class="head updates">Updates</div>
+      <div class="head links">Links</div>
+
+      <div class="task-cell">Crop Storage</div>
+
+      <div class="purpose-cell">
+        Deliver the Crop Storage backend v1: entities and REST APIs for the
+        nine resources (zones, products, batches, stock movements, sensors,
+        sensor readings, alerts, quality checks, loss records), the first
+        business logic in the service layer (FIFO ordering, capacity and
+        quantity updates), and the first step towards the next modules:
+        draft loss-record payloads sent to the Product Transformation module.
+      </div>
+
+      <div class="logos-cell">
+        <div class="weekly-visuals">
+          <a href="template_DEHOUMON_files/cw_2026_10_02_backend.png" target="_blank" title="Open in full size">
+            <img class="weekly-progress-image" src="template_DEHOUMON_files/cw_2026_10_02_backend.png" alt="Crop Storage backend v1 with its database and alerts">
+          </a>
+        </div>
+      </div>
+
+      <div class="updates-cell">
+        <ul>
+          <li><strong>Last week:</strong> Absent for health reasons.</li>
+
+          <li><strong>Feedback:</strong> Chose the field names with the Product Transformation team so that losses can be traced back to their source module.
+          </li>
+
+          <li><strong>This week:</strong> Generated the nine crop storage entities and their REST controllers with Spring Initializr patterns, wired the JPA repositories and services, and brought the module up with docker compose against PostgreSQL. Each endpoint was exercised with curl from creation to listing. Storage zone capacity is enforced on stock entries, batch quantities move with IN and OUT movements, and the first alert records are raised from out-of-range sensor readings. First loss-record payloads exchanged with the Product Transformation team to align the shared fields.</li>
+
+          <li><strong>Next week:</strong> Harden the APIs (validation, error handling), complete the FIFO withdrawal logic, wire the remaining alert rules, and integrate the Product Transformation callbacks. Start the Crop Storage React pages.</li>
+        </ul>
+      </div>
+
+      <div class="links-cell">
+        <a href="https://github.com/infineon-sustainable-farm/sustainable-farm">Shared repository</a>
+        <a href="https://github.com/infineon-sustainable-farm/sustainable-farm/tree/feature/cropstorage/init">Crop Storage branch</a>
+        <a href="https://github.com/infineon-sustainable-farm/sustainable-farm/pull/27">PR #27 - backend v1</a>
+        <a href="https://github.com/infineon-sustainable-farm/sustainable-farm/blob/develop/docs/CI-AUTO-REVIEW.md">Quality-gate rules</a>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
  
   <!-- ===== CW 10/09/2026 ===== -->
   <div class="week">
